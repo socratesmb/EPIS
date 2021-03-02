@@ -1,0 +1,54 @@
+<nav class="navbar header-navbar pcoded-header iscollapsed" header-theme="theme1" pcoded-header-position="fixed">
+    <div class="navbar-wrapper">
+        <div class="navbar-logo" logo-theme="theme1">
+            <img class="img-fluid" src="..\files\assets\images\STEO-3D.png" alt="Theme-Logo">
+
+        </div>
+
+        <div class="navbar-container container-fluid">
+            <ul class="nav-left">
+                <li>
+                    <a class="mobile-menu" id="mobile-collapse" href="#!">
+                        <i class="feather icon-menu icon-toggle-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#!" onclick="javascript:toggleFullScreen()">
+                        <i class="feather full-screen icon-maximize"></i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+                <li class="user-profile header-notification">
+                    <div class="dropdown-primary dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <img src="..\files\assets\images\user.png" class="img-radius" alt="User-Profile-Image">
+                            <%if(datos.Nombre_Usuario==''){%>
+                            <span>Usuario Demo</span>
+                            <%}else{%>
+                            <span> <%=datos.Nombre_Usuario%></span>
+                            <%}%>
+                            <i class="feather icon-chevron-down"></i>
+                        </div>
+
+                        <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn"
+                            data-dropdown-out="fadeOut">
+                            <li>
+                                <a href="user-profile.htm">
+                                    <i class="feather icon-user"></i><a href="/perfil">Perfil</a>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="auth-normal-sign-in.htm">
+                                    <i class="feather icon-log-out"></i>
+                                    <a href="/salir"> Cerrar sesión</a>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
