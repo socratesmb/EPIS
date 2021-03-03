@@ -2,30 +2,43 @@
 <html lang="es">
 
 <head>
-    <title>Error 404</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <title>ERROR 404</title>
 
-    <% include ../partials/icono.html%>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Software para la gestion de inventario">
+    <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Error">
+    <meta name="author" content="Sócrates Martínez Berrio">
 
-<% include ../partials/style.html%>
+    <% include ./Partials/icono.html%>
+    <% include ./Partials/style.html%>
 
-    <style>
-        html {
-            height: 100%;
-            width: 100%;
-        }
-
-        body {
-            background: #c6e8ec url('../img/404.png') no-repeat center center;
-            background-size: 100% 100%;
-        }
-    </style>
+    <!-- Estilo Propio -->
+    <link rel="stylesheet" href="css/pages/404.css">
 </head>
 
 <body>
+    <section class="hero-area">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="block text-center">
+                        <h1 class="animated wow fadeInLeft" data-wow-delay="0.3s" data-wow-duration=".2s">404!</h1>
+                        <p class="animated wow fadeInRight" data-wow-delay="0.5s" data-wow-duration=".5s">Oops!
+                            algo salio mal!!!</p>
+                        <div class="animated wow fadeInUp text-center" data-wow-delay="0.7s" data-wow-duration=".7s">
+                            <span>
+                                <a class="btn btn-general btn-blue" href="/" role="button">Regresar</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <% include ./Partials/js.html%>
 </body>
 
 </html>
