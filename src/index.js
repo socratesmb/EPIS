@@ -1,71 +1,54 @@
 const express = require('express');
-const path = require('path');
 const morgan = require('morgan');
+const path = require('path');
 const session = require('express-session');
-const mysqlsession = require('express-mysql-session')(session);
+const validator = require('express-validator');
 const passport = require('passport');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-const pool = require('./database/database');
-
-// Carga de archivos
-const fileUpload = require('express-fileupload')
-
-//modulo para las alertas
 const flash = require('connect-flash');
+const mysqlsession = require('express-mysql-session')(session);
+var bodyParser = require('body-parser');
 
+//Coneccion con la bases de datos
 const { database } = require('./keys');
-// Inicializacion
+
+
+// Inicializacion de procesos
 const app = express();
 require('./controllers/passport');
 
-// Importar rutas
+// Importar rutas para uso general
 const routes = require('./rutas/rutas');
 
 // Configuracion
-app.set('port', 5000);
+app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-var sqlsession = new mysqlsession(database);
-
 // Middlewares
 app.use(session({
-    secret: 'MasterCode',
-    name: 'CookieSession',
+    secret: 'SocratesMB',
     resave: false,
     saveUninitialized: false,
-    store: sqlsession,
-    cookie: {
-        secure: false,
-        maxAge: 36000000,
-        httpOnly: false,
-    }
+    store: new mysqlsession(database)
 }));
-
 app.use(flash());
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser());
-app.use(methodOverride());
+app.use(validator());
 
 
 // Variables Globales
 app.use((req, res, next) => {
-    app.locals.success = req.flash('mensaje');
+    app.locals.message = req.flash('message');
+    app.locals.success = req.flash('success');
     app.locals.user = req.user;
     next();
 });
 
 // Rutas
 app.use(routes);
-
-// Cargar Archivos
-app.use(fileUpload());
-
 
 // Funcion para mostrar el error 404
 function error404(req, res, next) {
@@ -77,7 +60,7 @@ function error404(req, res, next) {
 
 // Funcion para capturar los errores
 function logErrors(err, req, res, next) {
-    console.error(err.stack, 'asd');
+    console.error(err.stack, 'Error');
     next(err);
 } 
 

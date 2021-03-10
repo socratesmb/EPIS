@@ -3,12 +3,12 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         }
-        return res.redirect('/masterpage');
+        return res.redirect('/index');
     },
     isNotLoggedIn(req, res, next) {
         if (!req.isAuthenticated()) {
             return next();
         }
-        return res.redirect('/admin-mastercode');
+        return res.redirect('/');
     }
 };

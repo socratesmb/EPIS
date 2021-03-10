@@ -4,7 +4,8 @@
   "description": "Repositorio para el desarrollo de software EPIS relacionado a pasantías de la universidad de la amazonia",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/socratesmb/EPIS#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-mysql-session": "^2.1.5",
