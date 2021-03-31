@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `EPIS`.`Persona` (
   CONSTRAINT `fk_Persona_Identificacion1`
     FOREIGN KEY (`Identificacion_id_Identificacion`)
     REFERENCES `EPIS`.`Identificacion` (`id_Identificacion`)
-    ON DELETE NO ACTION
+    ON DELETE NO ACTION 
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -54,7 +54,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `EPIS`.`Usuario` (
   `id_Usuario` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(45) NOT NULL,
+  `Usuario` VARCHAR(45) NOT NULL,
   `Password` VARCHAR(65) NOT NULL,
   `Persona_id_Persona` INT NOT NULL,
   PRIMARY KEY (`id_Usuario`),

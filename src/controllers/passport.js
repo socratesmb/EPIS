@@ -14,7 +14,7 @@ let Persona = {
     Id_Usuario: '',
     Nombre_Usuario: '',
     Tipo_Usuario: '',
-    Modificacion: ''
+    Estado: ''
 };
 
 // ------------- Iniciar Sesion ------------ 
