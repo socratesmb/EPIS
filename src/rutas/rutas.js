@@ -2,15 +2,14 @@ const express = require('express');
 const rutas = express.Router();
 
 const pool = require('../database/database');
-const fileUpload = require('express-fileupload');
 const passport = require('passport');
 
 // ---------- Controladores --------------
 const controlValidacion = require('../controllers/validate');
 const controlSuperAdmin = require('../models/ModeloSuperAdmin');
 const controlAdmin = require('../models/ModeloAdministrador');
-const controlDocen = require('../models/ModeloDocente');
-const controlEstud = require('../models/ModeloEstudiante');
+const controlDocen = require('../models/ModeloPasante');
+const controlEstud = require('../models/ModeloEmpleado');
 const controlGeneral = require('../models/ModeloGeneral');
 
 // --------- Seccion Protegida de Creacion Usuario ----------------
@@ -44,44 +43,6 @@ rutas.post('/signin', controlValidacion.inicio);
 rutas.get('/supadmin/home', controlGeneral.inicio);
 
 rutas.get('/supadmin/entidades', controlSuperAdmin.entidades);
-
-rutas.post('/supadmin/Regis_Entidad', controlSuperAdmin.registro_entidades);
-
-rutas.get('/supadmin/buscar_entidad/:Id_Entidad', controlSuperAdmin.buscar_entidad);
-
-rutas.post('/supadmin/actualizar_entidad', controlSuperAdmin.actualizar_entidad);
-
-rutas.get('/supadmin/bloquear_entidad/:Id_Entidad', controlSuperAdmin.desactivar_entidad);
-
-rutas.get('/supadmin/cancelar', controlSuperAdmin.cancelar_modificacion);
-
-rutas.get('/supadmin/configuracion', controlSuperAdmin.configuracion);
-
-rutas.post('/supadmin/Registro_TEntidades', controlSuperAdmin.Guardar_Tipo_Entidad);
-
-rutas.get('/supadmin/buscar_tipo_entidad/:Id_Tipo_Entidad', controlSuperAdmin.Consultar_Tipo_Entidad);
-
-rutas.post('/supadmin/Actualizacion_TEntidades', controlSuperAdmin.Actualizar_Tipo_Entidad);
-
-rutas.get('/supadmin/bloquear_tipo_entidad/:Id_Tipo_Entidad', controlSuperAdmin.Desactivar_Tipo_Entidad);
-
-rutas.post('/supadmin/Registro_Identificacion', controlSuperAdmin.Guardar_Identificacion);
-
-rutas.get('/supadmin/buscar_identificacion/:Id_Identificacion', controlSuperAdmin.Consultar_Identificacion);
-
-rutas.post('/supadmin/Actualizacion_Identificacion', controlSuperAdmin.Actualizar_Identificacion);
-
-rutas.get('/supadmin/bloquear_identificacion/:Id_Identificacion', controlSuperAdmin.Desactivar_Identificacion);
-
-rutas.get('/supadmin/ti/cancelar', controlSuperAdmin.Cancelar_TI_Modificaciones);
-
-rutas.get('/supadmin/modelos', controlGeneral.Modelo3D);
-
-rutas.post('/general/registro_animal', controlGeneral.Registro_Animal);
-
-rutas.post('/general/registro_huesos', controlGeneral.Resgistro_Hueso);
-
-rutas.get('/supadmin/bloquear_parte/:Id_Hueso', controlGeneral.Desactivar_Hueso);
 
 // ------- Seccion de Administrador -------------
 

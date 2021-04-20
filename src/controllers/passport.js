@@ -7,14 +7,14 @@ const helpers = require('./helper');
 // ------------ Variables de Usuario Estaticas -------------
 
 let Persona = {
+    Id_Usuario: '',
     Id_Entidad: '',
     Nombre_Entidad: '',
     Nit_Entidad: '',
-    Tipo_Entidad: '',
-    Id_Usuario: '',
+    Id_Empleado: '',
     Nombre_Usuario: '',
-    Tipo_Usuario: '',
-    Estado: ''
+    Ident_Usuario: '',
+    Tipo_Usuario: ''
 };
 
 // ------------- Iniciar Sesion ------------ 
@@ -42,15 +42,14 @@ passport.use('local.signin', new Strategy({
                         console.log("no encontro nada");
                     } else {
                         Persona = {
+                            Id_Usuario: result[0].Id_Usuario,
                             Id_Entidad: result[0].Id_Entidad,
                             Nombre_Entidad: result[0].Nombre_Entidad,
                             Nit_Entidad: result[0].Nit_Entidad,
-                            Tipo_Entidad: result[0].Tipo_Entidad,
                             Id_Empleado: result[0].Id_Empleado,
                             Nombre_Usuario: result[0].Nombre_Usuario,
-                            Id_Usuario: result[0].Id_Usuario,
-                            Tipo_Usuario: result[0].Tipo_Usuario,
-                            Modificacion: result[0].Modificacion
+                            Ident_Usuario: result[0].Ident_Usuario,
+                            Tipo_Usuario: result[0].Tipo_Usuario
                         };                       
                         req.session.datos = Persona;                        
                         done(null, user);
@@ -80,7 +79,7 @@ passport.use('local.signup', new Strategy({
     console.log(newUser);
     newUser.Password = await helpers.encryptPassword(Password);
     //Guardamos Datos    
-    const consulta = "INSERT INTO usuario (Id_Usuario, Usuario, Password, Persona_Id_Persona) values (default,'" + newUser.Usuario + "','" + newUser.Password + "', '1');";
+    const consulta = "INSERT INTO usuario (Id_Usuario, Usuario, Password, Persona_id_Persona) values (default,'" + newUser.Usuario + "','" + newUser.Password + "', '1');";
     console.log(consulta)
     const result = await pool.query(consulta);
     newUser.id = result.insertId;

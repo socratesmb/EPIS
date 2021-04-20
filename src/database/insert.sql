@@ -67,3 +67,4 @@ inner join registro_ep on registro_ep.Persona_Id_Persona = persona.Id_Persona
 inner join entidad on entidad.Id_Entidad = registro_ep.Entidad_Id_Entidad 
 inner join rol on rol.Id_Rol = registro_ep.Rol_Id_Rol 
 where registro_ep.Estado = 'ACTIVA' and entidad.Estado = 'ACTIVA';
+
