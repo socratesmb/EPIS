@@ -1,8 +1,6 @@
 const pool = require('../database/database');
-const mkdirp = require('mkdirp');
 const randomstring = require('randomstring');
 const helpers = require('../controllers/helper');
-const correo = require('../models/ModeloCorreo');
 
 const model = {};
 
@@ -70,7 +68,7 @@ model.recuperar_password = async (req, res) => {
                     if (err) {
                         console.log("Fallo de Modificacion" + err);
                     } else {
-                        correo.PasswordCorreo(req.body.email, req.body.identificacion, newpassword);
+                        //correo.PasswordCorreo(req.body.email, req.body.identificacion, newpassword);
 
                         alerta = {
                             tipo: 'correcto',
@@ -97,7 +95,7 @@ model.registro_usuario = async (req, res) => {
             }
             res.redirect('/registro');
         } else {
-            correo.RegistroUsuario(req.body.CorreoPerfil, req.body.NumeroDocumento, req.body.ContraseñaRegistro);
+            //correo.RegistroUsuario(req.body.CorreoPerfil, req.body.NumeroDocumento, req.body.ContraseñaRegistro);
             alerta = {
                 tipo: 'correcto',
                 mensaje: 'El Usuario Ha Sido Creado, Por favor Revise Su Correo En Sección De Spam O No Deseados.'

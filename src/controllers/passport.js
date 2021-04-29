@@ -41,7 +41,7 @@ passport.use('local.signin', new Strategy({
                     if (result.length < 1) {
                         console.log("no encontro nada");
                     } else {
-                        Persona = {
+                        Persona = { 
                             Id_Usuario: result[0].Id_Usuario,
                             Id_Entidad: result[0].Id_Entidad,
                             Nombre_Entidad: result[0].Nombre_Entidad,

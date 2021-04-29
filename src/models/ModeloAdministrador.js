@@ -1,8 +1,6 @@
 const pool = require('../database/database');
-const mkdirp = require('mkdirp');
 const randomstring = require('randomstring');
 const helpers = require('../controllers/helper');
-const correo = require('../models/ModeloCorreo');
 
 const model = {};
 
@@ -96,7 +94,7 @@ model.registro_docente = async (req, res) => {
             }
             res.redirect('/admin/docentes');
         } else {
-            correo.RegistroUsuario(req.body.Correo, req.body.Identificacion, req.body.Identificacion);
+            //correo.RegistroUsuario(req.body.Correo, req.body.Identificacion, req.body.Identificacion);
             alerta = {
                 tipo: 'correcto',
                 mensaje: 'El Usuario Ha Sido Creado, Por favor Revisar Correo Electronico'

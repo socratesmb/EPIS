@@ -2,15 +2,12 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
-const validator = require('express-validator');
 const passport = require('passport');
 const flash = require('connect-flash');
 const mysqlsession = require('express-mysql-session')(session);
-var bodyParser = require('body-parser');
 
 //Coneccion con la bases de datos
 const { database } = require('./keys');
-
 
 // Inicializacion de procesos
 const app = express();
@@ -34,9 +31,9 @@ app.use(session({
 }));
 app.use(flash());
 app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(validator());
 
 
 // Variables Globales
@@ -58,25 +55,6 @@ function error404(req, res, next) {
     next();
 };
 
-// Funcion para capturar los errores
-function logErrors(err, req, res, next) {
-    console.error(err.stack, 'Error');
-    next(err);
-} 
-
-function clientErrorHandler(err, req, res, next) {
-    if (req.xhr) {
-        res.status(500).send({ error: 'Something failed!' });
-    } else {
-        next(err);
-    }
-}
-
-function errorHandler(err, req, res, next) {
-    res.status(500);
-    res.redirect('/');
-}
-
 // Archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -87,6 +65,3 @@ app.listen(app.get('port'), () => {
 
 // Metodo para usar el error 404 y cargar los demas errores
 app.use(error404);
-app.use(logErrors);
-app.use(clientErrorHandler);
-app.use(errorHandler);

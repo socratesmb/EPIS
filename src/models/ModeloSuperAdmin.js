@@ -1,7 +1,6 @@
 const pool = require('../database/database');
 const helpers = require('../controllers/helper');
 const randomstring = require('randomstring');
-const correo = require('../models/ModeloCorreo');
 const { body } = require('express-validator');
 
 const model = {};
@@ -98,7 +97,7 @@ model.registro_entidades = async (req, res) => {
                 res.redirect('/supadmin/entidades');
             } else {
                 console.log('Resultado de la creacion de la entidad: ' + result);
-                correo.EnvioCorreo(req.body.CorreoEntidad, req.body.IdContacto, password);
+                
 
                 alerta = {
                     tipo: 'correcto',

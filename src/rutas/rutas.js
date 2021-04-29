@@ -16,7 +16,7 @@ const controlGeneral = require('../models/ModeloGeneral');
 
 rutas.get('/admin/creacion', (req, res) => {
     res.render('creacion.html');
-});
+}); 
 
 rutas.post('/add', passport.authenticate('local.signup', {
     successRedirect: '/admin/creacion',
