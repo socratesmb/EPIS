@@ -23,7 +23,7 @@ module.exports = {
         || req.session.datos.NombreRol == "PASANTE") {
             return next();
         }
-        return res.redirect('/index');
+        return res.redirect('/');
     },
     isNotLoggedIn(req, res, next) {
         if (!req.isAuthenticated()) {

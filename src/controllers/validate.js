@@ -51,8 +51,6 @@ model.inicio = (req, res, next) => {
 model.salir = (req, res) => {
     req.session.destroy(() => {
         req.logOut();
-        res.clearCookie('CookieSession');
-        res.status(200);
         res.redirect('/');
     });
 };

@@ -12,7 +12,7 @@ const controlDocen = require('../models/ModeloPasante');
 const controlEstud = require('../models/ModeloEmpleado');
 const controlGeneral = require('../models/ModeloGeneral');
 
-// --------- Seccion Protegida de Creacion Usuario ----------------
+/* --------- Seccion Protegida de Creacion Usuario ----------------
 
 rutas.get('/admin/creacion', (req, res) => {
     res.render('creacion.html');
@@ -22,14 +22,14 @@ rutas.post('/add', passport.authenticate('local.signup', {
     successRedirect: '/admin/creacion',
     failureRedirect: '/',
     failureFlash: true
-}));
+}));*/
 
 // ---- Carga Vista Principal ------
 rutas.get('/', (req, res) => {
-    res.render('index.html');
+    res.render('login.html');
 });
 
-// --------- Modeleo para cerrar sesion y salir ---------
+/* --------- Modeleo para cerrar sesion y salir ---------
 rutas.get('/salir', controlValidacion.salir);
 
 // ----- Cargar Vista de Login, Inicio de Sesion --------
@@ -133,5 +133,6 @@ rutas.get('/cuestionario', (req, res) => {
 //Para crear la preguntas de docentes
 rutas.get('/preguntas', (req, res) => {
     res.render('preguntas.html');
-});
+});*/
+
 module.exports = rutas;
