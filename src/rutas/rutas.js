@@ -25,7 +25,7 @@ rutas.post('/add', passport.authenticate('local.signup', {
 }));*/
 
 // ---- Carga Vista Principal ------
-rutas.get('/', (req, res) => {
+rutas.get('/', async (req, res) => {
     res.render('login.html');
 });
 

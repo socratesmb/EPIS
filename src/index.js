@@ -1,67 +1,108 @@
 const express = require('express');
-const morgan = require('morgan');
 const path = require('path');
+const morgan = require('morgan');
 const session = require('express-session');
-const passport = require('passport');
-const flash = require('connect-flash');
 const mysqlsession = require('express-mysql-session')(session);
+const passport = require('passport');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+const pool = require('./database/database');
 
-//Coneccion con la bases de datos
+//carga de archivos
+const fileUpload = require('express-fileupload') 
+
+//modulo para las alertas
+const flash = require('connect-flash');
+
 const { database } = require('./keys');
-
-// Inicializacion de procesos
+// inicilizando
 const app = express();
 require('./controllers/passport');
 
-// Importar rutas para uso general
+// importar rutas
 const routes = require('./rutas/rutas');
-
-// Configuracion
+ 
+// configuracion
 app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-// Middlewares
-app.use(session({
-    secret: 'SocratesMB',
-    resave: false,
-    saveUninitialized: false,
-    store: new mysqlsession(database)
+var sqlsession = new mysqlsession(database);
+
+// middlewares
+app.use(session({  
+  secret: 'SocratesMB',
+  name: 'CookieSession',
+  resave: false,
+  saveUninitialized: false,
+  store: sqlsession,
+  cookie: {
+    secure:false,
+    maxAge:36000000,
+    httpOnly: false,
+  }
 }));
+
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser());
+app.use(methodOverride());
 
 
 // Variables Globales
 app.use((req, res, next) => {
-    app.locals.message = req.flash('message');
-    app.locals.success = req.flash('success');
-    app.locals.user = req.user;
-    next();
+  app.locals.success = req.flash('mensaje');
+  app.locals.user = req.user;
+  next();
 });
 
-// Rutas
+// rutas
 app.use(routes);
 
-// Funcion para mostrar el error 404
-function error404(req, res, next) {
-    let error = new Error();
-    error.status = 404
-    res.render('./partials/404.html');
-    next();
-};
+//cargar archivos
+app.use(fileUpload());
 
-// Archivos estaticos
+//funcion para mostrar el error 404
+function error404(req, res, next) {
+  let error = new Error();
+  error.status = 404
+  res.render('./Partials/404.html');
+  next();
+}
+
+//Error Accions
+function logErrors(err, req, res, next) {
+  console.error(err.stack, 'asd');
+  next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Algo Fallo!' });
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.redirect('/'); 
+}
+
+//Archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Iniciar Servidor
+// Starting Server
 app.listen(app.get('port'), () => {
-    console.log(`servidor en linea en puerto: ${app.get('port')}`);
+  console.log(`servidor en linea en puerto: ${app.get('port')}`);
 });
 
-// Metodo para usar el error 404 y cargar los demas errores
+//metodo para usar el error 404
 app.use(error404);
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
