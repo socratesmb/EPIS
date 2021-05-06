@@ -1,54 +1,118 @@
-<nav class="navbar header-navbar pcoded-header iscollapsed" header-theme="theme1" pcoded-header-position="fixed">
-    <div class="navbar-wrapper">
-        <div class="navbar-logo" logo-theme="theme1">
-            <img class="img-fluid" src="..\files\assets\images\STEO-3D.png" alt="Theme-Logo">
-
+<nav class="navbar navbar-expand-lg ">
+    <div class="search-box">
+        <button class="dismiss"><i class="icon-close"></i></button>
+        <form id="searchForm" action="#" role="search">
+            <input type="search" placeholder="Search Now" class="form-control">
+        </form>
+    </div>
+    <div class="container-fluid ">
+        <div class="navbar-holder d-flex align-items-center justify-content-between">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">
+                    <div class="brand-text brand-big hidden-lg-down"><img src="../img/EPIS.png" alt="Logo"
+                            class="img-fluid"></div>
+                    <div class="brand-text brand-small"><img src="../img/E.png" alt="Logo" class="img-fluid"></div>
+                </a>
+                <a id="toggle-btn" href="#" class="menu-btn active">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div> 
         </div>
+        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+            <!-- Notificaciones-->
+            <li class="nav-item dropdown">
+                <a id="notifications" class="nav-link" rel="nofollow" data-target="#" href="#"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                        class="fa fa-bell-o"></i>
+                    <!-- <span class="noti-numb-bg"></span> <span class="badge">3</span>--></a>
+                <ul aria-labelledby="notifications" class="dropdown-menu">
+                    <li>
+                        <a rel="nofollow" href="#" class="dropdown-item nav-link">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-envelope bg-red"></i>You have
+                                    6 new messages </div>
+                                <div class="notification-time"><small>4 minutes ago</small></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="#" class="dropdown-item nav-link">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-twitter bg-skyblue"></i>You
+                                    have 2 followers</div>
+                                <div class="notification-time"><small>4 minutes ago</small></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="#" class="dropdown-item nav-link">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-upload bg-blue"></i>Server
+                                    Rebooted</div>
+                                <div class="notification-time"><small>4 minutes ago</small></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="#" class="dropdown-item nav-link">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-twitter bg-skyblue"></i>You
+                                    have 2 followers</div>
+                                <div class="notification-time"><small>10 minutes ago</small></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center">
+                            <strong>view all notifications </strong></a></li>
+                </ul>
+            </li>
+            <!-- Perfil -->
+            <li class="nav-item dropdown"><a id="profile" class="nav-link logout" data-target="#" href="#"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+                        src="../img/user.png" alt="..." class="img-fluid rounded-circle"
+                        style="height: 30px; width: 30px;"></a>
+                <ul aria-labelledby="profile" class="dropdown-menu profile">
+                    <li>
+                        <a rel="nofollow" href="#" class="dropdown-item d-flex">
+                            <div class="msg-profile"> <img src="../img/user.png" alt="..."
+                                    class="img-fluid rounded-circle"></div>
+                            <div class="msg-body">
+                                <%if(datos.Nombre_Usuario==''){%>
+                                <h3 class="h5"> User Admin </h3><span>correo@admin.com</span>
+                                <%}else{%>
+                                <h3 class="h5"> <%=datos.Nombre_Usuario%> </h3><span> <%=datos.Tipo_Usuario%></span>
+                                <%}%>
+                            </div>
+                        </a>
+                        <hr>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="/perfil" class="dropdown-item">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-user "></i>Mi Perfil</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="/configuracion" class="dropdown-item">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-cog"></i>Configuración</div>
+                            </div>
+                        </a>
+                        <hr>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="/salir" class="dropdown-item">
+                            <div class="notification">
+                                <div class="notification-content"><i class="fa fa-power-off"></i>Salir</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-        <div class="navbar-container container-fluid">
-            <ul class="nav-left">
-                <li>
-                    <a class="mobile-menu" id="mobile-collapse" href="#!">
-                        <i class="feather icon-menu icon-toggle-right"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#!" onclick="javascript:toggleFullScreen()">
-                        <i class="feather full-screen icon-maximize"></i>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav-right">
-                <li class="user-profile header-notification">
-                    <div class="dropdown-primary dropdown">
-                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <img src="..\files\assets\images\user.png" class="img-radius" alt="User-Profile-Image">
-                            <%if(datos.Nombre_Usuario==''){%>
-                            <span>Usuario Demo</span>
-                            <%}else{%>
-                            <span> <%=datos.Nombre_Usuario%></span>
-                            <%}%>
-                            <i class="feather icon-chevron-down"></i>
-                        </div>
-
-                        <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn"
-                            data-dropdown-out="fadeOut">
-                            <li>
-                                <a href="user-profile.htm">
-                                    <i class="feather icon-user"></i><a href="/perfil">Perfil</a>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-normal-sign-in.htm">
-                                    <i class="feather icon-log-out"></i>
-                                    <a href="/salir"> Cerrar sesión</a>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div>
-                </li>
-            </ul>
-        </div>
+        </ul>
     </div>
 </nav>

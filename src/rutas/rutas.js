@@ -5,46 +5,51 @@ const pool = require('../database/database');
 const passport = require('passport');
 
 // ---------- Controladores --------------
-const controlValidacion = require('../controllers/validate');
 const controlSuperAdmin = require('../models/ModeloSuperAdmin');
 const controlAdmin = require('../models/ModeloAdministrador');
+const controlGeneral = require('../models/ModeloGeneral');
+const controlValidacion = require('../controllers/validate');
 const controlDocen = require('../models/ModeloPasante');
 const controlEstud = require('../models/ModeloEmpleado');
-const controlGeneral = require('../models/ModeloGeneral');
 
-/* --------- Seccion Protegida de Creacion Usuario ----------------
+//--------- Seccion Del Super Administrador ----------------
+//#region 
 
-rutas.get('/admin/creacion', (req, res) => {
-    res.render('creacion.html');
-}); 
+//------------ Ruta para la creacion del super admin ------------
+rutas.get('/0101/creacion', controlSuperAdmin.origen);
 
-rutas.post('/add', passport.authenticate('local.signup', {
-    successRedirect: '/admin/creacion',
+// -------- Ruta para enviar datos a la creacion del SA ---------
+rutas.post('/0101/add', passport.authenticate('local.signup', {
+    successRedirect: '/0101/creacion',
     failureRedirect: '/',
     failureFlash: true
-}));*/
+}));
+//#endregion
 
-// ---- Carga Vista Principal ------
-rutas.get('/', async (req, res) => {
-    res.render('login.html');
-});
+//--------- Seccion para el Inicion de Sesion ------------
+//#region 
+//----- Carga Vista Principal Login ----- 
+rutas.get('/', controlGeneral.login);
 
-/* --------- Modeleo para cerrar sesion y salir ---------
-rutas.get('/salir', controlValidacion.salir);
-
-// ----- Cargar Vista de Login, Inicio de Sesion --------
-rutas.get('/login', controlGeneral.login);
-
+//----- Metodo para iniciar sesion ------
 rutas.post('/signin', controlValidacion.inicio);
 
+//----- Cerrar sesion y salir -----
+rutas.get('/salir', controlGeneral.salir);
+
+//#endregion
+
+rutas.get('/hola', (req, res) => {
+    res.render('index.html');
+})
 
 // ------- Seccion de Super Administrador -------------
 
-rutas.get('/supadmin/home', controlGeneral.inicio);
+rutas.get('/supadmin/home', controlSuperAdmin.inicio);
 
-rutas.get('/supadmin/entidades', controlSuperAdmin.entidades);
+rutas.get('/supadmin/registros', controlSuperAdmin.entidades);
 
-// ------- Seccion de Administrador -------------
+/* ------- Seccion de Administrador -------------
 
 rutas.get('/admin/inicio', controlGeneral.inicio);
 

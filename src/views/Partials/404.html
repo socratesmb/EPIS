@@ -9,9 +9,9 @@
     <meta name="description" content="Software para la gestion de inventario">
     <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Error">
     <meta name="author" content="Sócrates Martínez Berrio">
-
-    <% include ./Partials/icono.html%>
-    <% include ./Partials/style.html%>
+ 
+    <%- include ('../Partials/icono.html'); %>
+    <%- include ('../Partials/style.html'); %>
 
     <!-- Estilo Propio -->
     <link rel="stylesheet" href="../files/css/pages/404.css">
@@ -29,7 +29,7 @@
                             algo salio mal!!!</p>
                         <div class="animated wow fadeInUp text-center" data-wow-delay="0.7s" data-wow-duration=".7s">
                             <span>
-                                <a class="btn btn-general btn-blue" href="/" role="button">Regresar</a>
+                                <a class="btn btn-general btn-blue" href="javascript: history.go(-1)" role="button">Regresar</a>
                             </span>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
     </section>
 
-    <% include ./Partials/js.html%>
+    <%- include ('../Partials/js.html');%>
 </body>
  
 </html>

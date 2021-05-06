@@ -27,6 +27,18 @@ let Perfil = {
 let Id_Anim = '';
 //#endregion
 
+//------------ Seccion para Cargar Vista Principal y Accion de cerrar session -----------
+
+
+
+model.salir = (req, res) => {
+    req.session.destroy(() => {
+        req.logOut();
+        res.clearCookie('CookieSession');
+        res.status(200);
+        res.redirect('/');
+    });
+};
 
 //------------- Seccion de Login, Registro y Recuperacion de Password ---------------
 //#region 
@@ -105,7 +117,6 @@ model.registro_usuario = async (req, res) => {
     });
 };
 //#endregion
-
 
 //------------ Seccion de Perfil, Actualizacion y Cambio de Password --------------
 //#region 
@@ -216,7 +227,7 @@ model.password_update = async (req, res) => {
 model.inicio = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
-
+ 
     console.log(datos);
 
     const Lista_Animales = await pool.query("select * from lista_animales where Estado_Animal = 'ACTIVO' and Id_Entidad = 1 or Id_Entidad = " + datos.Id_Entidad);
@@ -337,6 +348,7 @@ model.Desactivar_Hueso = async (req, res) => {
     });
 };
 //#endregion
+
 //------- Funciones de Limpieza de Variables ----------
 //#region 
 function LimpiarVariables() {

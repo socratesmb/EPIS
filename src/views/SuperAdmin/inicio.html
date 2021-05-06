@@ -1,7 +1,7 @@
-<!doctype html>
-<html lang="es-Es">
+<!DOCTYPE html>
+<html lang="es">
 
-    <head>
+<head>
     <title>EPIS</title>
     
     <meta charset="utf-8">
@@ -10,13 +10,14 @@
     <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Navigate">
     <meta name="author" content="Sócrates Martínez Berrio">
 
-    <%- include ('./Partials/icono.html'); %>
-    <%- include ('./Partials/style.html'); %>
+    <%- include ('../Partials/icono.html'); %>
+    <%- include ('../Partials/style.html'); %>
 
     <!-- Estilo Propio -->
     <link rel="stylesheet" href="../files/css/ui-elements/card.css">
     <link rel="stylesheet" href="../files/css/style.css">
-
+    
+            
 </head>
 
 <body>
@@ -25,120 +26,7 @@
                              MAIN NAVBAR
     ======================================================-->
     <header class="header">
-        <nav class="navbar navbar-expand-lg ">
-            <div class="search-box">
-                <button class="dismiss"><i class="icon-close"></i></button>
-                <form id="searchForm" action="#" role="search">
-                    <input type="search" placeholder="Search Now" class="form-control">
-                </form>
-            </div>
-            <div class="container-fluid ">
-                <div class="navbar-holder d-flex align-items-center justify-content-between">
-                    <div class="navbar-header">
-                        <a href="index.html" class="navbar-brand">
-                            <div class="brand-text brand-big hidden-lg-down"><img src="img/EPIS.png" alt="Logo"
-                                    class="img-fluid"></div>
-                            <div class="brand-text brand-small"><img src="img/E.png" alt="Logo" class="img-fluid"></div>
-                        </a>
-                        <a id="toggle-btn" href="#" class="menu-btn active">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </a>
-                    </div>
-                </div>
-                <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                    <!-- Notifications-->
-                    <li class="nav-item dropdown">
-                        <a id="notifications" class="nav-link" rel="nofollow" data-target="#" href="#"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                class="fa fa-bell-o"></i>
-                            <!-- <span class="noti-numb-bg"></span> <span class="badge">3</span>--></a>
-                        <ul aria-labelledby="notifications" class="dropdown-menu">
-                            <li>
-                                <a rel="nofollow" href="#" class="dropdown-item nav-link">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-envelope bg-red"></i>You have
-                                            6 new messages </div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="#" class="dropdown-item nav-link">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-twitter bg-skyblue"></i>You
-                                            have 2 followers</div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="#" class="dropdown-item nav-link">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-upload bg-blue"></i>Server
-                                            Rebooted</div>
-                                        <div class="notification-time"><small>4 minutes ago</small></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="#" class="dropdown-item nav-link">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-twitter bg-skyblue"></i>You
-                                            have 2 followers</div>
-                                        <div class="notification-time"><small>10 minutes ago</small></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center">
-                                    <strong>view all notifications </strong></a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown"><a id="profile" class="nav-link logout" data-target="#" href="#"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                src="img/avatar-4.jpg" alt="..." class="img-fluid rounded-circle"
-                                style="height: 30px; width: 30px;"></a>
-                        <ul aria-labelledby="profile" class="dropdown-menu profile">
-                            <li>
-                                <a rel="nofollow" href="#" class="dropdown-item d-flex">
-                                    <div class="msg-profile"> <img src="img/avatar-4.jpg" alt="..."
-                                            class="img-fluid rounded-circle"></div>
-                                    <div class="msg-body">
-                                        <h3 class="h5">User Admin </h3><span>correo@admin.com</span>
-                                    </div>
-                                </a>
-                                <hr>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="profile.html" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-user "></i>Mi Perfil</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="profile.html" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-cog"></i>Configuración</div>
-                                    </div>
-                                </a>
-                                <hr>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="profile.html" class="dropdown-item">
-                                    <div class="notification">
-                                        <div class="notification-content"><i class="fa fa-power-off"></i>Salir</div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-        </nav>
+        <%- include ('../Partials/navbar.html'); %>
     </header>
 
     <!--====================================================
@@ -147,23 +35,7 @@
     <div class="page-content d-flex align-items-stretch">
 
         <!--***** SIDE NAVBAR *****-->
-        <nav class="side-navbar">
-            <hr>
-            <!-- Sidebar Navidation Menus-->
-            <ul class="list-unstyled">
-                <li class="active"> <a href="index.html"><i class="fa fa-desktop"></i>Inicio</a></li>
-                <li> <a href=""> <i class="fa fa-archive"></i>Bodega </a></li>
-                <li> <a href=""> <i class="fa fa-dropbox"></i>Inventario </a></li>
-                <li> <a href=""> <i class="fa fa-file"></i>Peticiones </a></li>
-                <li><a href="#accio" aria-expanded="false" data-toggle="collapse" class="collapsed"> <i
-                            class="fa fa-cog"></i>Acciones </a>
-                    <ul id="accio" class="list-unstyled collapse" style="">
-                        <li><a href="">Restricciones</a></li>
-                        <li><a href="">Registros</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+        <%- include ('../Partials/slider.html'); %>
 
         <div class="content-inner">
 
@@ -380,9 +252,40 @@
                 </div>
             </div>
 
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    EPIS
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Uniamazonia
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Registraduria Florencia - Caqueta
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright ml-auto">
+                        2021. Realizado por <a href="">Socrates Martinez Berrio</a>
+                    </div>				
+                </div>
+            </footer>
+
         </div>
+        
     </div>
-    <%- include ('./Partials/js.html'); %>
+
+    
+
+    <%- include ('../Partials/js.html'); %>
 </body>
 
 </html>

@@ -15,14 +15,14 @@ model.inicio = (req, res, next) => {
                 tipo: 'inseguro',
                 mensaje: 'Usuario o Contraseña Incorrecto'
             }
-            res.render('index.html', { alerta });
+            res.render('login.html', { alerta });
         } else {
             if (data) {
                 alerta = {
                     tipo: 'inseguro',
                     mensaje: 'El Usuario Esta Inactivo'
                 }
-                res.render('index.html', { alerta });
+                res.render('login.html', { alerta });
             } else {
                 req.logIn(user, async (err) => {
                     if (err) {
@@ -46,15 +46,6 @@ model.inicio = (req, res, next) => {
             }
         }
     })(req, res, next);
-};
-
-model.salir = (req, res) => {
-    req.session.destroy(() => {
-        req.logOut();
-        res.clearCookie('CookieSession');
-        res.status(200);
-        res.redirect('/');
-    });
 };
 
 module.exports = model;

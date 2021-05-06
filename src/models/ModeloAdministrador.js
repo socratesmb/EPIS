@@ -28,6 +28,8 @@ let Docente = {
 let Id_Docente = '';
 //#endregion
 
+
+
 // --------- Seccion para ver empresa y actualizar empresa ----------
 //#region 
 model.empresa = async (req, res) => {

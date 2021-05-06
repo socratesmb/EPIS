@@ -2,58 +2,60 @@
 <html lang="es">
 
 <head>
-    <title>EPIS - LOGIN</title>
+  <title>EPIS - LOGIN</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Software para la gestion de inventario">
-    <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Login">
-    <meta name="author" content="Sócrates Martínez Berrio">
-    
-    <%- include ('./Partials/icono.html'); %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Software para la gestion de inventario">
+  <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Login">
+  <meta name="author" content="Sócrates Martínez Berrio">
+
+  <%- include ('./Partials/icono.html'); %>
     <%- include ('./Partials/style.html'); %>
 
-    <!-- Estilo Propio -->
-    <link rel="stylesheet" href="../files/css/pages/login.css">
+      <!-- Estilo Propio -->
+      <link rel="stylesheet" href="../files/css/pages/login.css">
 </head>
 
 <body class="fix-menu">
-    
+  <%- include ('./Partials/alertas.html'); %>
     <!-- Pre-loader start -->
     <div class="theme-loader">
-        <div class="ball-scale">
-            <div class='contain'>
-                <div class="ring">
-                    <div class="frame"></div>
-                </div>
-            </div>
+      <div class="ball-scale">
+        <div class='contain'>
+          <div class="ring">
+            <div class="frame"></div>
+          </div>
         </div>
+      </div>
     </div>
     <section class="hero-area">
-        <div class="overlay"></div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 ">
-                <div class="contact-h-cont">
-                  <h3 class="text-center"><img src="img/EPIS.png" class="img-fluid" alt=""></h3><br>
-                  
-                  <form action="/inicio" method="POST">
-                    <div class="form-group">
-                      <label for="username">Nombre Usuario</label>
-                      <input type="text" class="form-control" id="Usuario" name="Usuario" placeholder="Ingrese Usuario"> 
-                    </div>  
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Contraseña</label>
-                      <input class="form-control" type="password" name="password" id="example-password-input" placeholder="Password"> 
-                    </div>   
-                    <button class="btn btn-general btn-blue" role="button" type="submit"><i fa fa-right-arrow></i>INICIAR</button>
-                  </form>
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 ">
+            <div class="contact-h-cont">
+              <h3 class="text-center"><img src="img/EPIS.png" class="img-fluid" alt=""></h3><br>
 
+              <form action="/signin" method="POST">
+                <div class="form-group">
+                  <label for="username">Nombre Usuario</label>
+                  <input type="text" class="form-control" id="Usuario" name="Usuario" placeholder="Codigo">
                 </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Contraseña</label>
+                  <input class="form-control" type="Password" name="Password" id="example-password-input"
+                    placeholder="Password">
+                </div>
+                <button class="btn btn-general btn-blue" role="button" type="submit"><i fa
+                    fa-right-arrow></i>INICIAR</button>
+              </form>
+
             </div>
-          </div>  
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
     <% include ('./Partials/js.html'); %>
 </body>

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
-    <% include ../Partials/style.html%>
+    <%- include ('../Partials/style.html'); %>
     <link rel="stylesheet" href="..\files\bower_components\carrusel\css\styles.css">
 </head>
 
@@ -18,10 +18,10 @@
         vnavigation-view="view1" fream-type="theme1" sidebar-img="false" sidebar-img-type="img1" layout-type="light">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
-            <% include ../Partials/navbar.html%>
-            <% include ../Partials/slider.html%>
+            <%- include ('../Partials/navbar.html'); %>
+            <%- include ('../Partials/slider.html'); %>
             <div class="pcoded-main-container" style="margin-top: 56px;">
-                <% include ../Partials/alertas.html%>
+                <%- include ('../Partials/alertas.html'); %>
                 <div class="pcoded-wrapper">
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">
@@ -225,7 +225,7 @@
             </div>
         </div>
     </div>
-    <% include ../Partials/js.html%>
+    <%- include ('../Partials/js.html'); %>
 
     <script>
         function HabilitarCampos() {

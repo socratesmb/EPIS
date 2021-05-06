@@ -1,26 +1,23 @@
-<nav class="pcoded-navbar" navbar-theme="theme1" active-item-theme="theme1" sub-item-theme="theme2"
-    active-item-style="style0" pcoded-navbar-position="fixed">
-    <div class="" id="" style="height: calc(100% - 80px);">
-        <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside"
-            style="max-height: none;" tabindex="0">
-            <div id="mCSB_1_container_wrapper"
-                class="mCSB_container_wrapper mCS_x_hidden mCS_no_scrollbar_x mCS_y_hidden mCS_no_scrollbar_y">
-                <div id="mCSB_1_container" class="mCSB_container"
-                    style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
-                    <div class="pcoded-navigatio-lavel" menu-title-theme="theme5">Navegación</div>
-                    <ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none"
-                        subitem-border="true">
-                        <%menu.forEach(element => { %>
-                            <li class="">
-                                <a href="<%=element.Ruta%>">
-                                    <span class="pcoded-micon"><i class="<%=element.Icono%>"></i></span>
-                                    <span class="pcoded-mtext"> <%=element.Nombre%> </span>
-                                </a>
-                            </li>
-                        <%});%>                        
+<!--***** SIDE NAVBAR *****-->
+<nav class="side-navbar">
+    <hr>
+    <!-- Sidebar Navidation Menus-->
+    <ul class="list-unstyled">
+        <%menu.forEach(element =>{ %>
+            <% if (element.Orden_Menu == 5) {%>
+                <li><a href="<%=element.Ruta_Menu%>" aria-expanded="false" data-toggle="collapse" class="collapsed"> <i
+                            class="<%=element.Icono_Menu %>"></i> <%=element.Menu%></a>
+                    <ul id="accio" class="list-unstyled collapse" style="">
+                        <%menu.forEach(element2 => {%>
+                            <%if(element2.Orden_Menu > 5){%>
+                                <li><a href="<%=element2.Ruta_Menu%>"><%=element2.Menu%></a></li>
+                            <%};%>
+                        <%});%>
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+                </li>
+            <%} else if(element.Orden_Menu < 5) {%>
+                <li><a href="<%=element.Ruta_Menu%>"> <i class="<%=element.Icono_Menu%>"></i><%=element.Menu%></a></li>
+            <%};%> 
+        <%});%>
+    </ul> 
 </nav>

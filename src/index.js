@@ -4,12 +4,10 @@ const morgan = require('morgan');
 const session = require('express-session');
 const mysqlsession = require('express-mysql-session')(session);
 const passport = require('passport');
-var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-const pool = require('./database/database');
 
 //carga de archivos
-const fileUpload = require('express-fileupload') 
+const fileUpload = require('express-fileupload')
 
 //modulo para las alertas
 const flash = require('connect-flash');
@@ -21,7 +19,7 @@ require('./controllers/passport');
 
 // importar rutas
 const routes = require('./rutas/rutas');
- 
+
 // configuracion
 app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -31,15 +29,15 @@ app.engine('html', require('ejs').renderFile);
 var sqlsession = new mysqlsession(database);
 
 // middlewares
-app.use(session({  
+app.use(session({
   secret: 'SocratesMB',
   name: 'CookieSession',
   resave: false,
   saveUninitialized: false,
   store: sqlsession,
   cookie: {
-    secure:false,
-    maxAge:36000000,
+    secure: false,
+    maxAge: 36000000,
     httpOnly: false,
   }
 }));
@@ -49,7 +47,6 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser());
 app.use(methodOverride());
 
 
@@ -73,8 +70,7 @@ function error404(req, res, next) {
   res.render('./Partials/404.html');
   next();
 }
-
-//Error Accions
+// Funcion para capturar los errores
 function logErrors(err, req, res, next) {
   console.error(err.stack, 'asd');
   next(err);
@@ -82,7 +78,7 @@ function logErrors(err, req, res, next) {
 
 function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
-    res.status(500).send({ error: 'Algo Fallo!' });
+    res.status(500).send({ error: 'Something failed!' });
   } else {
     next(err);
   }
@@ -90,7 +86,7 @@ function clientErrorHandler(err, req, res, next) {
 
 function errorHandler(err, req, res, next) {
   res.status(500);
-  res.redirect('/'); 
+  res.redirect('/');
 }
 
 //Archivos estaticos

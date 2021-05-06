@@ -53,6 +53,24 @@ let Tipo_Entidad = {
 let Tipo_Identificacion = '';
 //#endregion
 
+// ----- Seccion Cargar Vista de Creacion Super Admin -----
+
+model.origen = async (req, res) => {
+    res.render('creacion.html');
+}
+
+// ----- Cargar Vista Principal de Inicio de Session -----
+model.inicio = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    console.log(datos);
+    console.log(menu);
+
+    res.render('SuperAdmin/inicio.html', { datos, menu});
+};
+
+
 //--------- Modelo para Cargar Vista de Creacion de Entidades ----------------
 //#region 
 
@@ -97,7 +115,7 @@ model.registro_entidades = async (req, res) => {
                 res.redirect('/supadmin/entidades');
             } else {
                 console.log('Resultado de la creacion de la entidad: ' + result);
-                
+
 
                 alerta = {
                     tipo: 'correcto',
@@ -256,10 +274,6 @@ function LimpiarVariables2() {
         tipo: '',
         mensaje: ''
     };
-};
-
-function LimpiarVariables3() {
-
 };
 //#endregion
 module.exports = model;
