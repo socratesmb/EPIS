@@ -29,14 +29,13 @@
                                             <ul class="nav nav-tabs md-tabs " role="tablist">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab" href="#info"
-                                                        role="tab"><i class="fa fa-terminal"></i> <%= variables.Titulo%>
+                                                        role="tab"><i class="fa fa-terminal"></i> Registro Usuarios
                                                     </a>
                                                     <div class="slide"></div>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#listentidad"
-                                                        role="tab"><i class="fa fa-list-ol"></i> Listado de
-                                                        Entidades</a>
+                                                    <a class="nav-link" data-toggle="tab" href="#listusuarios"
+                                                        role="tab"><i class="fa fa-list-ol"></i> Lista de Usuarios</a>
                                                     <div class="slide"></div>
                                                 </li>
                                             </ul>
@@ -46,94 +45,76 @@
                                                     <form action="<%= variables.Ruta_Form%>" method="post">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <label>Nombre de la Entidad</label>
+                                                                <label>Nombre</label>
                                                                 <input type="text" style="border-radius:8px;"
-                                                                    name="NombreEntidad" id="NombreEntidad" required
-                                                                    class="form-control" value="<%=Entidad.NombreEntidad%>"
-                                                                    title="Nombre de la Institucion o Empresa">
+                                                                    name="NombreUsuario" id="NombreUsuario" required
+                                                                    class="form-control" value=""
+                                                                    title="Nombre del Usuario">
                                                             </div>
 
                                                             <div class="col-md-6">
-                                                                <label>Tipo de Entidad</label>
-                                                                <select class="form-control" name="TipoEntidad"
-                                                                    id="TipoEntidad" style="border-radius:8px;" required
-                                                                    title="Que Tipo de Empresa Es">
+                                                                <label>Apellidos</label>
+                                                                <input type="text" style="border-radius:8px;"
+                                                                    name="ApellidoUsuario" id="ApellidoUsuario"
+                                                                    required class="form-control" value=""
+                                                                    title="Ingrese los 2 apellidos">
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <label>Tipo de Identificacion</label>
+                                                                <select class="form-control" name="TIdentificacion"
+                                                                    id="TIdentificacion" style="border-radius:8px;" required
+                                                                    title="Tipo de Documento de la Persona">
                                                                     <option value="">Seleccione Opción</option>
-                                                                    <%if(sele_t_entidad){%>
-                                                                        <% for(var i=0; i < sele_t_entidad.length; i++){%>
-                                                                            <% if(sele_t_entidad[i].Nombre == Entidad.TipoEntidad){%>
-                                                                                <option value="<%=sele_t_entidad[i].Id_Tipo_Entidad%>" selected="selected"> <%= sele_t_entidad[i].Nombre%> </option>
-                                                                            <%} else {%>
-                                                                                <option value="<%=sele_t_entidad[i].Id_Tipo_Entidad%>"> <%= sele_t_entidad[i].Nombre%> </option>
-                                                                            <%}%>
+                                                                    <%if(identif){%>
+                                                                        <% for(var i=0; i < identif.length; i++){%>
+                                                                            <option value="<%=identif[i].id_Identificacion%>"> <%= identif[i].Tipo%> </option>  
                                                                         <%}%>
                                                                     <%}%>                                                                    
                                                                 </select>
                                                             </div>
 
                                                             <div class="col-md-6">
-                                                                <label>Nit</label>
+                                                                <label>Identificacion</label>
                                                                 <input type="text" style="border-radius:8px;"
-                                                                    name="NitEntidad" id="NitEntidad" required
-                                                                    class="form-control" value="<%= Entidad.NitEntidad%>"
-                                                                    title="Codigo de Identificacion Unico">
+                                                                    name="IdentificaiconUsuario" id="IdentificaiconUsuario" required
+                                                                    class="form-control" value=""
+                                                                    title="No de Documento de la Persona">
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <label>Teléfono</label>
                                                                 <input type="number" style="border-radius:8px;"
-                                                                    name="TelefonoEntidad" id="TelefonoEntidad" required
-                                                                    class="form-control" value="<%= Entidad.TelefonoEntidad%>" title="Numero para Contacto">
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <label>Dirección</label>
-                                                                <input type="text" style="border-radius:8px;"
-                                                                    name="DireccionEntidad" id="DireccionEntidad"
-                                                                    required class="form-control" value="<%=Entidad.DireccionEntidad%>"
-                                                                    title="Ubicacion donde Reside">
+                                                                    name="TelefonoPersona" id="TelefonoPersona" required
+                                                                    class="form-control" value="" title="Numero para Contacto">
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <label>Correo Electrónico</label>
                                                                 <input type="email" style="border-radius:8px;"
-                                                                    name="CorreoEntidad" id="CorreoEntidad" required
-                                                                    class="form-control" value="<%=Entidad.CorreoEntidad%>" title="Correo de Contato">
+                                                                    name="CorreoPersona" id="CorreoPersona" required
+                                                                    class="form-control" value="" title="Correo de Contato">
                                                             </div>
 
                                                             <div class="col-md-6">
-                                                                <label>Nombre de Contacto</label>
+                                                                <label>Contraseña de la Cuenta</label>
                                                                 <input type="text" style="border-radius:8px;"
-                                                                    name="NombreContacto" id="NombreContacto" required
-                                                                    class="form-control" value="<%=Entidad.NombreContacto%>" title="Nombre Completo">
+                                                                    name="PasswordUsuario" id="PasswordUsuario" required
+                                                                    class="form-control" value="" title="Nombre Completo">
                                                             </div>
 
                                                             <div class="col-md-6">
-                                                                <label>Identificacion de Contacto</label>
-                                                                <input type="number" style="border-radius:8px;"
-                                                                    name="IdContacto" id="IdContacto" required
-                                                                    class="form-control" value="<%=Entidad.IdContacto%>"
-                                                                    title="Cedula de Ciudadania Valida">
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <label>Plan de Pago</label>
+                                                                <label>Tipo de Usuario</label>
                                                                 <select class="form-control" name="Tiempo_Pago"
                                                                     id="Tiempo_Pago" style="border-radius:8px;" required
-                                                                    title="Tiempo de Pago Contratado" <%=Entidad.PlanPago%>>
+                                                                    title="Tipo de Usuario Para Registrar">
                                                                     <option value="">Seleccione Opción</option>
-                                                                    <option value="1">1 Mes</option>
-                                                                    <option value="6">6 Meses</option>
-                                                                    <option value="12">12 Meses</option>
+                                                                    <%if(rol){%>
+                                                                        <% for(var i=0; i < rol.length; i++){%>
+                                                                            <option value="<%=rol[i].id_Rol%>"> <%= rol[i].Nombre%> </option>  
+                                                                        <%}%>
+                                                                    <%}%>  
                                                                 </select>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <label>Cantidad de Usuario</label>
-                                                                <input type="number" style="border-radius:8px;"
-                                                                    name="NoUsuarios" id="NoUsuarios" required
-                                                                    class="form-control" value="<%=Entidad.NoUsuarios%>"
-                                                                    title="Numero de Usuarios Adicionales">
                                                             </div>
 
                                                         </div>
@@ -144,18 +125,18 @@
                                                                     type="submit"> <%= variables.Boton%> </button>
                                                             </div>                                                                                                                       
                                                         </div>
-                                                        <% if(variables.Boton == 'Actualizar Entidad'){%>
-                                                        <br>
-                                                        <div class="row">
-                                                            <div class="col-md-12" style="text-align: center;">
-                                                                <a href="/supadmin/cancelar" class="btn btn-mat btn-danger"
-                                                                    type="submit"> Cancelar Proceso </a>
+                                                        <% if(variables.Boton == 'Actualizar Usuario'){%>
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-md-12" style="text-align: center;">
+                                                                    <a href="/supadmin/cancelar" class="btn btn-mat btn-danger"
+                                                                        type="submit"> Cancelar Proceso </a>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         <%}%>
                                                     </form>
                                                 </div>
-                                                <div class="tab-pane" id="listentidad" role="tabpanel">
+                                                <div class="tab-pane" id="listusuarios" role="tabpanel">
                                                     <div class="table-responsive dt-responsive">
                                                         <div id="dom-jqry_wrapper"
                                                             class="dataTables_wrapper dt-bootstrap4">
@@ -175,29 +156,29 @@
                                                                                     aria-controls="dom-jqry" rowspan="1"
                                                                                     colspan="1"
                                                                                     aria-label="Position: activate to sort column ascending"
-                                                                                    style="width: 150px;">Tipo Entidad
+                                                                                    style="width: 150px;">Nombre
                                                                                 </th>
                                                                                 <th class="sorting" tabindex="0"
                                                                                     aria-controls="dom-jqry" rowspan="1"
                                                                                     colspan="1"
                                                                                     aria-label="Office: activate to sort column ascending"
-                                                                                    style="width: 180px;">Nombre</th>
+                                                                                    style="width: 180px;">Tipo Usuario</th>
                                                                                 <th class="sorting" tabindex="0"
                                                                                     aria-controls="dom-jqry" rowspan="1"
                                                                                     colspan="1"
                                                                                     aria-label="Age: activate to sort column ascending"
-                                                                                    style="width: 115px;">Nit</th>
+                                                                                    style="width: 115px;">Identificacion</th>
                                                                                 <th class="sorting" tabindex="0"
                                                                                     aria-controls="dom-jqry" rowspan="1"
                                                                                     colspan="1"
                                                                                     aria-label="Start date: activate to sort column ascending"
-                                                                                    style="width: 115px;">Encargado
+                                                                                    style="width: 115px;">Correo
                                                                                 </th>
                                                                                 <th class="sorting" tabindex="0"
                                                                                     aria-controls="dom-jqry" rowspan="1"
                                                                                     colspan="1"
                                                                                     aria-label="Salary: activate to sort column ascending"
-                                                                                    style="width: 50px;">No Usuarios
+                                                                                    style="width: 50px;">Telefono
                                                                                 </th>
                                                                                 <th class="sorting" tabindex="0"
                                                                                     aria-controls="dom-jqry" rowspan="1"
@@ -214,38 +195,32 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <%if(entidades){%>
-                                                                            <% for(var i=0; i < entidades.length; i++) {%>
+                                                                            <%if(tusuario){%>
+                                                                            <% for(var i=0; i < tusuario.length; i++) {%>
                                                                             <tr>
                                                                                 <td> <%= i+1 %> </td>
-                                                                                <td> <%= entidades[i].Tipo_Entidad%>
-                                                                                </td>
-                                                                                <td> <%= entidades[i].Nombre_Entidad%>
-                                                                                </td>
-                                                                                <td> <%= entidades[i].Nit_Entidad%>
-                                                                                </td>
-                                                                                <td> <%= entidades[i].Encargado_Entidad%>
-                                                                                </td>
-                                                                                <td> <%= entidades[i].No_Usuarios%>
-                                                                                </td>
-                                                                                <td> <%= entidades[i].Estado_Entidad%>
-                                                                                </td>
+                                                                                <td> <%= tusuario[i].Nombre_User%></td>
+                                                                                <td> <%= tusuario[i].Tipo_Usuario%></td>
+                                                                                <td> <%= tusuario[i].Ident_Usuario%></td>
+                                                                                <td> <%= tusuario[i].Correo_Usuario%></td>
+                                                                                <td> <%= tusuario[i].Telefono_User%></td>
+                                                                                <td> <%= tusuario[i].Estado_Usuario%></td>
                                                                                 <td
                                                                                     style='text-align: center; width: 60px;'>
                                                                                     <a type='button'
                                                                                         class='btn btn-warning bo_fa'
-                                                                                        href="/supadmin/buscar_entidad/<%= entidades[i].Id_Entidad%>"
+                                                                                        href="/supadmin/buscar_usuario/<%= tusuario[i].Id_User%>"
                                                                                         data-toggle='tooltip' 
                                                                                         data-placement='top'
-                                                                                        title='Editar Entidad' style="width: 50px;"><i
+                                                                                        title='Editar Usuario' style="width: 50px;"><i
                                                                                             class='fa fa-pencil'></i>
                                                                                     </a>
                                                                                     <a type='button'
                                                                                         class='btn btn-danger bo_fa'
-                                                                                        href="/supadmin/bloquear_entidad/<%= entidades[i].Id_Entidad%>"
+                                                                                        href="/supadmin/desactivar_usuario/<%= tusuario[i].Id_User%>"
                                                                                         data-toggle='tooltip'
                                                                                         data-placement='top'
-                                                                                        title='Bloquear Entidad' style="width: 50px;"><i
+                                                                                        title='Desactivar Usuario' style="width: 50px;"><i
                                                                                             class='fa fa-ban'></i>
                                                                                     </a>
                                                                                 </td>

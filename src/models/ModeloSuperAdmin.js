@@ -27,9 +27,9 @@ let Entidad = {
 };
 
 let variables = {
-    Ruta_Form: '/supadmin/Regis_Entidad',
-    Titulo: 'Registro Entidad',
-    Boton: 'Registrar Entidad'
+    Ruta_Form: '/supadmin/regis_user',
+    Titulo: 'Registro Usuario',
+    Boton: 'Registrar Usuario'
 };
 
 let Id_Company = '';
@@ -74,14 +74,15 @@ model.inicio = async (req, res) => {
 //--------- Modelo para Cargar Vista de Creacion de Entidades ----------------
 //#region 
 
-model.entidades = async (req, res) => {
+model.usuarios = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    const entidades = await pool.query("select * from Lista_Entidades");
-    const sele_t_entidad = await pool.query("select tipo_entidad.Id_Tipo_Entidad, tipo_entidad.Nombre from tipo_entidad where Estado = 'ACTIVO'");
+    const identif = await pool.query("select * from identificacion");
+    const rol = await pool.query("select * from rol");
+    const tusuario = await pool.query("select * from lista_usuarios");
 
-    res.render('SuperAdmin/entidades.html', { datos, menu, alerta, entidades, variables, sele_t_entidad, Entidad });
+    res.render('SuperAdmin/entidades.html', { datos, menu, alerta, identif, rol, variables, tusuario});
 
     LimpiarVariables();
 };
@@ -160,7 +161,7 @@ model.buscar_entidad = async (req, res) => {
             variables = {
                 Ruta_Form: '/supadmin/actualizar_entidad',
                 Titulo: 'Actualizacion de Entidad',
-                Boton: 'Actualizar Entidad'
+                Boton: 'Actualizar Usuario'
             }
 
             res.redirect('/supadmin/entidades');

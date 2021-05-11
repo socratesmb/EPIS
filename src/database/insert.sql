@@ -68,3 +68,8 @@ inner join entidad on entidad.Id_Entidad = registro_ep.Entidad_Id_Entidad
 inner join rol on rol.Id_Rol = registro_ep.Rol_Id_Rol 
 where registro_ep.Estado = 'ACTIVA' and entidad.Estado = 'ACTIVA';
 
+create or replace view  `Lista_Usuarios` as
+select concat(persona.nombre,' ', persona.apellido) as Nombre_User, rol.Nombre as Tipo_Usuario, persona.Identificacion as Ident_User, persona.Correo_Electronico as Correo_Usuario, persona.Telefono as Telefono_User, registro_ep.Estado as Estado_Usuario
+from persona
+inner join registro_ep on registro_ep.Persona_id_Persona = persona.id_Persona
+inner join rol on rol.id_Rol = registro_ep.Rol_id_Rol;

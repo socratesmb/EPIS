@@ -47,7 +47,7 @@ rutas.get('/hola', (req, res) => {
 
 rutas.get('/supadmin/home', controlSuperAdmin.inicio);
 
-rutas.get('/supadmin/registros', controlSuperAdmin.entidades);
+rutas.get('/supadmin/registro', controlSuperAdmin.usuarios);
 
 /* ------- Seccion de Administrador -------------
 
