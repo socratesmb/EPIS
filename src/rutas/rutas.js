@@ -44,20 +44,30 @@ rutas.get('/hola', (req, res) => {
 })
 
 // ------- Seccion de Super Administrador -------------
-
+//#region 
+//----- Cargar Vista Inicio -----
 rutas.get('/supadmin/home', controlSuperAdmin.inicio);
 
+//----- Cargar Vista Registro Usuarios -----
 rutas.get('/supadmin/registro', controlSuperAdmin.usuarios);
 
+//----- Modelo para registrar un nuevo usuario -----
 rutas.post('/supadmin/regis_user', controlSuperAdmin.registro_usuario);
 
+//----- Modelo para buscar un usuario -----
 rutas.get('/supadmin/buscar_usuario/:Id_User', controlSuperAdmin.buscar_usuario);
 
+//----- Modelo para actualizar un usuario -----
 rutas.post('/supadmin/actualizar_usuario', controlSuperAdmin.actualizar_usuario);
 
+//----- Modelo para desactivar un usuario -----
 rutas.get('/supadmin/desactivar_usuario/:Id_User', controlSuperAdmin.desactivar_usuario);
 
+//----- Modelo para cancelar procesos ----- 
 rutas.get('/supadmin/cancelar', controlSuperAdmin.cancelar_usuario);
+//#endregion
+
+
 /* ------- Seccion de Administrador -------------
 
 rutas.get('/admin/inicio', controlGeneral.inicio);

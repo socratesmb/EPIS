@@ -7,7 +7,6 @@ const model = {};
 
 // -------------- Seccion de Arreglos para Datos -----------------
 //#region 
-
 let alerta = {
     tipo: '',
     mensaje: ''
@@ -32,16 +31,6 @@ let variables = {
 };
 
 let Id_Usuario = '';
-
-let Variables_Configuracion = {
-    BotonEntidad: 'Guardar',
-    TituloEntidad: 'Tipo Entidades',
-    RutaEntidad: '/supadmin/Registro_TEntidades',
-    BotonIdentificacion: 'Guardar',
-    TituloIdentificacion: 'Identificacion',
-    RutaIdentificacion: '/supadmin/Registro_Identificacion'
-};
-
 //#endregion
 
 // ----- Seccion Cargar Vista de Creacion Super Admin -----
@@ -62,7 +51,7 @@ model.inicio = async (req, res) => {
 };
 
 
-//--------- Modelo para Cargar Vista de Creacion de Entidades ----------------
+//--------- Modelo para Cargar Vista y Procesos de Usuarios ----------------
 //#region 
 
 model.usuarios = async (req, res) => {
@@ -227,6 +216,7 @@ model.cancelar_usuario = async (req, res) => {
     Id_Usuario = '';
     res.redirect('/supadmin/registro');
 };
+
 //#endregion
 
 //------- Funciones de Limpieza de Variables ----------
