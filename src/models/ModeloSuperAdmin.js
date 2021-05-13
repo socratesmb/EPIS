@@ -13,17 +13,16 @@ let alerta = {
     mensaje: ''
 };
 
-let Entidad = {
-    TipoEntidad: '',
-    NombreEntidad: '',
-    NitEntidad: '',
-    TelefonoEntidad: '',
-    DireccionEntidad: '',
-    CorreoEntidad: '',
-    PlanPago: '',
-    NoUsuarios: '',
-    NombreContacto: '',
-    IdContacto: '',
+let Persona = {
+    Nombre: '',
+    Apellidos: '',
+    TipoIdentificacion: '',
+    Identificacion: '',
+    Telefono: '',
+    Correo: '',
+    Contraseña: '',
+    TipoUsuario: '',
+    Estado: ''
 };
 
 let variables = {
@@ -32,9 +31,7 @@ let variables = {
     Boton: 'Registrar Usuario'
 };
 
-let Id_Company = '';
-let ID_TEntidad = '';
-let ID_Identifi = '';
+let Id_Usuario = '';
 
 let Variables_Configuracion = {
     BotonEntidad: 'Guardar',
@@ -45,12 +42,6 @@ let Variables_Configuracion = {
     RutaIdentificacion: '/supadmin/Registro_Identificacion'
 };
 
-let Tipo_Entidad = {
-    Nombre_Entidad: '',
-    No_Usuarios: ''
-}
-
-let Tipo_Identificacion = '';
 //#endregion
 
 // ----- Seccion Cargar Vista de Creacion Super Admin -----
@@ -67,7 +58,7 @@ model.inicio = async (req, res) => {
     console.log(datos);
     console.log(menu);
 
-    res.render('SuperAdmin/inicio.html', { datos, menu});
+    res.render('SuperAdmin/inicio.html', { datos, menu });
 };
 
 
@@ -82,30 +73,30 @@ model.usuarios = async (req, res) => {
     const rol = await pool.query("select * from rol");
     const tusuario = await pool.query("select * from lista_usuarios");
 
-    res.render('SuperAdmin/entidades.html', { datos, menu, alerta, identif, rol, variables, tusuario});
+    res.render('SuperAdmin/entidades.html', { datos, menu, alerta, identif, rol, variables, tusuario, Persona });
 
     LimpiarVariables();
 };
 
-model.registro_entidades = async (req, res) => {
+model.registro_usuario = async (req, res) => {
 
-    const valid = pool.query("select * from persona where persona.Identificacion = " + req.body.IdContacto);
+    const valid = await pool.query("select * from persona where persona.Identificacion = " + req.body.IdentificacionUsuario);
 
     if (valid.length > 0) {
         alerta = {
             tipo: 'inseguro',
             mensaje: 'El Usuario Ya Esta Registrado En El Sistema, No Se Puede Registrar Un Usuario 2 Veces'
         };
-        res.redirect('/supadmin/entidades');
+        res.redirect('/supadmin/registro');
 
     } else {
-        var password = randomstring.generate(6);
+        var password = req.body.PasswordUsuario;
         var contrasena = await helpers.encryptPassword(password);
-        console.log('Contrase aleatoria:' + password);
+        console.log('Contrase Ingresada:' + password);
         console.log('Contrase cifrada:' + contrasena);
 
 
-        await pool.query("call Registro_Entidades(" + req.body.TipoEntidad + ", '" + req.body.NombreEntidad + "', " + req.body.NitEntidad + ", '" + req.body.TelefonoEntidad + "', '" + req.body.DireccionEntidad + "', '" + req.body.CorreoEntidad + "', " + req.body.Tiempo_Pago + ", " + req.body.NoUsuarios + ", '" + req.body.NombreContacto + "', '" + req.body.IdContacto + "', '" + contrasena + "');", (err, result) => {
+        await pool.query("call Registro_Usuarios('" + req.body.NombreUsuario + "', '" + req.body.ApellidoUsuario + "', " + req.body.TIdentificacion + ", '" + req.body.IdentificacionUsuario + "', '" + req.body.TelefonoPersona + "', '" + req.body.CorreoPersona + "', '" + req.body.contrasena + "', " + req.body.TipoUsuario + ");", (err, result) => {
             if (err) {
                 console.log(err)
                 alerta = {
@@ -113,27 +104,26 @@ model.registro_entidades = async (req, res) => {
                     mensaje: err
                 };
 
-                res.redirect('/supadmin/entidades');
+                res.redirect('/supadmin/registro');
             } else {
                 console.log('Resultado de la creacion de la entidad: ' + result);
 
-
                 alerta = {
                     tipo: 'correcto',
-                    mensaje: 'Nueva Entidad Creada Correctamente'
+                    mensaje: 'Nuevo Usuario Creado Correctamente'
                 };
 
-                res.redirect('/supadmin/entidades');
+                res.redirect('/supadmin/registro');
             }
         });
     };
 };
 
-model.buscar_entidad = async (req, res) => {
-    const { Id_Entidad } = req.params;
-    Id_Company = Id_Entidad;
-
-    await pool.query("select * from Lista_Entidades where Id_Entidad = " + Id_Entidad, (err, result) => {
+model.buscar_usuario = async (req, res) => {
+    const { Id_User } = req.params;
+    Id_Usuario = Id_User;
+    console.log('LLego aca' + Id_Usuario + Id_User)
+    await pool.query("select * from datos_usuarios where Id_User = " + Id_User, (err, result) => {
         if (err) {
             console.log(err)
             alerta = {
@@ -141,87 +131,101 @@ model.buscar_entidad = async (req, res) => {
                 mensaje: err
             };
 
-            res.redirect('/supadmin/entidades');
+            res.redirect('/supadmin/registro');
         } else {
             console.log(result)
 
-            Entidad = {
-                TipoEntidad: result[0].Tipo_Entidad,
-                NombreEntidad: result[0].Nombre_Entidad,
-                NitEntidad: result[0].Nit_Entidad,
-                TelefonoEntidad: result[0].Telefono_Entidad,
-                DireccionEntidad: result[0].Direccion_Entidad,
-                CorreoEntidad: result[0].Correo_Entidad,
-                PlanPago: 'disabled',
-                NoUsuarios: result[0].No_Usuarios,
-                NombreContacto: result[0].Encargado_Entidad,
-                IdContacto: result[0].Id_Encargado
+            Persona = {
+                Nombre: result[0].Nombre,
+                Apellidos: result[0].Apellido,
+                TipoIdentificacion: result[0].TIdentificacion,
+                Identificacion: result[0].Identificacion,
+                Telefono: result[0].Telefono,
+                Correo: result[0].Correo,
+                Contraseña: 'xxxx',
+                TipoUsuario: result[0].TipoUsuario,
+                Estado: 'disabled'
             };
 
             variables = {
-                Ruta_Form: '/supadmin/actualizar_entidad',
-                Titulo: 'Actualizacion de Entidad',
+                Ruta_Form: '/supadmin/actualizar_usuario',
+                Titulo: 'Actualizacion de Usuario',
                 Boton: 'Actualizar Usuario'
             }
 
-            res.redirect('/supadmin/entidades');
+            res.redirect('/supadmin/registro');
         }
     });
 };
 
-model.actualizar_entidad = async (req, res) => {
-    console.log("Id de la Empresa " + Id_Company);
-    await pool.query("update entidad set entidad.Nombre = '" + req.body.NombreEntidad + "', entidad.Tipo_Entidad_Id_Tipo_Entidad = " + req.body.TipoEntidad + ", entidad.Nit = " + req.body.NitEntidad + ", entidad.Telefono = '" + req.body.TelefonoEntidad + "', entidad.Direccion = '" + req.body.DireccionEntidad + "', entidad.Correo_Electronico = '" + req.body.CorreoEntidad + "', entidad.Encargado = '" + req.body.NombreContacto + "', entidad.No_Usuarios = " + req.body.NoUsuarios + " where entidad.Id_Entidad = " + Id_Company, (err, result) => {
+model.actualizar_usuario = async (req, res) => {
+    console.log("Id del Usuario " + Id_Usuario);
+
+    let ccs = await pool.query("select persona.Identificacion, usuario.id_Usuario from persona inner join usuario on usuario.Persona_id_Persona = persona.id_Persona where persona.id_Persona = " + Id_Usuario);
+
+    await pool.query("update persona set persona.Nombre = '" + req.body.NombreUsuario + "', persona.Apellido = '" + req.body.ApellidoUsuario + "', persona.Identificacion_id_Identificacion = " + req.body.TIdentificacion + ", persona.Identificacion = '" + req.body.IdentificacionUsuario + "' ,persona.Correo_Electronico = '" + req.body.CorreoPersona + "', persona.Telefono = '" + req.body.TelefonoPersona + "' where persona.id_Persona = " + Id_Usuario, async (err, result) => {
         if (err) {
             console.log(err)
-            Id_Company = '';
+            Id_Usuario = '';
             LimpiarVariables();
             alerta = {
                 tipo: 'peligro',
-                mensaje: "No Se Pudo Actualizar La Entidad" + err
+                mensaje: "No Se Pudo Actualizar El Usuario" + err
             };
-            res.redirect('/supadmin/entidades');
+            res.redirect('/supadmin/registro');
         } else {
-            Id_Company = '';
-            LimpiarVariables();
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'Entidad Modificada Correctamente'
-            };
-
-            res.redirect('/supadmin/entidades');
+            if (ccs[0].Identificacion != req.body.IdentificacionUsuario) {
+                await pool.query("update usuario set usuario.Usuario = '" + req.body.IdentificacionUsuario + "' where usuario.id_Usuario = " + ccs[0].id_Usuario);
+                Id_Usuario = '';
+                LimpiarVariables();
+                alerta = {
+                    tipo: 'correcto',
+                    mensaje: 'Datos Modificados Correctamente Y Usuario se modifico'
+                };
+            } else {
+                Id_Usuario = '';
+                LimpiarVariables();
+                alerta = {
+                    tipo: 'correcto',
+                    mensaje: 'Datos Modificados Correctamente'
+                };
+            }
+            res.redirect('/supadmin/registro');
         }
     });
 
 };
 
-model.desactivar_entidad = async (req, res) => {
-    const { Id_Entidad } = req.params;
+model.desactivar_usuario = async (req, res) => {
+    const { Id_User } = req.params;
 
-    await pool.query("update entidad set entidad.Estado = 'INACTIVO' where entidad.Id_Entidad =" + Id_Entidad, (err, result) => {
+    await pool.query("update registro_ep set registro_ep.Estado = 'INACTIVA' where registro_ep.Persona_id_Persona =" + Id_User, (err, result) => {
         if (err) {
             console.log(err)
+            Id_Usuario = '';
+            LimpiarVariables();
             alerta = {
                 tipo: 'peligro',
                 mensaje: err
             };
 
-            res.redirect('/supadmin/entidades');
+            res.redirect('/supadmin/registro');
         } else {
+            Id_Usuario = '';
+            LimpiarVariables();
             alerta = {
                 tipo: 'correcto',
-                mensaje: 'La Entidad Fue Inactivada Correctamente'
+                mensaje: 'Usuario Desactivado Correctamente'
             };
-
-            res.redirect('/supadmin/entidades');
+            res.redirect('/supadmin/registro');
         }
     })
 };
 
-model.cancelar_modificacion = async (req, res) => {
+model.cancelar_usuario = async (req, res) => {
     LimpiarVariables();
-    Id_Company = '';
-    res.redirect('/supadmin/entidades');
+    Id_Usuario = '';
+    res.redirect('/supadmin/registro');
 };
 //#endregion
 
@@ -234,47 +238,23 @@ function LimpiarVariables() {
     };
 
     variables = {
-        Ruta_Form: '/supadmin/Regis_Entidad',
-        Titulo: 'Registro Entidad',
-        Boton: 'Registrar Entidad'
-    }
-
-    Entidad = {
-        TipoEntidad: '',
-        NombreEntidad: '',
-        NitEntidad: '',
-        TelefonoEntidad: '',
-        DireccionEntidad: '',
-        CorreoEntidad: '',
-        PlanPago: '',
-        NoUsuarios: '',
-        NombreContacto: '',
-        IdContacto: '',
+        Ruta_Form: '/supadmin/regis_user',
+        Titulo: 'Registro Usuario',
+        Boton: 'Registrar Usuario'
     };
 
-};
-
-function LimpiarVariables2() {
-    Variables_Configuracion = {
-        BotonEntidad: 'Guardar',
-        TituloEntidad: 'Tipo Entidades',
-        RutaEntidad: '/supadmin/Registro_TEntidades',
-        BotonIdentificacion: 'Guardar',
-        TituloIdentificacion: 'Identificacion',
-        RutaIdentificacion: '/supadmin/Registro_Identificacion'
+    Persona = {
+        Nombre: '',
+        Apellidos: '',
+        TipoIdentificacion: '',
+        Identificacion: '',
+        Telefono: '',
+        Correo: '',
+        Contraseña: '',
+        TipoUsuario: '',
+        Estado: ''
     };
 
-    Tipo_Entidad = {
-        Nombre_Entidad: '',
-        No_Usuarios: ''
-    };
-
-    Tipo_Identificacion = '';
-
-    alerta = {
-        tipo: '',
-        mensaje: ''
-    };
 };
 //#endregion
 module.exports = model;

@@ -86,7 +86,7 @@ where registro_pe.Estado = 'ACTIVO' and entidad.Estado = 'ACTIVO'
 
 create procedure Registro_Entidades(IN TipoEntidad INT, NombreEntidad VARCHAR(45), NitEntidad VARCHAR(45),TelefonoEntidad VARCHAR(25),DireccionEntidad VARCHAR(45),CorreoEntidad VARCHAR(45),PlanPago INT,NoUsuarios INT,NombreContacto VARCHAR(45),IdContacto VARCHAR(45),Contrasena VARCHAR(65)) 
 not deterministic
-begin 			
+begin 			 
 	declare Id_Empresa int;
 	declare Id_Persona int;
 	declare Users int;	

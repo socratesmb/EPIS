@@ -49,6 +49,15 @@ rutas.get('/supadmin/home', controlSuperAdmin.inicio);
 
 rutas.get('/supadmin/registro', controlSuperAdmin.usuarios);
 
+rutas.post('/supadmin/regis_user', controlSuperAdmin.registro_usuario);
+
+rutas.get('/supadmin/buscar_usuario/:Id_User', controlSuperAdmin.buscar_usuario);
+
+rutas.post('/supadmin/actualizar_usuario', controlSuperAdmin.actualizar_usuario);
+
+rutas.get('/supadmin/desactivar_usuario/:Id_User', controlSuperAdmin.desactivar_usuario);
+
+rutas.get('/supadmin/cancelar', controlSuperAdmin.cancelar_usuario);
 /* ------- Seccion de Administrador -------------
 
 rutas.get('/admin/inicio', controlGeneral.inicio);

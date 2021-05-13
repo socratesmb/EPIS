@@ -59,7 +59,7 @@ inner join permisos on permisos.Rol_Id_Rol = rol.Id_Rol
 inner join menu on menu.Id_Menu = permisos.Menu_Id_Menu
 ORDER BY Menu='Inicio' desc, Menu;
 
-create or replace view `Variables_ Usuario` as 
+create or replace view `Variables_Usuario` as 
 select usuario.Id_Usuario as Id_Usuario ,entidad.Id_Entidad as Id_entidad, entidad.Nombre as Nombre_Entidad, entidad.Nit as Nit_Entidad, persona.Id_Persona as Id_Empleado, concat(persona.Nombre, ' ', persona.Apellido) as Nombre_Usuario, persona.Identificacion as Ident_Usuario, rol.Nombre as Tipo_Usuario
 from usuario
 inner join persona on persona.Id_Persona = usuario.Persona_Id_Persona 
@@ -73,3 +73,36 @@ select concat(persona.nombre,' ', persona.apellido) as Nombre_User, rol.Nombre a
 from persona
 inner join registro_ep on registro_ep.Persona_id_Persona = persona.id_Persona
 inner join rol on rol.id_Rol = registro_ep.Rol_id_Rol;
+
+create or replace view `Datos_Usuarios` as 
+select persona.id_Persona as Id_User, persona.Nombre as Nombre, persona.Apellido as Apellido, identificacion.Tipo as TIdentificacion, persona.identificacion as Identificacion, persona.Telefono as Telefono, persona.Correo_Electronico as Correo, rol.Nombre as TipoUsuario
+from persona
+inner join identificacion on identificacion.id_Identificacion = persona.Identificacion_id_Identificacion
+inner join registro_ep on registro_ep.Persona_Id_Persona = persona.Id_Persona  
+inner join rol on rol.Id_Rol = registro_ep.Rol_Id_Rol; 
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+delimiter //
+create procedure Registro_Usuarios(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identificacion VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT) 
+not deterministic
+begin 			
+	declare Id_Entidad int;
+	declare Id_Persona int;
+	
+	set Id_Entidad = 1;
+
+	INSERT INTO `persona` (`id_Persona`, `Identificacion_id_Identificacion`, `Identificacion`, `Nombre`, `Apellido`, `Correo_Electronico`, `Telefono`) VALUES
+	(default, Tidentificacion, Identificacion, NombreUsuario, ApellidoUsuario, CorreoUsuario, TelefonoUsuario);
+
+	select persona.id_Persona into Id_Persona from persona where persona.Identificacion = Identificacion;
+		
+	INSERT INTO `registro_ep` (`d_Registro_EP`, `Fecha`, `Estado`, `Entidad_id_Entidad`, `Persona_id_Persona`, `Rol_Id_Rol`) VALUES
+	(default, now(), 'ACTIVA', Id_Entidad, Id_Persona, TipoUsuario);
+	
+	INSERT INTO `usuario` (`id_Usuario`, `Usuario`, `Password`, `Persona_id_Persona`) VALUES
+	(default, Identificacion, Contrasena, Id_Persona);
+			
+end;
+//
+
+
