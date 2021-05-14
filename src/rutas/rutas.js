@@ -1,7 +1,5 @@
 const express = require('express');
 const rutas = express.Router();
-
-const pool = require('../database/database');
 const passport = require('passport');
 
 // ---------- Controladores --------------
@@ -10,7 +8,7 @@ const controlAdmin = require('../models/ModeloAdministrador');
 const controlGeneral = require('../models/ModeloGeneral');
 const controlValidacion = require('../controllers/validate');
 const controlDocen = require('../models/ModeloPasante');
-const controlEstud = require('../models/ModeloEmpleado');
+const controlValidate = require('../models/ModeloEmpleado');
 
 //--------- Seccion Del Super Administrador ----------------
 //#region 
@@ -123,15 +121,17 @@ rutas.get('/estudiante/grupos/ver/:Id_Grupo', controlEstud.cargar_actividad);
 
 rutas.post('/estudiante/actividades/guardar', controlEstud.guardar_actividad);
 
+*/
 
 // ------- Seccion Vistas Generales -------------
 
 rutas.get('/perfil', controlGeneral.perfil);
 
-rutas.post('/actualizar_perfil', controlGeneral.perfil_update);
+rutas.post('/perfil/actualizar_perfil', controlGeneral.perfil_update);
 
-rutas.post('/actualizar_password', controlGeneral.password_update);
+rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 
+/*
 rutas.get('/recovery', controlGeneral.recovery);
 
 rutas.post('/send/recovery', controlGeneral.recuperar_password);
@@ -141,22 +141,8 @@ rutas.get('/registro', controlGeneral.registro);
 rutas.post('/crear/usuario', controlGeneral.registro_usuario);
 
 rutas.get('/modelo3d/animal/:Id_Animal/:Id_Hueso', controlGeneral.Cargar_Modelo3D);
+*/
 
 //-----------------------------------------
-
-// Para ver las respuestas de los estudiantes en docentes
-rutas.get('/Grupos', (req, res) => {
-    res.render('grupos.html');
-});
-
-//Para estudiantes responder
-rutas.get('/cuestionario', (req, res) => {
-    res.render('cuestionario.html');
-});
-
-//Para crear la preguntas de docentes
-rutas.get('/preguntas', (req, res) => {
-    res.render('preguntas.html');
-});*/
 
 module.exports = rutas;
