@@ -29,7 +29,7 @@ model.inicio = (req, res, next) => {
                         return next(err);
                     } else {
                         //Registro del menu y guardado en cache
-                        req.session.menu = await pool.query("select * from menu_usuarios where menu_usuarios.Id_Entidad = " + req.session.datos.Id_Entidad + " and menu_usuarios.Id_Persona = " + req.session.datos.Id_Usuario);
+                        req.session.menu = await pool.query("select * from menu_usuarios where menu_usuarios.Id_Entidad = " + req.session.datos.Id_Entidad + " and menu_usuarios.Id_Persona = " + req.session.datos.Id_Empleado);
 
                         if (req.session.datos.Tipo_Usuario == 'SUPER ADMINISTRADOR') {
                             return res.redirect('/supadmin/home');

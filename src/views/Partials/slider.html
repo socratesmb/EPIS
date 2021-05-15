@@ -5,12 +5,12 @@
     <ul class="list-unstyled">
         <%menu.forEach(element =>{ %>
             <% if (element.Orden_Menu == 5) {%>
-                <li><a href="<%=element.Ruta_Menu%>" aria-expanded="false" data-toggle="collapse" class="collapsed"> <i
+                <li><a href="<%=element.Rutas_Menu%>" aria-expanded="false" data-toggle="collapse" class="collapsed"> <i
                             class="<%=element.Icono_Menu %>"></i> <%=element.Menu%></a>
-                    <ul id="accio" class="list-unstyled collapse" style="">
+                    <ul id="accio" class="list-unstyled collapse">
                         <%menu.forEach(element2 => {%>
                             <%if(element2.Orden_Menu > 5){%>
-                                <li><a href="<%=element2.Ruta_Menu%>"><%=element2.Menu%></a></li>
+                                <li><a href="<%=element2.Rutas_Menu%>"><%=element2.Menu%></a></li>
                             <%};%>
                         <%});%>
                     </ul>

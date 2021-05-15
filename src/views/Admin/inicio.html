@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>EPIS</title>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Software para la gestion de inventario">
+    <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Navigate">
+    <meta name="author" content="Sócrates Martínez Berrio">
+
+    <%- include ('../Partials/icono.html'); %>
+    <%- include ('../Partials/style.html'); %>
+
+    <!-- Estilo Propio -->
+    <link rel="stylesheet" href="../files/css/ui-elements/card.css">
+    <link rel="stylesheet" href="../files/css/style.css">
+    
+            
+</head>
+
+<body>
+
+    <!--====================================================
+                             MAIN NAVBAR
+    ======================================================-->
+    <header class="header">
+        <%- include ('../Partials/navbar.html'); %>
+    </header>
+
+    <!--====================================================
+                            PAGE CONTENT
+    ======================================================-->
+    <div class="page-content d-flex align-items-stretch">
+
+        <!--***** SIDE NAVBAR *****-->
+        <%- include ('../Partials/slider.html'); %> 
+
+        <div class="content-inner">
+
+            <!--***** REPORT-1 *****-->
+            <div class="row" id="report1">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="text-left report1-cont">
+                                <h2 class="font-light m-b-0"><i class="ti-arrow-up text-success"></i> $9,220</h2>
+                                <span class="text-warning">Peticiones Actuales</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="text-left report1-cont">
+                                <h2 class="font-light m-b-0"><i class="ti-arrow-up text-danger"></i> $5,530</h2>
+                                <span class="text-info">Bodegas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="text-left report1-cont">
+                                <h2 class="font-light m-b-0"><i class="ti-arrow-up text-warning"></i> $3,620</h2>
+                                <span class="text-success">Productos en Inventario</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="text-left report1-cont">
+                                <h2 class="font-light m-b-0"><i class="ti-arrow-up text-info"></i> $82,600</h2>
+                                <span class="text-danger">Productos Agotados</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    EPIS
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Uniamazonia
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Registraduria Florencia - Caqueta
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright ml-auto">
+                        2021. Realizado por <a href="">Socrates Martinez Berrio</a>
+                    </div>				
+                </div>
+            </footer>
+
+        </div>
+        
+    </div>
+
+    <%- include ('../Partials/js.html'); %>
+</body>
+
+</html>

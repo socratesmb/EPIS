@@ -7,8 +7,7 @@ const controlSuperAdmin = require('../models/ModeloSuperAdmin');
 const controlAdmin = require('../models/ModeloAdministrador');
 const controlGeneral = require('../models/ModeloGeneral');
 const controlValidacion = require('../controllers/validate');
-const controlDocen = require('../models/ModeloPasante');
-const controlValidate = require('../models/ModeloEmpleado');
+const controlPasante = require('../models/ModeloPasante');
 
 //--------- Seccion Del Super Administrador ----------------
 //#region 
@@ -65,11 +64,29 @@ rutas.get('/supadmin/desactivar_usuario/:Id_User', controlSuperAdmin.desactivar_
 rutas.get('/supadmin/cancelar', controlSuperAdmin.cancelar_usuario);
 //#endregion
 
+// ------- Seccion Vistas Generales -------------
+//#region 
+//----- Modelo para Cagar la Vista de Perfil -----
+rutas.get('/perfil', controlGeneral.perfil);
 
-/* ------- Seccion de Administrador -------------
+//----- Modelo para actualizar datos del perfil -----
+rutas.post('/perfil/actualizar_perfil', controlGeneral.perfil_update);
 
-rutas.get('/admin/inicio', controlGeneral.inicio);
+//----- Modelo para modificar la contraseña -----
+rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 
+//#endregion
+
+// ------- Seccion de Administrador -------------
+
+rutas.get('/admin/inicio', controlAdmin.inicio);
+
+rutas.get('/admin/bodega', controlAdmin.bodega);
+
+rutas.post('/admin/bodega/agregar', controlAdmin.crear_bodega);
+
+rutas.get('/admin/bodega/eliminar/:id_Bodega', controlAdmin.desactivar_bodega);
+/*
 rutas.get('/admin/empresa', controlAdmin.empresa);
 
 rutas.post('/admin/empresa/actualizar', controlAdmin.actualizar_entidad);
@@ -87,6 +104,7 @@ rutas.get('/admin/docente/bloquear_docente/:Id_Persona', controlAdmin.desactivar
 rutas.get('/admin/cancelar', controlAdmin.Cancelar_Docente);
 
 rutas.get('/admin/modelos', controlGeneral.Modelo3D);
+
 // ------- Seccion de Docente --------------
 
 rutas.get('/docente/grupos', controlDocen.grupos);
@@ -121,17 +139,7 @@ rutas.get('/estudiante/grupos/ver/:Id_Grupo', controlEstud.cargar_actividad);
 
 rutas.post('/estudiante/actividades/guardar', controlEstud.guardar_actividad);
 
-*/
 
-// ------- Seccion Vistas Generales -------------
-
-rutas.get('/perfil', controlGeneral.perfil);
-
-rutas.post('/perfil/actualizar_perfil', controlGeneral.perfil_update);
-
-rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
-
-/*
 rutas.get('/recovery', controlGeneral.recovery);
 
 rutas.post('/send/recovery', controlGeneral.recuperar_password);

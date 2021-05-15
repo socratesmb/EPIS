@@ -28,45 +28,82 @@ let Docente = {
 let Id_Docente = '';
 //#endregion
 
-
-
-// --------- Seccion para ver empresa y actualizar empresa ----------
-//#region 
-model.empresa = async (req, res) => {
+// ----- Cargar Vista Principal de Inicio de Session -----
+model.inicio = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    const entidad = await pool.query("select * from entidad where entidad.Id_Entidad = " + datos.Id_Entidad);
-
-    res.render('Administrador/empresa.html', { datos, menu, alerta, entidad });
-
-    alerta = {
-        tipo: '',
-        mensaje: ''
-    };
+    res.render('Admin/inicio.html', { datos, menu });
 };
 
-model.actualizar_entidad = async (req, res) => {
+// --------- Seccion para ver bodega y sus productos ----------
+//#region 
+model.bodega = async (req, res) => {
     datos = req.session.datos;
-    await pool.query("update entidad set entidad.Nombre = '" + req.body.NombreEntidad + "', entidad.Nit = " + req.body.NitEntidad + ", entidad.Telefono = '" + req.body.TelefonoEntidad + "', entidad.Direccion = '" + req.body.DireccionEntidad + "', entidad.Correo_Electronico = '" + req.body.CorreoEntidad + "', entidad.Encargado = '" + req.body.NombreContacto + "' where entidad.Id_Entidad = " + datos.Id_Entidad, (err, result) => {
+    menu = req.session.menu;
+
+    const ArrayBodegas = await pool.query('select * from bodega where Entidad_id_Entidad =' + datos.Id_Entidad + ' and bodega.Estado = "ACTIVA";');
+
+    res.render('Admin/bodega.html', { datos, menu, alerta, ArrayBodegas });
+
+    LimpiarVariables();
+};
+
+model.crear_bodega = async (req, res) => {
+    datos = req.session.datos;
+
+    await pool.query("insert into `bodega` (`id_Bodega`, `Cod_Bodega`, `Nombre`, `Tipo_Bodega`, `Estado`, `Entidad_id_Entidad`) values (default, '" + req.body.CodigoBodega + "', '" + req.body.NombreBodega + "', '" + req.body.TipoBodega + "', 'ACTIVA', " + datos.Id_Entidad + ");", (err, result) => {
         if (err) {
             console.log(err)
             alerta = {
                 tipo: 'peligro',
-                mensaje: 'No se Pudo Actualizar la Información' + err
+                mensaje: 'error' + err
             };
-            res.redirect('/admin/empresa');
+            res.redirect('/admin/bodega');
         } else {
-            console.log(result);
+            console.log(result)
             alerta = {
                 tipo: 'correcto',
-                mensaje: 'Información Modificadas Correctamente'
+                mensaje: 'Bodega Creada Correctamente'
             };
-
-            res.redirect('/admin/empresa');
+            res.redirect('/admin/bodega');
         }
     });
 };
+
+model.desactivar_bodega = async (req, res) => {
+    const { id_Bodega } = req.params;
+    await pool.query("update bodega set bodega.Estado = 'INACTIVA' where bodega.id_Bodega =" + id_Bodega, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'error' + err
+            };
+            res.redirect('/admin/bodega');
+        } else {
+            console.log(result)
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Bodega Desactivada'
+            };
+            res.redirect('/admin/bodega');
+        }
+    });
+}
+
+model.ver_bodega = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    const { Id_Grupo } = req.params;
+    IDG = Id_Grupo;
+
+    const ArrayEstudiantes = await pool.query("select * from Lista_Estudiantes_Grupos where Id_Grupo = " + Id_Grupo);
+
+    res.render('Docente/listagrupos.html', { datos, menu, ArrayEstudiantes, alerta });
+    LimpiarVariables();
+}
 //#endregion
 
 // --------- Seccion de vista docente, actualizacion y desactivacion ----------------
