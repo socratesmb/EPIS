@@ -11,7 +11,7 @@ let alerta = {
     tipo: '',
     mensaje: ''
 };
-
+ 
 let Persona = {
     Nombre: '',
     Apellidos: '',

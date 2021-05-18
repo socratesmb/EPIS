@@ -15,7 +15,8 @@ INSERT INTO `menu` (`id_Menu`, `Icono`, `Nombre`, `Ruta`, `Orden`) VALUES
 (default, 'fa fa-file', 'Peticiones', '/admin/peticiones', 4),
 (default, 'fa fa-cog', 'Acciones', '#accio', 5),
 (default, 'fa fa-times', 'Restricciones', '/admin/restricciones', 6),
-(default, 'fa fa-times', 'Registros', '/admin/registros', 7);
+(default, 'fa fa-times', 'Registros', '/admin/registros', 7),
+(default, 'fa fa-times', 'Adiciones', '/admin/adiciones', 8);
 
 INSERT INTO `rol` (`id_Rol`, `Nombre`, `Tipo`) VALUES
 (default, 'SUPER ADMINISTRADOR', 1),
@@ -32,6 +33,7 @@ INSERT INTO `permisos` (`id_Permisos`, `Rol_Id_Rol`, `Menu_Id_Menu`) VALUES
 (default, 2, 7),
 (default, 2, 8),
 (default, 2, 9),
+(default, 2, 10),
 (default, 3, 3),
 (default, 3, 4),
 (default, 3, 5),

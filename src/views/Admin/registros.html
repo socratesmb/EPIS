@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>REGISTROS</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Software para la gestion de inventario">
+    <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Navigate">
+    <meta name="author" content="Sócrates Martínez Berrio">
+
+    <%- include ('../Partials/icono.html'); %>
+    <%- include ('../Partials/style.html'); %>
+
+    <!-- Estilo Propio -->
+    <link rel="stylesheet" href="../files/css/ui-elements/card.css">
+    <link rel="stylesheet" href="../files/css/style.css">
+
+
+</head>
+
+<body>
+
+    <!--====================================================
+                             MAIN NAVBAR
+    ======================================================-->
+    <header class="header">
+        <%- include ('../Partials/navbar.html'); %>
+    </header>
+
+    <!--====================================================
+                            PAGE CONTENT
+    ======================================================-->
+    <div class="page-content d-flex align-items-stretch">
+
+        <!--***** SIDE NAVBAR *****-->
+        <%- include ('../Partials/slider.html'); %>
+
+            <div class="content-inner">
+                <%- include ('../Partials/alertas.html'); %>
+                <div class="main-body">
+                    <div class="page-body">
+                            <div class="card">
+                                <ul class="nav nav-tabs md-tabs " role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#info"
+                                            role="tab"><i class="fa fa-terminal"></i> <%= variables1.Titulo%>
+                                        </a>
+                                        <div class="slide"></div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#listaproductos"
+                                            role="tab"><i class="fa fa-list-ol"></i> Lista Productos</a>
+                                        <div class="slide"></div>
+                                    </li>
+                                </ul>
+    
+                                <div class="tab-content card-block" style="padding: 15px;">
+                                    <div class="tab-pane active" id="info" role="tabpanel">
+                                        <form action="<%= variables1.Ruta_Form%>" method="post">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Nombre</label>
+                                                    <input type="text" style="border-radius:8px;"
+                                                        name="NombreUsuario" id="NombreUsuario" required
+                                                        class="form-control" value="<%= Persona.Nombre%>"
+                                                        title="Nombre del Usuario">
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Apellidos</label>
+                                                    <input type="text" style="border-radius:8px;"
+                                                        name="ApellidoUsuario" id="ApellidoUsuario"
+                                                        required class="form-control" value="<%= Persona.Apellidos%>"
+                                                        title="Ingrese los 2 apellidos">
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Tipo de Identificacion</label>
+                                                    <select class="form-control" name="TIdentificacion"
+                                                        id="TIdentificacion" style="border-radius:8px;" required
+                                                        title="Tipo de Documento de la Persona">
+                                                        <option value="">Seleccione Opción</option>
+                                                        <%if(identif){%>
+                                                            <% for(var i=0; i < identif.length; i++){%>
+                                                                <% if(identif[i].Tipo == Persona.TipoIdentificacion){%>
+                                                                    <option value="<%=identif[i].id_Identificacion%>" selected="selected"> <%= identif[i].Tipo%> </option>  
+                                                                <%} else {%>
+                                                                    <option value="<%=identif[i].id_Identificacion%>"> <%= identif[i].Tipo%> </option>  
+                                                                <%}%>
+                                                            <%}%>
+                                                        <%}%>                                                                    
+                                                    </select>
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Identificacion</label>
+                                                    <input type="text" style="border-radius:8px;"
+                                                        name="IdentificacionUsuario" id="IdentificacionUsuario" required
+                                                        class="form-control" value="<%= Persona.Identificacion%>"
+                                                        title="No de Documento de la Persona">
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Teléfono</label>
+                                                    <input type="number" style="border-radius:8px;"
+                                                        name="TelefonoPersona" id="TelefonoPersona" required
+                                                        class="form-control" value="<%= Persona.Telefono%>" title="Numero para Contacto">
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Correo Electrónico</label>
+                                                    <input type="email" style="border-radius:8px;"
+                                                        name="CorreoPersona" id="CorreoPersona" required
+                                                        class="form-control" value="<%= Persona.Correo%>" title="Correo de Contato">
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Contraseña de la Cuenta</label>
+                                                    <input type="text" style="border-radius:8px;"
+                                                        name="PasswordUsuario" id="PasswordUsuario" required
+                                                        class="form-control" value="<%= Persona.Contraseña%>" title="Nombre Completo" <%=Persona.Estado%> >
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <label>Tipo de Usuario</label>
+                                                    <select class="form-control" name="TipoUsuario"
+                                                        id="TipoUsuario" style="border-radius:8px;" required
+                                                        title="Tipo de Usuario Para Registrar" <%=Persona.Estado%> >
+                                                        <option value="">Seleccione Opción</option>
+                                                        <%if(rol){%>
+                                                            <% for(var i=0; i < rol.length; i++){%>
+                                                                <% if( rol[i].Nombre == Persona.TipoUsuario ){%>
+                                                                    <option value="<%=rol[i].id_Rol%>" selected="selected"> <%= rol[i].Nombre%> </option>  
+                                                                <%} else {%>
+                                                                    <option value="<%=rol[i].id_Rol%>"> <%= rol[i].Nombre%> </option>  
+                                                                <%}%>
+                                                            <%}%>
+                                                        <%}%>  
+                                                    </select>
+                                                </div>
+    
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12" style="text-align: center;">
+                                                    <button class="btn btn-mat btn-success"
+                                                        type="submit"> <%= variables1.Boton%> </button>
+                                                </div>                                                                                                                       
+                                            </div>
+                                            <% if(variables1.Boton == 'Actualizar Usuario'){%>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="text-align: center;">
+                                                        <a href="/supadmin/cancelar" class="btn btn-mat btn-danger"
+                                                            type="submit"> Cancelar Proceso </a>
+                                                    </div>
+                                                </div>
+                                            <%}%>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane" id="listaproductos" role="tabpanel">
+                                        <div class="table-responsive dt-responsive">
+                                            <div id="dom-jqry_wrapper"
+                                                class="dataTables_wrapper dt-bootstrap4">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12">
+                                                        <table id="dom-jqry"
+                                                            class="table table-striped table-bordered nowrap dataTable"
+                                                            role="grid" aria-describedby="dom-jqry_info">
+                                                            <thead>
+                                                                <tr role="row">
+                                                                    <th class="sorting_asc" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1" aria-sort="ascending"
+                                                                        aria-label="Name: activate to sort column descending"
+                                                                        style="width: 50px;">No</th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Position: activate to sort column ascending"
+                                                                        style="width: 150px;">Nombre
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Office: activate to sort column ascending"
+                                                                        style="width: 180px;">Tipo Usuario</th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Age: activate to sort column ascending"
+                                                                        style="width: 115px;">Identificacion</th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Start date: activate to sort column ascending"
+                                                                        style="width: 115px;">Correo
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Salary: activate to sort column ascending"
+                                                                        style="width: 50px;">Telefono
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1"
+                                                                        colspan="1"
+                                                                        aria-label="Salary: activate to sort column ascending"
+                                                                        style="width: 50px;">Estado Cuenta
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0"
+                                                                        aria-controls="dom-jqry" rowspan="1" 
+                                                                        colspan="1"
+                                                                        aria-label="Salary: activate to sort column ascending"
+                                                                        style="width: 81px;">Acciones
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <%if(tusuario){%>
+                                                                <% for(var i=0; i < tusuario.length; i++) {%>
+                                                                <tr>
+                                                                    <td> <%= i+1 %> </td>
+                                                                    <td> <%= tusuario[i].Nombre_User%></td>
+                                                                    <td> <%= tusuario[i].Tipo_Usuario%></td>
+                                                                    <td> <%= tusuario[i].Ident_User%></td>
+                                                                    <td> <%= tusuario[i].Correo_Usuario%></td>
+                                                                    <td> <%= tusuario[i].Telefono_User%></td>
+                                                                    <td> <%= tusuario[i].Estado_Usuario%></td>
+                                                                    <td
+                                                                        style='text-align: center; width: 60px;'>
+                                                                        <a type='button'
+                                                                            class='btn btn-warning bo_fa'
+                                                                            href="/supadmin/buscar_usuario/<%= tusuario[i].Id_User%>"
+                                                                            data-toggle='tooltip' 
+                                                                            data-placement='top'
+                                                                            title='Editar Usuario' style="width: 50px;"><i
+                                                                                class='fa fa-pencil'></i>
+                                                                        </a>
+                                                                        <a type='button'
+                                                                            class='btn btn-danger bo_fa'
+                                                                            href="/supadmin/desactivar_usuario/<%= tusuario[i].Id_User%>"
+                                                                            data-toggle='tooltip'
+                                                                            data-placement='top'
+                                                                            title='Desactivar Usuario' style="width: 50px;"><i
+                                                                                class='fa fa-ban'></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <%}%>
+                                                                <%}%>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    <%- include ('../Partials/js.html'); %>
+
+</body>
+
+</html>

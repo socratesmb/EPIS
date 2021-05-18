@@ -81,76 +81,42 @@ rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 
 rutas.get('/admin/inicio', controlAdmin.inicio);
 
+//----- Subseccion de bodega -----
 rutas.get('/admin/bodega', controlAdmin.bodega);
 
 rutas.post('/admin/bodega/agregar', controlAdmin.crear_bodega);
 
 rutas.get('/admin/bodega/eliminar/:id_Bodega', controlAdmin.desactivar_bodega);
-/*
-rutas.get('/admin/empresa', controlAdmin.empresa);
 
-rutas.post('/admin/empresa/actualizar', controlAdmin.actualizar_entidad);
-
-rutas.get('/admin/docentes', controlAdmin.docente);
-
-rutas.post('/admin/docente/creacion', controlAdmin.registro_docente);
-
-rutas.get('/admin/docente/buscar_docente/:Id_Persona', controlAdmin.buscar_docente);
-
-rutas.post('/admin/docente/actualizacion', controlAdmin.actualizar_docente);
-
-rutas.get('/admin/docente/bloquear_docente/:Id_Persona', controlAdmin.desactivar_docente);
-
-rutas.get('/admin/cancelar', controlAdmin.Cancelar_Docente);
-
-rutas.get('/admin/modelos', controlGeneral.Modelo3D);
-
-// ------- Seccion de Docente --------------
-
-rutas.get('/docente/grupos', controlDocen.grupos);
-
-rutas.post('/docente/grupos/agregar', controlDocen.agregar_grupos);
-
-rutas.get('/docente/grupos/ver/:Id_Grupo', controlDocen.lista_grupos);
-
-rutas.get('/docente/grupos/eliminar/:Id_Grupo', controlDocen.desactivar_grupo);
-
-rutas.get('/docente/grupos/estudiante/:Id_InsGrupo', controlDocen.quitar_estudiante);
-
-rutas.get('/docente/actividades', controlDocen.actividades);
-
-rutas.post('/docente/actividades/guardar', controlDocen.guardar_actividad);
-
-rutas.get('/docente/informes', controlDocen.informes);
-
-rutas.get('/docente/informes/ver/:Id_Grupo', controlDocen.info_notas);
-
-// ------- Seccion de Estudiante --------------
-
-rutas.get('/models/inicio', controlGeneral.inicio);
-
-rutas.get('/estudiante/actividades', controlEstud.actividades);
-
-rutas.post('/estudiante/grupos/agregar', controlEstud.registro_grupo);
-
-rutas.get('/estudiante/grupos/salir/:Id_Grupo', controlEstud.salir_grupo);
-
-rutas.get('/estudiante/grupos/ver/:Id_Grupo', controlEstud.cargar_actividad);
-
-rutas.post('/estudiante/actividades/guardar', controlEstud.guardar_actividad);
+//----- Subseccion de peticiones -----
+rutas.get('/admin/peticiones', controlAdmin.peticiones);
 
 
-rutas.get('/recovery', controlGeneral.recovery);
+//----- Subseccion para registros de productos ------
+rutas.get('/admin/registros', controlAdmin.registros_productos);
 
-rutas.post('/send/recovery', controlGeneral.recuperar_password);
 
-rutas.get('/registro', controlGeneral.registro);
+//----- Subseccion para adiciones de proveedor y tipos de productos ------
+rutas.get('/admin/adiciones', controlAdmin.adiciones);
 
-rutas.post('/crear/usuario', controlGeneral.registro_usuario);
+rutas.post('/admin/adiciones/crear/tipo_producto', controlAdmin.registro_tipo_producto);
 
-rutas.get('/modelo3d/animal/:Id_Animal/:Id_Hueso', controlGeneral.Cargar_Modelo3D);
-*/
+rutas.get('/admin/adiciones/tproductos/buscar/:id_Tipo_Producto', controlAdmin.buscar_tipo_producto);
 
+rutas.post('/admin/adiciones/actualizar/tipo_producto', controlAdmin.actualizar_tipo_producto);
+
+rutas.get('/admin/adiciones/tproductos/borrar/:id_Tipo_Producto', controlAdmin.cambio_estado_tipo_producto);
+
+
+rutas.post('/admin/adiciones/crear/proveedor', controlAdmin.registro_proveedor);
+
+rutas.get('/admin/adiciones/proveedor/buscar/:id_Proveedor', controlAdmin.buscar_proveedor);
+
+rutas.post('/admin/adiciones/actualizar/proveedor', controlAdmin.actualizar_proveedor);
+
+rutas.get('/admin/adiciones/proveedor/borrar/:id_Proveedor', controlAdmin.cambio_estado_proveedor);
+
+rutas.get('/admin/adiciones/cancelar', controlAdmin.adiciones_cancelar);
 //-----------------------------------------
 
 module.exports = rutas;
