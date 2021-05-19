@@ -83,6 +83,12 @@ inner join identificacion on identificacion.id_Identificacion = persona.Identifi
 inner join registro_ep on registro_ep.Persona_Id_Persona = persona.Id_Persona  
 inner join rol on rol.Id_Rol = registro_ep.Rol_Id_Rol; 
 
+create or replace view  `Lista_Productos` as
+select tipo_producto.Nombre as Tipo_Producto, producto.Cod_Producto as Codigo_Producto, producto.Nombre as Nombre_Producto, producto.Cantidad_Producto as Cantidad_Producto, producto.Descripcion as Descripcion_Producto, producto.Estado as Estado_Producto, proveedor.Nombre as Nombre_Proveedor
+from producto
+inner join tipo_producto on tipo_producto.id_Tipo_Producto = producto.Tipo_Producto_id_Tipo_Producto 
+inner join proveedor on proveedor.id_Proveedor = producto.Proveedor_id_Proveedor;
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 delimiter //
 create procedure Registro_Usuarios(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identificacion VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT) 

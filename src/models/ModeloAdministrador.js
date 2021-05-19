@@ -18,6 +18,14 @@ let variables1 = {
     Boton: 'Registrar Producto'
 };
 
+let Productos = {
+    Tipo_Producto: '',
+    Codigo_Producto: '',
+    Nombre_Producto: '',
+    Descripcion_Producto: '',
+    Proveedor: '',
+    Bodegas: ''
+}
 
 let variables2 = {
     Ruta_Form: '/admin/adiciones/crear/tipo_producto',
@@ -139,110 +147,6 @@ model.peticiones = async (req, res) => {
 
     LimpiarVariables();
 };
-
-model.registro_docente = async (req, res) => {
-    datos = req.session.datos;
-    var contrasena = await helpers.encryptPassword(req.body.Identificacion);
-
-    await pool.query("call Registro_Docente('" + req.body.NombreDocente + "', '" + req.body.ApellidoDocente + "', " + req.body.Identificacion + ", '" + req.body.Correo + "', " + datos.Id_Entidad + ", '" + contrasena + "')", async (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'Error al registrar el Usuario' + err
-            }
-            res.redirect('/admin/adiciones');
-        } else {
-            //correo.RegistroUsuario(req.body.Correo, req.body.Identificacion, req.body.Identificacion);
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'El Usuario Ha Sido Creado, Por favor Revisar Correo Electronico'
-            }
-            res.redirect('/admin/adiciones');
-        }
-    });
-};
-
-model.buscar_docente = async (req, res) => {
-    const { Id_Persona } = req.params;
-    Id_Docente = Id_Persona;
-    await pool.query('select persona.Nombre, persona.Apellido, persona.Identificacion, persona.Correo_Electronico from persona where persona.Id_Persona = ' + Id_Persona, (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'Error al Consultar el Usuario' + err
-            }
-            res.redirect('/admin/adiciones');
-        } else {
-            console.log(result);
-
-            Docente = {
-                Nombre: result[0].Nombre,
-                Apellido: result[0].Apellido,
-                Identificacion: result[0].Identificacion,
-                Correo: result[0].Correo_Electronico
-            }
-
-            variables = {
-                Ruta_Form: '/admin/docente/actualizacion',
-                Titulo: 'Actualizar Docente',
-                Boton: 'Actualizar Docente'
-            };
-
-            res.redirect('/admin/adiciones');
-        }
-    });
-
-};
-
-model.actualizar_docente = async (req, res) => {
-    console.log("Id del Docente: " + Id_Docente);
-    await pool.query("update persona set persona.Nombre = '" + req.body.NombreDocente + "', persona.Apellido = '" + req.body.ApellidoDocente + "', persona.Identificacion = " + req.body.Identificacion + ", persona.Correo_Electronico = '" + req.body.Correo + "' where persona.Id_Persona = " + Id_Docente, (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'Error En el Proceso' + err
-            }
-            res.redirect('/admin/adiciones');
-        } else {
-            console.log(result)
-            LimpiarVariables();
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'El Docente fue Modificado Correctamente'
-            }
-            res.redirect('/admin/adiciones');
-        }
-    });
-};
-
-model.desactivar_docente = async (req, res) => {
-    const { Id_Persona } = req.params;
-    await pool.query("update registro_pe set registro_pe.Estado = 'INACTIVO' where registro_pe.Persona_Id_Persona = " + Id_Persona, (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'Error al registrar el Usuario' + err
-            }
-            res.redirect('/admin/adiciones');
-        } else {
-            console.log(result)
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'El Docente fue Desactivado'
-            }
-            res.redirect('/admin/adiciones');
-        }
-    });
-};
-
-model.Cancelar_Docente = async (req, res) => {
-    LimpiarVariables();
-    res.redirect('/admin/adiciones');
-};
 //#endregion
 
 //----- Seccion para Registros de Productos -----
@@ -252,10 +156,18 @@ model.registros_productos = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    const ListaBodegas = await pool.query('select * from bodega where Estado = "ACTIVA" and Entidad_id_Entidad = ' + datos.Id_Entidad);
 
-    res.render('Admin/registros.html', { datos, menu, alerta, ListaBodegas, variables1 });
+    const ListaTProductos = await pool.query('select * from tipo_producto where tipo_producto.Estado = "ACTIVO"');
+    const ListaProveedor = await pool.query('select * from proveedor where proveedor.Estado = "ACTIVO"');
+    const ListaBodegas = await pool.query('select * from bodega where Estado = "ACTIVA" and Entidad_id_Entidad = ' + datos.Id_Entidad);
+    const ListaProductos = await pool.query('select * from lista_productos');
+
+    res.render('Admin/registros.html', { datos, menu, alerta, variables1, Productos, ListaTProductos, ListaProveedor, ListaBodegas, ListaProductos});
 };
+
+model.registrar_producto = async (req, res) => {
+    console.log(req.body);
+}
 
 //#endregion
 

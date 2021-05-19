@@ -95,6 +95,8 @@ rutas.get('/admin/peticiones', controlAdmin.peticiones);
 //----- Subseccion para registros de productos ------
 rutas.get('/admin/registros', controlAdmin.registros_productos);
 
+rutas.post('/admin/registro_productos/crear', controlAdmin.registrar_producto);
+
 
 //----- Subseccion para adiciones de proveedor y tipos de productos ------
 rutas.get('/admin/adiciones', controlAdmin.adiciones);

@@ -59,87 +59,77 @@
                                 <div class="tab-content card-block" style="padding: 15px;">
                                     <div class="tab-pane active" id="info" role="tabpanel">
                                         <form action="<%= variables1.Ruta_Form%>" method="post">
-                                            <div class="row">
+                                            <div class="row"> 
+
                                                 <div class="col-md-6">
-                                                    <label>Nombre</label>
-                                                    <input type="text" style="border-radius:8px;"
-                                                        name="NombreUsuario" id="NombreUsuario" required
-                                                        class="form-control" value="<%= Persona.Nombre%>"
-                                                        title="Nombre del Usuario">
-                                                </div>
-    
-                                                <div class="col-md-6">
-                                                    <label>Apellidos</label>
-                                                    <input type="text" style="border-radius:8px;"
-                                                        name="ApellidoUsuario" id="ApellidoUsuario"
-                                                        required class="form-control" value="<%= Persona.Apellidos%>"
-                                                        title="Ingrese los 2 apellidos">
-                                                </div>
-    
-                                                <div class="col-md-6">
-                                                    <label>Tipo de Identificacion</label>
-                                                    <select class="form-control" name="TIdentificacion"
-                                                        id="TIdentificacion" style="border-radius:8px;" required
-                                                        title="Tipo de Documento de la Persona">
+                                                    <label>Tipo de Producto</label>
+                                                    <select class="form-control" name="TProducto"
+                                                        id="TProducto" style="border-radius:8px;" required
+                                                        title="Categoria del Producto a Ingresar">
                                                         <option value="">Seleccione Opción</option>
-                                                        <%if(identif){%>
-                                                            <% for(var i=0; i < identif.length; i++){%>
-                                                                <% if(identif[i].Tipo == Persona.TipoIdentificacion){%>
-                                                                    <option value="<%=identif[i].id_Identificacion%>" selected="selected"> <%= identif[i].Tipo%> </option>  
+                                                        <%if(ListaTProductos){%>
+                                                            <% for(var i=0; i < ListaTProductos.length; i++){%>
+                                                                <% if(ListaTProductos[i].Nombre == Productos.Tipo_Producto){%>
+                                                                    <option value="<%=ListaTProductos[i].id_Tipo_Producto%>" selected="selected"> <%= ListaTProductos[i].Nombre%> </option>  
                                                                 <%} else {%>
-                                                                    <option value="<%=identif[i].id_Identificacion%>"> <%= identif[i].Tipo%> </option>  
+                                                                    <option value="<%=ListaTProductos[i].id_Tipo_Producto%>"> <%= ListaTProductos[i].Nombre%> </option>  
                                                                 <%}%>
                                                             <%}%>
                                                         <%}%>                                                                    
                                                     </select>
                                                 </div>
-    
+
                                                 <div class="col-md-6">
-                                                    <label>Identificacion</label>
+                                                    <label>Codigo Producto</label>
                                                     <input type="text" style="border-radius:8px;"
-                                                        name="IdentificacionUsuario" id="IdentificacionUsuario" required
-                                                        class="form-control" value="<%= Persona.Identificacion%>"
-                                                        title="No de Documento de la Persona">
+                                                        name="CodigoProducto" id="CodigoProducto" required
+                                                        class="form-control" value="<%= Productos.Codigo_Producto%>"
+                                                        title="Codigo Unico del Producto">
                                                 </div>
     
                                                 <div class="col-md-6">
-                                                    <label>Teléfono</label>
-                                                    <input type="number" style="border-radius:8px;"
-                                                        name="TelefonoPersona" id="TelefonoPersona" required
-                                                        class="form-control" value="<%= Persona.Telefono%>" title="Numero para Contacto">
-                                                </div>
-    
-                                                <div class="col-md-6">
-                                                    <label>Correo Electrónico</label>
-                                                    <input type="email" style="border-radius:8px;"
-                                                        name="CorreoPersona" id="CorreoPersona" required
-                                                        class="form-control" value="<%= Persona.Correo%>" title="Correo de Contato">
-                                                </div>
-    
-                                                <div class="col-md-6">
-                                                    <label>Contraseña de la Cuenta</label>
+                                                    <label>Nombre Producto</label>
                                                     <input type="text" style="border-radius:8px;"
-                                                        name="PasswordUsuario" id="PasswordUsuario" required
-                                                        class="form-control" value="<%= Persona.Contraseña%>" title="Nombre Completo" <%=Persona.Estado%> >
+                                                        name="NombreProducto" id="NombreProducto"
+                                                        required class="form-control" value="<%= Productos.Nombre_Producto%>"
+                                                        title="Nombre Caracteristico">
                                                 </div>
     
                                                 <div class="col-md-6">
-                                                    <label>Tipo de Usuario</label>
-                                                    <select class="form-control" name="TipoUsuario"
-                                                        id="TipoUsuario" style="border-radius:8px;" required
-                                                        title="Tipo de Usuario Para Registrar" <%=Persona.Estado%> >
+                                                    <label>Descripcion Producto</label>
+                                                    <input type="text" style="border-radius:8px;"
+                                                        name="DescripcionProducto" id="DescripcionProducto" required
+                                                        class="form-control" value="<%= Productos.Descripcion_Producto%>" title="Alguna observacion del producto">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label>Proveedor</label>
+                                                    <select class="form-control" name="TIdentificacion"
+                                                        id="TIdentificacion" style="border-radius:8px;" required
+                                                        title="Tipo de Documento de la Productos">
                                                         <option value="">Seleccione Opción</option>
-                                                        <%if(rol){%>
-                                                            <% for(var i=0; i < rol.length; i++){%>
-                                                                <% if( rol[i].Nombre == Persona.TipoUsuario ){%>
-                                                                    <option value="<%=rol[i].id_Rol%>" selected="selected"> <%= rol[i].Nombre%> </option>  
+                                                        <%if(ListaProveedor){%>
+                                                            <% for(var i=0; i < ListaProveedor.length; i++){%>
+                                                                <% if(ListaProveedor[i].Nombre == Productos.Proveedor){%>
+                                                                    <option value="<%=ListaProveedor[i].id_Proveedor%>" selected="selected"> <%= ListaProveedor[i].Nombre%> </option>  
                                                                 <%} else {%>
-                                                                    <option value="<%=rol[i].id_Rol%>"> <%= rol[i].Nombre%> </option>  
+                                                                    <option value="<%=ListaProveedor[i].id_Proveedor%>"> <%= ListaProveedor[i].Nombre%> </option>  
                                                                 <%}%>
                                                             <%}%>
-                                                        <%}%>  
+                                                        <%}%>                                                                    
                                                     </select>
                                                 </div>
+                                                
+                                                <%if(ListaBodegas){%>
+                                                    <%ListaBodegas.forEach(element => { %>
+                                                        <div class="col-md-6">
+                                                            <label><%=element.Cod_Bodega%> - <%=element.Nombre%></label>
+                                                            <input type="number" style="border-radius:8px;"
+                                                                name="<%=element.id_Bodega%>" id="<%=element.id_Bodega%>" required
+                                                                class="form-control" value="0" title="Cantidad de Productos En Bodega">
+                                                        </div>
+                                                    <%});%>
+                                                <%}%>                                                
     
                                             </div>
                                             <br>
@@ -149,7 +139,7 @@
                                                         type="submit"> <%= variables1.Boton%> </button>
                                                 </div>                                                                                                                       
                                             </div>
-                                            <% if(variables1.Boton == 'Actualizar Usuario'){%>
+                                            <% if(variables1.Boton == 'Actualizar Producto'){%>
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-md-12" style="text-align: center;">
@@ -171,80 +161,45 @@
                                                             role="grid" aria-describedby="dom-jqry_info">
                                                             <thead>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1" aria-sort="ascending"
-                                                                        aria-label="Name: activate to sort column descending"
-                                                                        style="width: 50px;">No</th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Position: activate to sort column ascending"
-                                                                        style="width: 150px;">Nombre
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Office: activate to sort column ascending"
-                                                                        style="width: 180px;">Tipo Usuario</th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Age: activate to sort column ascending"
-                                                                        style="width: 115px;">Identificacion</th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Start date: activate to sort column ascending"
-                                                                        style="width: 115px;">Correo
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Salary: activate to sort column ascending"
-                                                                        style="width: 50px;">Telefono
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1"
-                                                                        colspan="1"
-                                                                        aria-label="Salary: activate to sort column ascending"
-                                                                        style="width: 50px;">Estado Cuenta
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0"
-                                                                        aria-controls="dom-jqry" rowspan="1" 
-                                                                        colspan="1"
-                                                                        aria-label="Salary: activate to sort column ascending"
-                                                                        style="width: 81px;">Acciones
-                                                                    </th>
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1" aria-sort="ascending">No</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Tipo Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Codigo Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Nombre Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Cantidad Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Descripcion Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Estado Producto</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1"  colspan="1">Nombre_Proveedor</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1"  colspan="1">Acciones</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <%if(tusuario){%>
-                                                                <% for(var i=0; i < tusuario.length; i++) {%>
+                                                                <%if(ListaProductos){%>
+                                                                <% for(var i=0; i < ListaProductos.length; i++) {%>
                                                                 <tr>
                                                                     <td> <%= i+1 %> </td>
-                                                                    <td> <%= tusuario[i].Nombre_User%></td>
-                                                                    <td> <%= tusuario[i].Tipo_Usuario%></td>
-                                                                    <td> <%= tusuario[i].Ident_User%></td>
-                                                                    <td> <%= tusuario[i].Correo_Usuario%></td>
-                                                                    <td> <%= tusuario[i].Telefono_User%></td>
-                                                                    <td> <%= tusuario[i].Estado_Usuario%></td>
+                                                                    <td> <%= ListaProductos[i].Tipo_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Codigo_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Nombre_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Cantidad_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Descripcion_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Estado_Producto%></td>
+                                                                    <td> <%= ListaProductos[i].Nombre_Proveedor%></td>
                                                                     <td
                                                                         style='text-align: center; width: 60px;'>
                                                                         <a type='button'
                                                                             class='btn btn-warning bo_fa'
-                                                                            href="/supadmin/buscar_usuario/<%= tusuario[i].Id_User%>"
+                                                                            href="/admin/registro_productos/buscar/<%= ListaProductos[i].Id_User%>"
                                                                             data-toggle='tooltip' 
                                                                             data-placement='top'
-                                                                            title='Editar Usuario' style="width: 50px;"><i
+                                                                            title='Editar Producto' style="width: 50px;"><i
                                                                                 class='fa fa-pencil'></i>
                                                                         </a>
                                                                         <a type='button'
                                                                             class='btn btn-danger bo_fa'
-                                                                            href="/supadmin/desactivar_usuario/<%= tusuario[i].Id_User%>"
+                                                                            href="/admin/registro_productos/desactivar/<%= ListaProductos[i].Id_User%>"
                                                                             data-toggle='tooltip'
                                                                             data-placement='top'
-                                                                            title='Desactivar Usuario' style="width: 50px;"><i
+                                                                            title='Desactivar Producto' style="width: 50px;"><i
                                                                                 class='fa fa-ban'></i>
                                                                         </a>
                                                                     </td>
