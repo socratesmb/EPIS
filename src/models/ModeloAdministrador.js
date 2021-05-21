@@ -23,9 +23,11 @@ let Productos = {
     Codigo_Producto: '',
     Nombre_Producto: '',
     Descripcion_Producto: '',
-    Proveedor: '',
-    Bodegas: ''
+    Bodega1: '0',
+    Bodega2: '0'
 }
+
+let Id_Produc = '';
 
 let variables2 = {
     Ruta_Form: '/admin/adiciones/crear/tipo_producto',
@@ -54,6 +56,7 @@ let Proveedor = {
     Direccion: '',
     Telefono: ''
 }
+
 //#endregion
 
 // ----- Cargar Vista Principal de Inicio de Session -----
@@ -63,76 +66,6 @@ model.inicio = async (req, res) => {
 
     res.render('Admin/inicio.html', { datos, menu });
 };
-
-// --------- Seccion para ver bodega y sus productos ----------
-//#region 
-model.bodega = async (req, res) => {
-    datos = req.session.datos;
-    menu = req.session.menu;
-
-    const ArrayBodegas = await pool.query('select * from bodega where Entidad_id_Entidad =' + datos.Id_Entidad + ' and bodega.Estado = "ACTIVA";');
-
-    res.render('Admin/bodega.html', { datos, menu, alerta, ArrayBodegas });
-
-    LimpiarVariables();
-};
-
-model.crear_bodega = async (req, res) => {
-    datos = req.session.datos;
-
-    await pool.query("insert into `bodega` (`id_Bodega`, `Cod_Bodega`, `Nombre`, `Tipo_Bodega`, `Estado`, `Entidad_id_Entidad`) values (default, '" + req.body.CodigoBodega + "', '" + req.body.NombreBodega + "', '" + req.body.TipoBodega + "', 'ACTIVA', " + datos.Id_Entidad + ");", (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'error' + err
-            };
-            res.redirect('/admin/bodega');
-        } else {
-            console.log(result)
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'Bodega Creada Correctamente'
-            };
-            res.redirect('/admin/bodega');
-        }
-    });
-};
-
-model.desactivar_bodega = async (req, res) => {
-    const { id_Bodega } = req.params;
-    await pool.query("update bodega set bodega.Estado = 'INACTIVA' where bodega.id_Bodega =" + id_Bodega, (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'error' + err
-            };
-            res.redirect('/admin/bodega');
-        } else {
-            console.log(result)
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'Bodega Desactivada'
-            };
-            res.redirect('/admin/bodega');
-        }
-    });
-}
-
-model.ver_bodega = async (req, res) => {
-    datos = req.session.datos;
-    menu = req.session.menu;
-
-    const { Id_Grupo } = req.params;
-    IDG = Id_Grupo;
-
-    const ArrayEstudiantes = await pool.query("select * from Lista_Estudiantes_Grupos where Id_Grupo = " + Id_Grupo);
-
-    res.render('Docente/listagrupos.html', { datos, menu, ArrayEstudiantes, alerta });
-    LimpiarVariables();
-}
-//#endregion
 
 // --------- Seccion para peticiones y atenderlas --------
 //#region 
@@ -158,17 +91,115 @@ model.registros_productos = async (req, res) => {
 
 
     const ListaTProductos = await pool.query('select * from tipo_producto where tipo_producto.Estado = "ACTIVO"');
-    const ListaProveedor = await pool.query('select * from proveedor where proveedor.Estado = "ACTIVO"');
     const ListaBodegas = await pool.query('select * from bodega where Estado = "ACTIVA" and Entidad_id_Entidad = ' + datos.Id_Entidad);
-    const ListaProductos = await pool.query('select * from lista_productos');
+    const ListaProductos = await pool.query('select distinct(Id_Producto), Tipo_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto from lista_productos');
 
-    res.render('Admin/registros.html', { datos, menu, alerta, variables1, Productos, ListaTProductos, ListaProveedor, ListaBodegas, ListaProductos});
+    res.render('Admin/registros.html', { datos, menu, alerta, variables1, Productos, ListaTProductos, ListaBodegas, ListaProductos });
+    LimpiarVariables();
 };
 
 model.registrar_producto = async (req, res) => {
-    console.log(req.body);
+    ArrayLista = req.body;
+    console.log(ArrayLista);
+
+    await pool.query("call Registro_Productos(" + req.body.TProducto + ", '" + req.body.CodigoProducto + "', '" + req.body.NombreProducto + "', '" + req.body.DescripcionProducto + "', " + req.body.Id_1 + ", " + req.body.Id_2 + ")", (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'error' + err.sqlMessage
+            };
+            res.redirect('/admin/registros');
+        } else {
+            console.log(result)
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Producto Creado Correctamente'
+            };
+            res.redirect('/admin/registros');
+        }
+    });
 }
 
+model.buscar_producto = async (req, res) => {
+    const { Id_Producto } = req.params;
+    Id_Produc = Id_Producto;
+    console.log('LLego aca' + Id_Produc + Id_Producto)
+    await pool.query("select * from lista_productos where Id_Producto =" + Id_Producto, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: err
+            };
+
+            res.redirect('/admin/registros');
+        } else {
+            console.log(result)
+            console.log(result.length)
+
+            if (result.length == 2) {
+                if (result[0].Nombre_Bodega == 'INSUMOS RAPIDOS' && result[1].Nombre_Bodega == 'BODEGA') {
+                    Productos = {
+                        Tipo_Producto: result[0].Tipo_Producto,
+                        Codigo_Producto: result[0].Codigo_Producto,
+                        Nombre_Producto: result[0].Nombre_Producto,
+                        Descripcion_Producto: result[0].Descripcion_Producto,
+                        Bodega1: result[0].Inventario_Bodega,
+                        Bodega2: result[1].Inventario_Bodega
+                    }
+                } if (result[0].Nombre_Bodega == 'BODEGA' && result[1].Nombre_Bodega == 'INSUMOS RAPIDOS') {
+                    Productos = {
+                        Tipo_Producto: result[0].Tipo_Producto,
+                        Codigo_Producto: result[0].Codigo_Producto,
+                        Nombre_Producto: result[0].Nombre_Producto,
+                        Descripcion_Producto: result[0].Descripcion_Producto,
+                        Bodega1: result[1].Inventario_Bodega,
+                        Bodega2: result[0].Inventario_Bodega
+                    }
+                } 
+
+            }
+            if (result.length == 1) {
+                if (result[0].Nombre_Bodega == 'INSUMOS RAPIDOS') {
+                    Productos = {
+                        Tipo_Producto: result[0].Tipo_Producto,
+                        Codigo_Producto: result[0].Codigo_Producto,
+                        Nombre_Producto: result[0].Nombre_Producto,
+                        Descripcion_Producto: result[0].Descripcion_Producto,
+                        Bodega1: result[0].Inventario_Bodega,
+                        Bodega2: '0'
+                    }
+                } if (result[0].Nombre_Bodega == 'BODEGA') {
+                    Productos = {
+                        Tipo_Producto: result[0].Tipo_Producto,
+                        Codigo_Producto: result[0].Codigo_Producto,
+                        Nombre_Producto: result[0].Nombre_Producto,
+                        Descripcion_Producto: result[0].Descripcion_Producto,
+                        Bodega1: '0',
+                        Bodega2: result[0].Inventario_Bodega
+                    }
+                }
+
+            }
+
+            variables1 = {
+                Ruta_Form: '/admin/registro_productos/actualizar',
+                Titulo: 'Actualizacion de Producto',
+                Boton: 'Actualizar Producto'
+            };
+
+            console.log(Productos)
+
+            res.redirect('/admin/registros');
+        }
+    });
+}
+
+model.cancelar_registro = async (req, res) => {
+    LimpiarVariables();
+    res.redirect('/admin/registros');
+}
 //#endregion
 
 //----- Seccion para Registro de Proveedor, Tipo Productos
@@ -438,18 +469,25 @@ model.adiciones_cancelar = async (req, res) => {
 //------- Funciones de Limpieza de Variables ----------
 //#region 
 function LimpiarVariables() {
-    variables = {
+    variables1 = {
         Ruta_Form: '/admin/docente/creacion',
         Titulo: 'Registro Docente',
         Boton: 'Registrar Docente'
     };
 
+    Productos = {
+        Tipo_Producto: '',
+        Codigo_Producto: '',
+        Nombre_Producto: '',
+        Descripcion_Producto: '',
+        Bodega1: '0',
+        Bodega2: '0'
+    }
+
     alerta = {
         tipo: '',
         mensaje: ''
     };
-
-    Id_Persona = '';
 }
 
 function LimpiarVariables2() {

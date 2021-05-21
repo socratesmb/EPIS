@@ -91,7 +91,7 @@ model.registro_usuario = async (req, res) => {
                 alerta = {
                     tipo: 'peligro',
                     mensaje: err
-                };
+                }; 
 
                 res.redirect('/supadmin/registro');
             } else {
@@ -217,6 +217,76 @@ model.cancelar_usuario = async (req, res) => {
     res.redirect('/supadmin/registro');
 };
 
+//#endregion
+
+// --------- Seccion para ver bodega y sus productos ----------
+//#region 
+model.bodega = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    const ArrayBodegas = await pool.query('select * from bodega where Entidad_id_Entidad =' + datos.Id_Entidad + ' and bodega.Estado = "ACTIVA";');
+
+    res.render('SuperAdmin/bodega.html', { datos, menu, alerta, ArrayBodegas });
+
+    LimpiarVariables();
+};
+
+model.crear_bodega = async (req, res) => {
+    datos = req.session.datos;
+
+    await pool.query("insert into `bodega` (`id_Bodega`, `Cod_Bodega`, `Nombre`, `Tipo_Bodega`, `Estado`, `Entidad_id_Entidad`) values (default, '" + req.body.CodigoBodega + "', '" + req.body.NombreBodega + "', '" + req.body.TipoBodega + "', 'ACTIVA', " + datos.Id_Entidad + ");", (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'error' + err
+            };
+            res.redirect('/supadmin/bodega');
+        } else {
+            console.log(result)
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Bodega Creada Correctamente'
+            };
+            res.redirect('/supadmin/bodega');
+        }
+    });
+};
+
+model.desactivar_bodega = async (req, res) => {
+    const { id_Bodega } = req.params;
+    await pool.query("update bodega set bodega.Estado = 'INACTIVA' where bodega.id_Bodega =" + id_Bodega, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'error' + err
+            };
+            res.redirect('/supadmin/bodega');
+        } else {
+            console.log(result)
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Bodega Desactivada'
+            };
+            res.redirect('/supadmin/bodega');
+        }
+    });
+}
+
+model.ver_bodega = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    const { Id_Grupo } = req.params;
+    IDG = Id_Grupo;
+
+    const ArrayEstudiantes = await pool.query("select * from Lista_Estudiantes_Grupos where Id_Grupo = " + Id_Grupo);
+
+    res.render('Docente/listagrupos.html', { datos, menu, ArrayEstudiantes, alerta });
+    LimpiarVariables();
+}
 //#endregion
 
 //------- Funciones de Limpieza de Variables ----------

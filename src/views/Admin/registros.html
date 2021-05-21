@@ -103,34 +103,19 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label>Proveedor</label>
-                                                    <select class="form-control" name="TIdentificacion"
-                                                        id="TIdentificacion" style="border-radius:8px;" required
-                                                        title="Tipo de Documento de la Productos">
-                                                        <option value="">Seleccione Opción</option>
-                                                        <%if(ListaProveedor){%>
-                                                            <% for(var i=0; i < ListaProveedor.length; i++){%>
-                                                                <% if(ListaProveedor[i].Nombre == Productos.Proveedor){%>
-                                                                    <option value="<%=ListaProveedor[i].id_Proveedor%>" selected="selected"> <%= ListaProveedor[i].Nombre%> </option>  
-                                                                <%} else {%>
-                                                                    <option value="<%=ListaProveedor[i].id_Proveedor%>"> <%= ListaProveedor[i].Nombre%> </option>  
-                                                                <%}%>
-                                                            <%}%>
-                                                        <%}%>                                                                    
-                                                    </select>
-                                                </div>
+                                                    <label><%=ListaBodegas[0].Cod_Bodega%> - <%=ListaBodegas[0].Nombre%> </label>
+                                                    <input type="number" style="border-radius:8px;" min="0" pattern="^[0-9]+"
+                                                        name="Id_<%=ListaBodegas[0].id_Bodega%>" id="Id_<%=ListaBodegas[0].id_Bodega%>" required
+                                                        class="form-control" value="<%=Productos.Bodega1%>" title="Cantidad de Productos En Bodega">
+                                                </div>                                               
                                                 
-                                                <%if(ListaBodegas){%>
-                                                    <%ListaBodegas.forEach(element => { %>
-                                                        <div class="col-md-6">
-                                                            <label><%=element.Cod_Bodega%> - <%=element.Nombre%></label>
-                                                            <input type="number" style="border-radius:8px;"
-                                                                name="<%=element.id_Bodega%>" id="<%=element.id_Bodega%>" required
-                                                                class="form-control" value="0" title="Cantidad de Productos En Bodega">
-                                                        </div>
-                                                    <%});%>
-                                                <%}%>                                                
-    
+                                                <div class="col-md-6">
+                                                    <label><%=ListaBodegas[1].Cod_Bodega%> - <%=ListaBodegas[1].Nombre%> </label>
+                                                    <input type="number" style="border-radius:8px;" min="0" pattern="^[0-9]+"
+                                                        name="Id_<%=ListaBodegas[1].id_Bodega%>" id="Id_<%=ListaBodegas[1].id_Bodega%>" required
+                                                        class="form-control" value="<%=Productos.Bodega2%>" title="Cantidad de Productos En Bodega">
+                                                </div>  
+                                                  
                                             </div>
                                             <br>
                                             <div class="row">
@@ -139,11 +124,11 @@
                                                         type="submit"> <%= variables1.Boton%> </button>
                                                 </div>                                                                                                                       
                                             </div>
-                                            <% if(variables1.Boton == 'Actualizar Producto'){%>
+                                            <% if(variables1.Boton == 'Actualizar Producto'){ %>
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-md-12" style="text-align: center;">
-                                                        <a href="/supadmin/cancelar" class="btn btn-mat btn-danger"
+                                                        <a href="/admin/registros/cancelar" class="btn btn-mat btn-danger"
                                                             type="submit"> Cancelar Proceso </a>
                                                     </div>
                                                 </div>
@@ -168,7 +153,6 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Cantidad Producto</th>
                                                                     <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Descripcion Producto</th>
                                                                     <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Estado Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1"  colspan="1">Nombre_Proveedor</th>
                                                                     <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1"  colspan="1">Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -183,25 +167,16 @@
                                                                     <td> <%= ListaProductos[i].Cantidad_Producto%></td>
                                                                     <td> <%= ListaProductos[i].Descripcion_Producto%></td>
                                                                     <td> <%= ListaProductos[i].Estado_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Nombre_Proveedor%></td>
                                                                     <td
                                                                         style='text-align: center; width: 60px;'>
                                                                         <a type='button'
                                                                             class='btn btn-warning bo_fa'
-                                                                            href="/admin/registro_productos/buscar/<%= ListaProductos[i].Id_User%>"
+                                                                            href="/admin/registro_productos/buscar/<%= ListaProductos[i].Id_Producto%>"
                                                                             data-toggle='tooltip' 
                                                                             data-placement='top'
                                                                             title='Editar Producto' style="width: 50px;"><i
                                                                                 class='fa fa-pencil'></i>
-                                                                        </a>
-                                                                        <a type='button'
-                                                                            class='btn btn-danger bo_fa'
-                                                                            href="/admin/registro_productos/desactivar/<%= ListaProductos[i].Id_User%>"
-                                                                            data-toggle='tooltip'
-                                                                            data-placement='top'
-                                                                            title='Desactivar Producto' style="width: 50px;"><i
-                                                                                class='fa fa-ban'></i>
-                                                                        </a>
+                                                                        </a>                                                                        
                                                                     </td>
                                                                 </tr>
                                                                 <%}%>

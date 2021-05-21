@@ -113,5 +113,28 @@ begin
 end;
 //
 
+create procedure `Registro_Productos` (IN Tipo_Producto INT, Codigo_Producto VARCHAR(65), Nombre_Producto VARCHAR(65), Descripcion_Producto VARCHAR(250), Bodega_1 INT, Bodega_2 INT) 
+not deterministic
+begin 			
+	declare Cantidad int;
+	declare Id_Product int;
+	
+	set Cantidad = Bodega_1 + Bodega_2;
 
+	INSERT INTO `producto` (`id_Producto`, `Tipo_Producto_id_Tipo_Producto`, `Cod_Producto`, `Nombre`, `Cantidad`, `Descripcion`, `Estado`, `Proovedor_id_Proveedor`) VALUES
+	(default, Tipo_Producto, Codigo_Producto, Nombre_Producto, Cantidad, Descripcion_Producto, 'DISPONIBLE', 1);
+
+	select producto.id_Producto into Id_Product from producto where producto.Cod_Producto = Codigo_Producto;
+		
+	if Bodega_1 > 0 then
+	insert into `inventario` (`id_Inventario`,`Cod_Inventario`,`Cantidad`,`Fecha_Registro`,`Bodega_id_Bodega`, `Producto_id_Producto`) values
+	(default, Codigo_Producto, Bodega_1, now(), 1, Id_Product);
+	end if;	
+	
+	if Bodega_2 > 0 then
+	insert into `inventario` (`id_Inventario`,`Cod_Inventario`,`Cantidad`,`Fecha_Registro`,`Bodega_id_Bodega`, `Producto_id_Producto`) values
+	(default, Codigo_Producto, Bodega_2, now(), 2, Id_Product);
+	end if;
+			
+end;
  

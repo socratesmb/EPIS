@@ -45,20 +45,20 @@
                     <%ArrayBodegas.forEach(element => {%>
                     <div class="col-xl-3 col-md-6">
                         <div class="card">
-                            <div class="card-block text-center"> <a href="/admin/bodega/eliminar/<%=element.id_Bodega%>" type="button" class="close" title="Quitar Bodega" style="margin-right: 5px;"><span>&times;</span></a>
+                            <div class="card-block text-center">
                                 <i class="feather icon-book f-30 text-c-lite-green"></i>
                                 <h4 class="m-t-20"><%=element.Cod_Bodega%></h4>
                                 <h6 class="m-b-0"><%=element.Nombre%></h6>
                                 <p class="m-b-0"><%=element.Tipo_Bodega%></p>
                                 <a class="btn btn-primary btn-sm btn-round"
-                                    href="/admin/bodega/ver/<%=element.id_Bodega%>"
+                                    href="/supadmin/bodega/ver/<%=element.id_Bodega%>"
                                     role="button">Ver Bodega</a>
                             </div>
                         </div>
                     </div>
                     <%});%>
                 </div> 
-                <%}%>
+                <%}%> 
 
                 <div class="row">
                     <div class=".col-md-6 . m-auto">
@@ -67,7 +67,7 @@
                             data-toggle="tooltip" data-placement="top"
                             title="Agregar Nueva Bodega" data-target="#visualizar">
                             <i class="icofont icofont-ui-add" style="padding-right: 5px;"> </i><span
-                                class="m-l-10">Agregar</span>
+                                class="m-l-10" >Agregar</span>
                         </button>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
             data-backdrop="static" style="margin-top: 80px;">
             <div class="modal-dialog primary" role="document">
                 <div class="modal-content">
-                    <form action="/admin/bodega/agregar" method="POST" id="modal1" class="form-horizontal">
+                    <form action="/supadmin/bodega/agregar" method="POST" id="modal1" class="form-horizontal">
                         <div class="modal-header">
                             <h4 class="modal-title text-center">Crear Bodega</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span

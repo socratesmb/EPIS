@@ -62,6 +62,15 @@ rutas.get('/supadmin/desactivar_usuario/:Id_User', controlSuperAdmin.desactivar_
 
 //----- Modelo para cancelar procesos ----- 
 rutas.get('/supadmin/cancelar', controlSuperAdmin.cancelar_usuario);
+
+//----- Modelo para ver vista de bodega -----
+rutas.get('/supadmin/bodega', controlSuperAdmin.bodega);
+
+//----- Modelo para agregar una bodega nueva -----
+rutas.post('/supadmin/bodega/agregar', controlSuperAdmin.crear_bodega);
+
+//----- Modelo para desactivar un bodega -----
+rutas.get('/supadmin/bodega/eliminar/:id_Bodega', controlSuperAdmin.desactivar_bodega);
 //#endregion
 
 // ------- Seccion Vistas Generales -------------
@@ -81,13 +90,6 @@ rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 
 rutas.get('/admin/inicio', controlAdmin.inicio);
 
-//----- Subseccion de bodega -----
-rutas.get('/admin/bodega', controlAdmin.bodega);
-
-rutas.post('/admin/bodega/agregar', controlAdmin.crear_bodega);
-
-rutas.get('/admin/bodega/eliminar/:id_Bodega', controlAdmin.desactivar_bodega);
-
 //----- Subseccion de peticiones -----
 rutas.get('/admin/peticiones', controlAdmin.peticiones);
 
@@ -97,6 +99,11 @@ rutas.get('/admin/registros', controlAdmin.registros_productos);
 
 rutas.post('/admin/registro_productos/crear', controlAdmin.registrar_producto);
 
+rutas.get('/admin/registro_productos/buscar/:Id_Producto', controlAdmin.buscar_producto);
+
+rutas.post('/admin/registro_productos/actualizar');
+
+rutas.get('/admin/registros/cancelar', controlAdmin.cancelar_registro);
 
 //----- Subseccion para adiciones de proveedor y tipos de productos ------
 rutas.get('/admin/adiciones', controlAdmin.adiciones);
