@@ -74,8 +74,6 @@ model.peticiones = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    //const ListaPedidos = await pool.query('select * from Lista_Docente where Id_Entidad = ' + datos.Id_Entidad);
-
     res.render('Admin/peticiones.html', { datos, menu, alerta });
 
     LimpiarVariables();
@@ -85,7 +83,7 @@ model.peticiones = async (req, res) => {
 //----- Seccion para Registros de Productos -----
 //#region 
 
-model.registros_productos = async (req, res) => {
+model.productos = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
@@ -157,7 +155,7 @@ model.buscar_producto = async (req, res) => {
                         Bodega1: result[1].Inventario_Bodega,
                         Bodega2: result[0].Inventario_Bodega
                     }
-                } 
+                }
 
             }
             if (result.length == 1) {
@@ -191,6 +189,29 @@ model.buscar_producto = async (req, res) => {
 
             console.log(Productos)
 
+            res.redirect('/admin/registros');
+        }
+    });
+}
+
+model.actualizar_producto = async (req, res) => {
+    console.log("Id del Producto: " + Id_Produc);
+    await pool.query("call Actualizacion_Producto(" + req.body.TProducto + ", '" + req.body.CodigoProducto + "', '" + req.body.NombreProducto + "', '" + req.body.DescripcionProducto + "', " + req.body.Id_1 + ", " + req.body.Id_2 + ", " + Id_Produc + ");", (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/registros');
+        } else {
+            console.log(result)
+            LimpiarVariables();
+            Id_Produc = '';
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'El Producto Se Modifico Correctamente'
+            }
             res.redirect('/admin/registros');
         }
     });
@@ -470,9 +491,9 @@ model.adiciones_cancelar = async (req, res) => {
 //#region 
 function LimpiarVariables() {
     variables1 = {
-        Ruta_Form: '/admin/docente/creacion',
-        Titulo: 'Registro Docente',
-        Boton: 'Registrar Docente'
+        Ruta_Form: '/admin/registro_productos/crear',
+        Titulo: 'Registro Producto',
+        Boton: 'Registrar Producto'
     };
 
     Productos = {

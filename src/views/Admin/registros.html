@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="../files/css/ui-elements/card.css">
     <link rel="stylesheet" href="../files/css/style.css">
 
-
 </head>
 
 <body>
@@ -136,57 +135,50 @@
                                         </form>
                                     </div>
                                     <div class="tab-pane" id="listaproductos" role="tabpanel">
+                                        <div class="card-block">
                                         <div class="table-responsive dt-responsive">
-                                            <div id="dom-jqry_wrapper"
-                                                class="dataTables_wrapper dt-bootstrap4">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-12">
-                                                        <table id="dom-jqry"
-                                                            class="table table-striped table-bordered nowrap dataTable"
-                                                            role="grid" aria-describedby="dom-jqry_info">
-                                                            <thead>
-                                                                <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1" aria-sort="ascending">No</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Tipo Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Codigo Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Nombre Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Cantidad Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Descripcion Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1" colspan="1">Estado Producto</th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="dom-jqry" rowspan="1"  colspan="1">Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <%if(ListaProductos){%>
-                                                                <% for(var i=0; i < ListaProductos.length; i++) {%>
-                                                                <tr>
-                                                                    <td> <%= i+1 %> </td>
-                                                                    <td> <%= ListaProductos[i].Tipo_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Codigo_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Nombre_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Cantidad_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Descripcion_Producto%></td>
-                                                                    <td> <%= ListaProductos[i].Estado_Producto%></td>
-                                                                    <td
-                                                                        style='text-align: center; width: 60px;'>
-                                                                        <a type='button'
-                                                                            class='btn btn-warning bo_fa'
-                                                                            href="/admin/registro_productos/buscar/<%= ListaProductos[i].Id_Producto%>"
-                                                                            data-toggle='tooltip' 
-                                                                            data-placement='top'
-                                                                            title='Editar Producto' style="width: 50px;"><i
-                                                                                class='fa fa-pencil'></i>
-                                                                        </a>                                                                        
-                                                                    </td>
-                                                                </tr>
-                                                                <%}%>
-                                                                <%}%>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Tipo Producto</th>
+                                                        <th>Codigo Producto</th>
+                                                        <th>Nombre Producto</th>
+                                                        <th>Cantidad Producto</th>
+                                                        <th>Descripcion Producto</th>
+                                                        <th>Estado Producto</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%if(ListaProductos){%>
+                                                    <% for(var i=0; i < ListaProductos.length; i++) {%>
+                                                    <tr>
+                                                        <td> <%= i+1 %> </td>
+                                                        <td> <%= ListaProductos[i].Tipo_Producto%></td>
+                                                        <td> <%= ListaProductos[i].Codigo_Producto%></td>
+                                                        <td> <%= ListaProductos[i].Nombre_Producto%></td>
+                                                        <td> <%= ListaProductos[i].Cantidad_Producto%></td>
+                                                        <td> <%= ListaProductos[i].Descripcion_Producto%></td>
+                                                        <td> <%= ListaProductos[i].Estado_Producto%></td>
+                                                        <td
+                                                            style='text-align: center; width: 60px;'>
+                                                            <a type='button'
+                                                                class='btn btn-warning bo_fa'
+                                                                href="/admin/registro_productos/buscar/<%= ListaProductos[i].Id_Producto%>"
+                                                                data-toggle='tooltip' 
+                                                                data-placement='top'
+                                                                title='Editar Producto' style="width: 50px;"><i
+                                                                    class='fa fa-pencil'></i>
+                                                            </a>                                                                        
+                                                        </td>
+                                                    </tr>
+                                                    <%}%>
+                                                    <%}%>
+                                                </tbody>
+                                            </table>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +189,6 @@
     </div>
 
     <%- include ('../Partials/js.html'); %>
-
 </body>
 
 </html>

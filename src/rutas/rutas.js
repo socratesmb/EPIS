@@ -95,13 +95,13 @@ rutas.get('/admin/peticiones', controlAdmin.peticiones);
 
 
 //----- Subseccion para registros de productos ------
-rutas.get('/admin/registros', controlAdmin.registros_productos);
+rutas.get('/admin/registros', controlAdmin.productos);
 
 rutas.post('/admin/registro_productos/crear', controlAdmin.registrar_producto);
 
 rutas.get('/admin/registro_productos/buscar/:Id_Producto', controlAdmin.buscar_producto);
 
-rutas.post('/admin/registro_productos/actualizar');
+rutas.post('/admin/registro_productos/actualizar', controlAdmin.actualizar_producto);
 
 rutas.get('/admin/registros/cancelar', controlAdmin.cancelar_registro);
 
