@@ -57,6 +57,19 @@ let Proveedor = {
     Telefono: ''
 }
 
+let variables4 = {
+    Ruta_Form: '/admin/resstricciones/crear',
+    Titulo: 'Crear Restriccion',
+    Boton: 'Crear Restriccion'
+}
+
+let Id_Restri = '';
+
+let Restric = {
+    Producto: '',
+    Cantidad: '',
+    Detalle: ''
+}
 //#endregion
 
 // ----- Cargar Vista Principal de Inicio de Session -----
@@ -100,7 +113,7 @@ model.inventario = async (req, res) => {
 model.restar_inventario = async (req, res) => {
     await pool.query("call Actualizar_Inventario(" + req.body.Id_Inv + ", " + req.body.Inv_bodega + ")", (err, result) => {
         if (err) {
-            console.log(err);            
+            console.log(err);
             alerta = {
                 tipo: 'peligro',
                 mensaje: 'Error En el Proceso' + err.sql
@@ -257,6 +270,150 @@ model.cancelar_registro = async (req, res) => {
     LimpiarVariables();
     res.redirect('/admin/registros');
 }
+//#endregion
+
+//----- Seccion para Restricciones y Editarlas -----
+//#region 
+
+model.restricciones = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    const ListaProducto = await pool.query('select producto.id_Producto as Id_Producto, Producto.Cod_Producto as Codigo, producto.Nombre as Nombre from producto');
+    const ListaRestriccion = await pool.query('select * from lista_restricciones');
+
+    res.render('Admin/restricciones.html', { datos, menu, alerta, variables4, Restric, ListaProducto, ListaRestriccion });
+
+    LimpiarVariables4();
+}
+
+model.registrar_restriccion = async (req, res) => {
+    console.log(req.body);
+
+    await pool.query("INSERT INTO `restricciones` (`id_Restricciones`, `Cantidad`, `Detalle`, `Estado`, `Producto_id_Producto`) values (default, " + req.body.CantidadRestriccion + ", '" + req.body.DetalleRestriccion + "', 'ACTIVA', " + req.body.IdProducto + ");", (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'error' + err.sqlMessage
+            };
+            res.redirect('/admin/restricciones');
+        } else {
+            console.log(result)
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Producto Restriccion Asignada Correctamente'
+            };
+            res.redirect('/admin/restricciones');
+        }
+    });
+}
+
+model.buscar_restriccion = async (req, res) => {
+    const { Id_Restriccion } = req.params;
+    Id_Restri = Id_Restriccion;
+    await pool.query("select * from lista_restricciones where Id_Restriccion =" + Id_Restriccion, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: err
+            };
+
+            res.redirect('/admin/restricciones');
+        } else {
+
+            Restric = {
+                Producto: result[0].Nombre_Producto,
+                Cantidad: result[0].Cantidad_Restriccion,
+                Detalle: result[0].Detalle_Restriccion
+            }
+
+            variables4 = {
+                Ruta_Form: '/admin/restricciones/actualizar',
+                Titulo: 'Actualizacion la Restriccion',
+                Boton: 'Actualizar Restriccion'
+            };
+
+            console.log(Restric)
+
+            res.redirect('/admin/restricciones');
+        }
+    });
+}
+
+model.actualizar_restriccion = async (req, res) => {
+    console.log("Id de la Restriccion: " + Id_Restri);
+
+    await pool.query("update restricciones set restricciones.Cantidad = " + req.body.CantidadRestriccion + ", restricciones.Detalle = '" + req.body.DetalleRestriccion + "', restricciones.Producto_id_Producto = " + req.body.IdProducto + " where restricciones.id_Restricciones = " + Id_Restri, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/restricciones');
+        } else {
+            LimpiarVariables4();
+            Id_Restri = '';
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Restriccion Modificada Correctamente'
+            }
+            res.redirect('/admin/restricciones');
+        }
+    });
+}
+
+model.cambio_estado_restriccion = async (req, res) => {
+    const { Id_Restriccion } = req.params;
+
+    let estado = await pool.query("select restricciones.Estado from restricciones where restricciones.id_Restricciones = " + Id_Restriccion);
+
+    if (estado[0].Estado == 'ACTIVA') {
+        await pool.query("update restricciones set restricciones.Estado = 'INACTIVA' where restricciones.id_Restricciones = " + Id_Restriccion, (err, result) => {
+            if (err) {
+                console.log(err)
+                alerta = {
+                    tipo: 'peligro',
+                    mensaje: 'Error En El Proceso' + err.sql
+                }
+                res.redirect('/admin/restricciones');
+            } else {
+                console.log(result)
+                alerta = {
+                    tipo: 'correcto',
+                    mensaje: 'Restriccion Desactivada Correctamente'
+                }
+                res.redirect('/admin/restricciones');
+            }
+        });
+    } else {
+        await pool.query("update restricciones set restricciones.Estado = 'ACTIVA' where restricciones.id_Restricciones = " + Id_Restriccion, (err, result) => {
+            if (err) {
+                console.log(err)
+                alerta = {
+                    tipo: 'peligro',
+                    mensaje: 'Error En El Proceso' + err.sql
+                }
+                res.redirect('/admin/restricciones');
+            } else {
+                console.log(result)
+                alerta = {
+                    tipo: 'correcto',
+                    mensaje: 'Restriccion Activada Correctamente'
+                }
+                res.redirect('/admin/restricciones');
+            }
+        });
+    };
+}
+
+model.cancelar_restriccion = async (req, res) => {
+    LimpiarVariables4();
+    res.redirect('/admin/restricciones');
+}
+
 //#endregion
 
 //----- Seccion para Registro de Proveedor, Tipo Productos
@@ -584,6 +741,25 @@ function LimpiarVariables3() {
         tipo: '',
         mensaje: ''
     };
+}
+
+function LimpiarVariables4() {
+    alerta = {
+        tipo: '',
+        mensaje: ''
+    };
+
+    Restric = {
+        Producto: '',
+        Cantidad: '',
+        Detalle: ''
+    }
+
+    variables4 = {
+        Ruta_Form: '/admin/resstricciones/crear',
+        Titulo: 'Crear Restriccion',
+        Boton: 'Crear Restriccion'
+    }
 }
 //#endregion
 

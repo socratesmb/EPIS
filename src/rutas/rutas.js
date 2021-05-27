@@ -8,6 +8,7 @@ const controlAdmin = require('../models/ModeloAdministrador');
 const controlGeneral = require('../models/ModeloGeneral');
 const controlValidacion = require('../controllers/validate');
 const controlPasante = require('../models/ModeloPasante');
+const model = require('../models/ModeloPasante');
 
 //--------- Seccion Del Super Administrador ----------------
 //#region 
@@ -125,6 +126,21 @@ rutas.post('/admin/registro_productos/actualizar', controlAdmin.actualizar_produ
 
 //-----Modelo para cancelar los procesos en modificaciones-----
 rutas.get('/admin/registros/cancelar', controlAdmin.cancelar_registro);
+//#endregion
+
+//----- Subseccion para restricciones de productos -----
+//#region 
+rutas.get('/admin/restricciones', controlAdmin.restricciones);
+
+rutas.post('/admin/resstricciones/crear', controlAdmin.registrar_restriccion);
+
+rutas.get('/admin/restricciones/buscar/:Id_Restriccion', controlAdmin.buscar_restriccion);
+
+rutas.post('/admin/restricciones/actualizar', controlAdmin.actualizar_restriccion);
+
+rutas.get('/admin/restricciones/cambio/:Id_Restriccion', controlAdmin.cambio_estado_restriccion);
+
+rutas.get('/admin/restricciones/cancelar', controlAdmin.cancelar_restriccion);
 //#endregion
 
 //----- Subseccion para adiciones de proveedor y tipos de productos ------

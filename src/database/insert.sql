@@ -89,6 +89,11 @@ from producto
 inner join tipo_producto on tipo_producto.id_Tipo_Producto = producto.Tipo_Producto_id_Tipo_Producto 
 inner join proveedor on proveedor.id_Proveedor = producto.Proveedor_id_Proveedor;
 
+create or replace view  `Lista_Restricciones` as
+select producto.Nombre as Nombre_Producto, producto.Cod_Producto as Codigo_Producto, restricciones.id_Restricciones as Id_Restriccion, restricciones.Cantidad as Cantidad_Restriccion, restricciones.Detalle as Detalle_Restriccion ,restricciones.Estado as Estado_Restriccion
+from restricciones
+inner join producto on producto.id_Producto = restricciones.Producto_id_Producto;
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 delimiter //
 create procedure Registro_Usuarios(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identificacion VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT) 
