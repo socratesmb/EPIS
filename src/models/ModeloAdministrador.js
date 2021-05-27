@@ -67,7 +67,7 @@ model.inicio = async (req, res) => {
     res.render('Admin/inicio.html', { datos, menu });
 };
 
-// --------- Seccion para peticiones y atenderlas --------
+// ---- Seccion para peticiones y atenderlas --------
 //#region 
 
 model.peticiones = async (req, res) => {
@@ -80,6 +80,40 @@ model.peticiones = async (req, res) => {
 };
 //#endregion
 
+//----- Seccion para ver inventario y reducir el mismo -----
+//#region 
+model.inventario = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+
+    const Lista_Inventarios = await pool.query("select Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Id_Inventario , 0)) as Id_Inv1, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Inventario_Bodega , 0)) as Inv_bodega1, max(if(Nombre_Bodega = 'BODEGA', Id_Inventario , 0)) as Id_Inv2, max(if(Nombre_Bodega = 'BODEGA', Inventario_Bodega , 0)) as Inv_bodega2 from lista_productos group by Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto;");
+
+    res.render('Admin/inventario.html', { datos, menu, alerta, Lista_Inventarios });
+
+    LimpiarVariables3();
+}
+
+model.restar_inventario = async (req, res) => {
+    await pool.query("call Actualizar_Inventario(" + req.body.Id_Inv + ", " + req.body.Inv_bodega + ")", (err, result) => {
+        if (err) {
+            console.log(err);            
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/inventario');
+        } else {
+            console.log(result);
+            LimpiarVariables3();
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Producto Restado Correctamente'
+            }
+            res.redirect('/admin/inventario');
+        }
+    });
+}
+//#endregion
 //----- Seccion para Registros de Productos -----
 //#region 
 
@@ -122,7 +156,6 @@ model.registrar_producto = async (req, res) => {
 model.buscar_producto = async (req, res) => {
     const { Id_Producto } = req.params;
     Id_Produc = Id_Producto;
-    console.log('LLego aca' + Id_Produc + Id_Producto)
     await pool.query("select * from lista_productos where Id_Producto =" + Id_Producto, (err, result) => {
         if (err) {
             console.log(err)
@@ -133,8 +166,6 @@ model.buscar_producto = async (req, res) => {
 
             res.redirect('/admin/registros');
         } else {
-            console.log(result)
-            console.log(result.length)
 
             if (result.length == 2) {
                 if (result[0].Nombre_Bodega == 'INSUMOS RAPIDOS' && result[1].Nombre_Bodega == 'BODEGA') {
@@ -196,6 +227,7 @@ model.buscar_producto = async (req, res) => {
 
 model.actualizar_producto = async (req, res) => {
     console.log("Id del Producto: " + Id_Produc);
+    console.log(req.body.TProducto + ", '" + req.body.CodigoProducto + "', '" + req.body.NombreProducto + "', '" + req.body.DescripcionProducto + "', " + req.body.Id_1 + ", " + req.body.Id_2 + ", " + Id_Produc);
     await pool.query("call Actualizacion_Producto(" + req.body.TProducto + ", '" + req.body.CodigoProducto + "', '" + req.body.NombreProducto + "', '" + req.body.DescripcionProducto + "', " + req.body.Id_1 + ", " + req.body.Id_2 + ", " + Id_Produc + ");", (err, result) => {
         if (err) {
             console.log(err)
@@ -205,7 +237,6 @@ model.actualizar_producto = async (req, res) => {
             }
             res.redirect('/admin/registros');
         } else {
-            console.log(result)
             LimpiarVariables();
             Id_Produc = '';
             alerta = {
@@ -537,6 +568,13 @@ function LimpiarVariables2() {
         Telefono: ''
     }
 
+    alerta = {
+        tipo: '',
+        mensaje: ''
+    };
+}
+
+function LimpiarVariables3() {
     alerta = {
         tipo: '',
         mensaje: ''

@@ -138,3 +138,59 @@ begin
 			
 end;
  
+/*async function Lista_Inventario() {
+
+    const Arreglo1 = await pool.query("select * from lista_productos");
+    const Arreglo2 = await pool.query("select id_producto, count(*) as ciclos from lista_productos group by Id_Producto");
+
+    for (let i = 0; i < Arreglo1.length; i++) {
+        for (let j = 1; j < Arreglo1.length; j++) {
+            if (Arreglo1[i].Id_Producto == Arreglo1[j].Id_Producto) {
+                if (Arreglo1[i].Nombre_Bodega == "INSUMOS RAPIDOS" && Arreglo1[i].Nombre_Bodega != Arreglo1[j].Nombre_Bodega) {
+                    console.log("Entro aca: " + i + " - " + j + " - Nombre: " + Arreglo1[i].Nombre_Producto + " - Bodega1: " + Arreglo1[i].Nombre_Bodega + " - Inventario: " + Arreglo1[i].Inventario_Bodega + " - Bodega2: " + Arreglo1[j].Nombre_Bodega + " - Inventario: " + Arreglo1[j].Inventario_Bodega)
+                    console.log('Paso0');
+                    await pool.query("INSERT INTO `Temp_Inventarios` (`Id_Producto`, `Tipo_Producto`, `Codigo_Producto`, `Nombre_Producto`, `Cantidad_Producto`, `Id_Inventario1`, `Inventario_Bodega1`, `Id_Inventario2`, `Inventario_Bodega2`) values (" + Arreglo1[i].Id_Producto + ", '" + Arreglo1[i].Tipo_Producto + "', '" + Arreglo1[i].Codigo_Producto + "', '" + Arreglo1[i].Nombre_Producto + "', " + Arreglo1[i].Cantidad_Producto + ", " + Arreglo1[i].Id_Inventario + ", " + Arreglo1[i].Inventario_Bodega + ", " + Arreglo1[j].Id_Inventario + ", " + Arreglo1[j].Inventario_Bodega + ")");
+                };
+            };
+        };
+        for (let k = 0; k < Arreglo2.length; k++) {
+            if (Arreglo2[k].Id_Producto == Arreglo1[i].Id_Producto && Arreglo2[k].ciclos == 1) {
+                console.log("Pasa aca: " + i + " - " + k + " - Nombre: " + Arreglo1[i].Nombre_Producto + " - Bodega1: " + Arreglo1[i].Nombre_Bodega + " - Inventario: " + Arreglo1[i].Inventario_Bodega);
+                if (Arreglo1[i].Nombre_Bodega == 'INSUMOS RAPIDOS') {
+                    console.log('Paso1');
+                    await pool.query("INSERT INTO `Temp_Inventarios` (`Id_Producto`, `Tipo_Producto`, `Codigo_Producto`, `Nombre_Producto`, `Cantidad_Producto`, `Id_Inventario1`, `Inventario_Bodega1`, `Id_Inventario2`, `Inventario_Bodega2`) values (" + Arreglo1[i].Id_Producto + ", '" + Arreglo1[i].Tipo_Producto + "', '" + Arreglo1[i].Codigo_Producto + "', '" + Arreglo1[i].Nombre_Producto + "', " + Arreglo1[i].Cantidad_Producto + ", " + Arreglo1[i].Id_Inventario + ", " + Arreglo1[i].Inventario_Bodega + ", 0, 0)");
+                }if (Arreglo1[i].Nombre_Bodega == 'BODEGA') {
+                    console.log('Paso2');
+                    await pool.query("INSERT INTO `Temp_Inventarios` (`Id_Producto`, `Tipo_Producto`, `Codigo_Producto`, `Nombre_Producto`, `Cantidad_Producto`, `Id_Inventario1`, `Inventario_Bodega1`, `Id_Inventario2`, `Inventario_Bodega2`) values (" + Arreglo1[i].Id_Producto + ", '" + Arreglo1[i].Tipo_Producto + "', '" + Arreglo1[i].Codigo_Producto + "', '" + Arreglo1[i].Nombre_Producto + "', " + Arreglo1[i].Cantidad_Producto + ", 0, 0, " + Arreglo1[i].Id_Inventario + ", " + Arreglo1[i].Inventario_Bodega + ")");
+                }
+            };
+        }
+    };
+
+}*/
+
+select Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto,
+	max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Id_Inventario , 0)) as Id_Inv1,
+	max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Inventario_Bodega , 0)) as Inv_bodega1,
+	max(if(Nombre_Bodega = 'BODEGA', Id_Inventario , 0)) as Id_Inv2, 
+	max(if(Nombre_Bodega = 'BODEGA', Inventario_Bodega , 0)) as Inv_bodega2 
+from lista_productos
+group by Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto;
+
+create procedure `Actualizar_Inventario` (IN Id_Inven INT, Valor_Inventario INT) 
+not deterministic
+begin 			
+	declare Valor1 int;
+	declare Cantidad int;
+	declare Id_Producto int;
+	
+	select inventario.Producto_id_Producto into Id_Producto from inventario where inventario.id_Inventario = Id_Inven;
+
+	select producto.Cantidad_Producto into Valor1 from producto where producto.id_Producto = Id_Producto;
+
+	set Cantidad = Valor1 - Valor_Inventario;
+
+	update producto set producto.Cantidad_Producto = Cantidad where producto.id_Producto = Id_Producto;
+	update inventario set inventario.Cantidad = Valor_Inventario where inventario.id_Inventario = Id_Inven;
+			
+end;

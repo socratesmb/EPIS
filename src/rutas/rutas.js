@@ -87,25 +87,48 @@ rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 //#endregion
 
 // ------- Seccion de Administrador -------------
+//#region 
 
+// ------- Modelo para cargar vista de inicio administrador --------
 rutas.get('/admin/inicio', controlAdmin.inicio);
 
 //----- Subseccion de peticiones -----
+//#region 
+//----- Modelo para el proceso de peticiones y despacho -------
 rutas.get('/admin/peticiones', controlAdmin.peticiones);
+//#endregion
 
+// ----- Subseccion de de inventario --------
+//#region
+
+//-----Modelo para cargar la vista de inventario-----
+rutas.get('/admin/inventario', controlAdmin.inventario);
+
+//-----Modelo para restar un valor de inventario-----
+rutas.post('/admin/inventario/restar', controlAdmin.restar_inventario);
+
+//#endregion
 
 //----- Subseccion para registros de productos ------
+//#region 
+//-----Modelo para cargar vista de registro de productos -------
 rutas.get('/admin/registros', controlAdmin.productos);
 
+//-----Modelo para registrar un producto nuevo ------
 rutas.post('/admin/registro_productos/crear', controlAdmin.registrar_producto);
 
+//-----Modelo para buscar un producto registrado por id ------
 rutas.get('/admin/registro_productos/buscar/:Id_Producto', controlAdmin.buscar_producto);
 
+//-----Modelo para actualizar el producto una vez modificado -----
 rutas.post('/admin/registro_productos/actualizar', controlAdmin.actualizar_producto);
 
+//-----Modelo para cancelar los procesos en modificaciones-----
 rutas.get('/admin/registros/cancelar', controlAdmin.cancelar_registro);
+//#endregion
 
 //----- Subseccion para adiciones de proveedor y tipos de productos ------
+//#region 
 rutas.get('/admin/adiciones', controlAdmin.adiciones);
 
 rutas.post('/admin/adiciones/crear/tipo_producto', controlAdmin.registro_tipo_producto);
@@ -126,6 +149,9 @@ rutas.post('/admin/adiciones/actualizar/proveedor', controlAdmin.actualizar_prov
 rutas.get('/admin/adiciones/proveedor/borrar/:id_Proveedor', controlAdmin.cambio_estado_proveedor);
 
 rutas.get('/admin/adiciones/cancelar', controlAdmin.adiciones_cancelar);
+//#endregion
+
 //-----------------------------------------
+//#endregion
 
 module.exports = rutas;
