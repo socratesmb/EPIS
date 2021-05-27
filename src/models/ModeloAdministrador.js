@@ -64,7 +64,11 @@ model.inicio = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    res.render('Admin/inicio.html', { datos, menu });
+    const Bodega = await pool.query("select count(*) as Numero from bodega where bodega.Estado = 'ACTIVA'");
+    const Inventario = await pool.query("select count(*) as Numero from producto where producto.Estado = 'DISPONIBLE'");
+    const Agotado = await pool.query("select count(*) as Numero from producto where producto.Estado = 'AGOTADO'");
+
+    res.render('Admin/inicio.html', { datos, menu, Bodega, Inventario, Agotado });
 };
 
 // ---- Seccion para peticiones y atenderlas --------
@@ -86,7 +90,7 @@ model.inventario = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    const Lista_Inventarios = await pool.query("select Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Id_Inventario , 0)) as Id_Inv1, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Inventario_Bodega , 0)) as Inv_bodega1, max(if(Nombre_Bodega = 'BODEGA', Id_Inventario , 0)) as Id_Inv2, max(if(Nombre_Bodega = 'BODEGA', Inventario_Bodega , 0)) as Inv_bodega2 from lista_productos group by Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto;");
+    const Lista_Inventarios = await pool.query("select Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Id_Inventario , 0)) as Id_Inv1, max(if(Nombre_Bodega = 'INSUMOS RAPIDOS', Inventario_Bodega , 0)) as Inv_bodega1, max(if(Nombre_Bodega = 'BODEGA', Id_Inventario , 0)) as Id_Inv2, max(if(Nombre_Bodega = 'BODEGA', Inventario_Bodega , 0)) as Inv_bodega2 from lista_productos where Estado_Producto = 'DISPONIBLE' group by Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto;");
 
     res.render('Admin/inventario.html', { datos, menu, alerta, Lista_Inventarios });
 
@@ -114,6 +118,7 @@ model.restar_inventario = async (req, res) => {
     });
 }
 //#endregion
+
 //----- Seccion para Registros de Productos -----
 //#region 
 

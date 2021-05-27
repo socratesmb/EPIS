@@ -175,6 +175,7 @@ select Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Pr
 	max(if(Nombre_Bodega = 'BODEGA', Id_Inventario , 0)) as Id_Inv2, 
 	max(if(Nombre_Bodega = 'BODEGA', Inventario_Bodega , 0)) as Inv_bodega2 
 from lista_productos
+where Estado_Producto = 'DISPONIBLE'
 group by Tipo_Producto, Id_Producto, Codigo_Producto, Nombre_Producto, Cantidad_Producto, Descripcion_Producto, Estado_Producto;
 
 create procedure `Actualizar_Inventario` (IN Id_Inven INT, Valor_Inventario INT) 
@@ -194,3 +195,26 @@ begin
 	update inventario set inventario.Cantidad = Valor_Inventario where inventario.id_Inventario = Id_Inven;
 			
 end;
+
+#trigger
+delimiter //
+create trigger Estado_Producto_Dis
+before update on producto
+for each row
+begin
+	if new.Cantidad_Producto > 0 then 
+	set new.Estado = 'DISPONIBLE';
+	end if;
+end;
+//
+
+delimiter //
+create trigger Estado_Producto_Ago
+before update on producto
+for each row
+begin 
+	if new.Cantidad_Producto = 0 then 
+	set new.Estado = 'AGOTADO'; 
+	end if;
+end;
+//
