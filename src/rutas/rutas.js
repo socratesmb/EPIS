@@ -7,8 +7,7 @@ const controlSuperAdmin = require('../models/ModeloSuperAdmin');
 const controlAdmin = require('../models/ModeloAdministrador');
 const controlGeneral = require('../models/ModeloGeneral');
 const controlValidacion = require('../controllers/validate');
-const controlPasante = require('../models/ModeloPasante');
-const model = require('../models/ModeloPasante');
+const controlPedidos = require('../models/ModeloPeticiones');
 
 //--------- Seccion Del Super Administrador ----------------
 //#region 
@@ -41,7 +40,7 @@ rutas.get('/hola', (req, res) => {
     res.render('index.html');
 })
 
-// ------- Seccion de Super Administrador -------------
+// ------- Seccion de Super Administrador -------
 //#region 
 //----- Cargar Vista Inicio -----
 rutas.get('/supadmin/home', controlSuperAdmin.inicio);
@@ -74,7 +73,7 @@ rutas.post('/supadmin/bodega/agregar', controlSuperAdmin.crear_bodega);
 rutas.get('/supadmin/bodega/eliminar/:id_Bodega', controlSuperAdmin.desactivar_bodega);
 //#endregion
 
-// ------- Seccion Vistas Generales -------------
+// ------- Seccion Vistas Generales -------
 //#region 
 //----- Modelo para Cagar la Vista de Perfil -----
 rutas.get('/perfil', controlGeneral.perfil);
@@ -87,11 +86,13 @@ rutas.post('/perfil/actualizar_password', controlGeneral.password_update);
 
 //#endregion
 
-// ------- Seccion de Administrador -------------
+// ------- Seccion de Administrador -------
 //#region 
 
 // ------- Modelo para cargar vista de inicio administrador --------
+//#region 
 rutas.get('/admin/inicio', controlAdmin.inicio);
+//#endregion
 
 //----- Subseccion de peticiones -----
 //#region 
@@ -168,6 +169,15 @@ rutas.get('/admin/adiciones/cancelar', controlAdmin.adiciones_cancelar);
 //#endregion
 
 //-----------------------------------------
+//#endregion
+
+// ------- Seccion de Peticiones -------
+//#region 
+
+rutas.get('/public/peticiones', controlPedidos.lg_peticion);
+
+rutas.post('/iniciar/peticion', controlPedidos.vista_peticion);
+
 //#endregion
 
 module.exports = rutas;

@@ -290,23 +290,36 @@ model.restricciones = async (req, res) => {
 model.registrar_restriccion = async (req, res) => {
     console.log(req.body);
 
-    await pool.query("INSERT INTO `restricciones` (`id_Restricciones`, `Cantidad`, `Detalle`, `Estado`, `Producto_id_Producto`) values (default, " + req.body.CantidadRestriccion + ", '" + req.body.DetalleRestriccion + "', 'ACTIVA', " + req.body.IdProducto + ");", (err, result) => {
-        if (err) {
-            console.log(err)
-            alerta = {
-                tipo: 'peligro',
-                mensaje: 'error' + err.sqlMessage
-            };
-            res.redirect('/admin/restricciones');
-        } else {
-            console.log(result)
-            alerta = {
-                tipo: 'correcto',
-                mensaje: 'Producto Restriccion Asignada Correctamente'
-            };
-            res.redirect('/admin/restricciones');
-        }
-    });
+    const busqueda = await pool.query('select count(*) as Estado from restricciones where restricciones.Producto_id_Producto = ' + req.body.IdProducto);
+
+    console.log(busqueda);
+
+    if (busqueda[0].Estado < 1) {
+        await pool.query("INSERT INTO `restricciones` (`id_Restricciones`, `Cantidad`, `Detalle`, `Estado`, `Producto_id_Producto`) values (default, " + req.body.CantidadRestriccion + ", '" + req.body.DetalleRestriccion + "', 'ACTIVA', " + req.body.IdProducto + ");", (err, result) => {
+            if (err) {
+                console.log(err)
+                alerta = {
+                    tipo: 'peligro',
+                    mensaje: 'error' + err.sqlMessage
+                };
+                res.redirect('/admin/restricciones');
+            } else {
+                console.log(result)
+                alerta = {
+                    tipo: 'correcto',
+                    mensaje: 'Producto Restriccion Asignada Correctamente'
+                };
+                res.redirect('/admin/restricciones');
+            }
+        });
+    } else {
+        alerta = {
+            tipo: 'inseguro',
+            mensaje: 'El Producto Ya Tiene Restriccion Creada'
+        };
+        res.redirect('/admin/restricciones');
+    }
+
 }
 
 model.buscar_restriccion = async (req, res) => {

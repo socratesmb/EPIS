@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>EPIS - PETICIONES</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Software para la gestion de inventario">
+  <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Login">
+  <meta name="author" content="Sócrates Martínez Berrio">
+
+  <%- include ('../Partials/icono.html'); %>
+  <%- include ('../Partials/style.html'); %>
+
+  <!-- Estilo Propio -->
+  <link rel="stylesheet" href="../files/css/pages/login.css">
+</head>
+
+<body class="fix-menu">
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+      <div class="ball-scale">
+        <div class='contain'>
+          <div class="ring">
+            <div class="frame"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="hero-area">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 ">
+            <div class="contact-h-cont">
+              <h3 class="text-center"><img src="../img/EPIS.png" class="img-fluid" alt=""></h3><br>
+
+              <form action="/iniciar/peticion" method="POST">
+                <div class="form-group" style="text-align: center;">
+                  <label for="username">Seleccione Registraduria</label>
+                    <select class="form-control" name="Registraduria" id="Registraduria" style="border-radius:8px;" required>
+                        <option value="">Seleccione Opción</option>
+                        <%if(ListaEntidades){%>
+                            <% for(i=0; i < ListaEntidades.length; i++){%>                                
+                                <option value="<%=ListaEntidades[i].id_Entidad%>"> <%= ListaEntidades[i].Nombre%> </option>  
+                            <%}%>
+                        <%}%>  
+                    </select>
+                </div>                
+                <p style="text-align: center;"> <button class="btn btn-general btn-blue" role="button" type="submit">INICIAR PETICION</button> </p>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <% include ('../Partials/js.html'); %>
+</body>
+
+</html>
