@@ -39,14 +39,28 @@
                             <thead>
                                 <tr role="row">
                                     <th>No</th>
-                                    <th>Fecha Peticion</th>
+                                    <th>Fecha Peticion <a class="fa fa-question-circle" data-toggle='tooltip' data-placement='top' title="Año-Mes-Dia Hora"></a></th>
                                     <th>Registraduria</th>
                                     <th>Estado</th>
                                     <th>Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <%if(Lista_Peticiones){%>
+                                    <% for(var i=0; i < Lista_Peticiones.length; i++) {%>
+                                    <tr>
+                                        <td> <%= i+1 %> </td>
+                                        <td> <%= Lista_Peticiones[i].Fecha_Peticion%></td>
+                                        <td> <%= Lista_Peticiones[i].Registraduria%></td>
+                                        <td> <%= Lista_Peticiones[i].Estado_Peticion%></td>                                        
+                                        <td style='text-align: center'>
+                                            <a type='button' class='btn btn-primary bo_fa' href="/admin/peticiones/ver/<%=Lista_Peticiones[i].Id_Peticion%>" data-toggle='tooltip' data-placement='top' title='Ver Detalles Peticion'><i class='fa fa-eye'></i></a>
+                                            <a type='button' class='btn btn-success bo_fa' href="/admin/peticiones/atender/<%=Lista_Peticiones[i].Id_Peticion%>" data-toggle='tooltip' data-placement='top' title='Despachar Peticion'><i class='fa fa-check-square-o'></i></a>
+                                            <a type='button' class='btn btn-danger bo_fa' href="/admin/peticiones/cancelar/<%=Lista_Peticiones[i].Id_Peticion%>" data-toggle='tooltip' data-placement='top' title='Cancelar Peticion'><i class='fa fa-ban'></i></a>
+                                        </td>                                     
+                                    </tr>
+                                    <%}%>
+                                <%}%>
                             </tbody>
                         </table>
                     

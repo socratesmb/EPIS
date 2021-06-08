@@ -94,6 +94,15 @@ rutas.get('/admin/inicio', controlAdmin.inicio);
 //#region 
 //----- Modelo para el proceso de peticiones y despacho -------
 rutas.get('/admin/peticiones', controlAdmin.peticiones);
+
+rutas.get('/admin/peticiones/ver/:Id_Peticion', controlAdmin.ver_peticion);
+
+rutas.get('/admin/peticiones/atender/:Id_Peticion');
+
+rutas.get('/admin/peticiones/cancelar/:Id_Peticion', controlAdmin.cancelar_pedido);
+
+rutas.post('/admin/peticiones/lista_pedidos/restar');
+
 //#endregion
 
 // ----- Subseccion de de inventario --------
@@ -167,7 +176,7 @@ rutas.get('/admin/adiciones/cancelar', controlAdmin.adiciones_cancelar);
 //-----------------------------------------
 //#endregion
 
-// ------- Seccion de Peticiones -------
+// ------- Seccion de Peticiones Publicas-------
 //#region 
 
 rutas.get('/public/peticiones/login', controlPedidos.lg_peticion);

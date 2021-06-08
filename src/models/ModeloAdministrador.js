@@ -80,8 +80,9 @@ model.inicio = async (req, res) => {
     const Bodega = await pool.query("select count(*) as Numero from bodega where bodega.Estado = 'ACTIVA'");
     const Inventario = await pool.query("select count(*) as Numero from producto where producto.Estado = 'DISPONIBLE'");
     const Agotado = await pool.query("select count(*) as Numero from producto where producto.Estado = 'AGOTADO'");
+    const Peticiones = await pool.query("select count(*) as Numero from pedidos where pedidos.Estado = 'PENDIENTE'");
 
-    res.render('Admin/inicio.html', { datos, menu, Bodega, Inventario, Agotado });
+    res.render('Admin/inicio.html', { datos, menu, Peticiones, Bodega, Inventario, Agotado });
 };
 
 // ---- Seccion para peticiones y atenderlas --------
@@ -91,9 +92,45 @@ model.peticiones = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    res.render('Admin/peticiones.html', { datos, menu, alerta });
+    const Lista_Peticiones = await pool.query("select * from lista_peticiones where Estado_Peticion = 'PENDIENTE'");
 
+    res.render('Admin/peticiones.html', { datos, menu, alerta, Lista_Peticiones });
     LimpiarVariables();
+};
+
+model.ver_peticion = async (req, res) => {
+    datos = req.session.datos;
+    menu = req.session.menu;
+    
+    const { Id_Peticion } = req.params;
+    console.log("Id del Pedido: " + Id_Peticion);
+
+    const lista_registro_pedido = await pool.query('select * from lista_registro_pedidos');
+
+    res.render('Admin/lista_registro_peticiones.html', {datos, menu, alerta, lista_registro_pedido});
+};
+
+model.cancelar_pedido = async (req, res) => {
+    const { Id_Peticion } = req.params;
+    console.log("Id del Pedido: " + Id_Peticion);
+    await pool.query("update pedidos set pedidos.Estado = 'CANCELADA' where pedidos.id_Pedidos =" + Id_Peticion, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/peticiones');
+        } else {
+            LimpiarVariables();
+            Id_Produc = '';
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'La Peticion fue Cancelada Correctamente'
+            }
+            res.redirect('/admin/peticiones');
+        }
+    });
 };
 //#endregion
 
