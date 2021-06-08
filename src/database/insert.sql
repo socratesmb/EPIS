@@ -101,6 +101,11 @@ inner join tipo_producto on tipo_producto.id_Tipo_Producto = producto.Tipo_Produ
 left join restricciones on restricciones.Producto_id_Producto = producto.id_Producto 
 where producto.Estado = 'DISPONIBLE';
 
+create or replace view `lista_peticiones` as 
+select pedidos.id_Pedidos as Id_Peticion, pedidos.Fecha_Pedido as Fecha_Peticion, Entidad.Nombre as Registraduria, pedidos.Estado as Estado_Peticion
+from pedidos
+inner join entidad on entidad.id_Entidad = pedidos.Entidad_id_Entidad;
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 delimiter //
 create procedure Registro_Usuarios(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identificacion VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT) 

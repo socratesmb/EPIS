@@ -181,7 +181,6 @@ model.buscar_producto = async (req, res) => {
                 tipo: 'peligro',
                 mensaje: err
             };
-
             res.redirect('/admin/registros');
         } else {
 
@@ -332,7 +331,6 @@ model.buscar_restriccion = async (req, res) => {
                 tipo: 'peligro',
                 mensaje: err
             };
-
             res.redirect('/admin/restricciones');
         } else {
 
@@ -472,11 +470,11 @@ model.buscar_tipo_producto = async (req, res) => {
     await pool.query('select * from tipo_producto where id_Tipo_Producto =' + id_Tipo_Producto, (err, result) => {
         if (err) {
             console.log(err)
+            LimpiarVariables2();
             alerta = {
                 tipo: 'peligro',
                 mensaje: 'Error al Consultar el Tipo de Producto' + err
             }
-            LimpiarVariables2();
             res.redirect('/admin/adiciones');
         } else {
             console.log(result);
@@ -593,11 +591,11 @@ model.buscar_proveedor = async (req, res) => {
     await pool.query('select * from proveedor where id_Proveedor =' + id_Proveedor, (err, result) => {
         if (err) {
             console.log(err)
+            LimpiarVariables2();
             alerta = {
                 tipo: 'peligro',
                 mensaje: 'Error al Consultar el Proveedor' + err.sql
             }
-            LimpiarVariables2();
             res.redirect('/admin/adiciones');
         } else {
             console.log(result);

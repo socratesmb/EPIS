@@ -35,12 +35,25 @@
                         </a>                        
                     </div> 
                 </div>
-                <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">            
+                <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center"> 
+                    <!-- Notifications-->
+                    <li class="nav-item dropdown"> 
+                        <a id="notifications" class="nav-link" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell-o"></i><span class="noti-numb-bg  "></span><span class="badge">1</span></a>
+                        <ul aria-labelledby="notifications" class="dropdown-menu" style="display: none;">
+                            <li>
+                                <a rel="nofollow" href="#" class="dropdown-item nav-link">
+                                    <div class="notification">
+                                        <div class="notification-content"><i class="fa fa-upload bg-blue"></i><strong> Peticion Producto </strong></div>
+                                        <div class="notification-time"><small><strong> Fecha Peticion - ESTADO </strong></small></div>                                                                                
+                                    </div>
+                                </a>
+                            </li>  
+                            <li><a rel="nofollow" class="dropdown-item all-notifications text-center"> <strong> NO TIENE NOTIFICACIONES</strong></a></li>                          
+                        </ul>
+                    </li>
                     <!-- Perfil -->
-                    <li class="nav-item dropdown"><a id="profile" class="nav-link logout" data-target="#" href="#"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                src="../../img/user.png" alt="..." class="img-fluid rounded-circle"
-                                style="height: 30px; width: 30px;"></a>
+                    <li class="nav-item dropdown"><a id="profile" class="nav-link logout" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../img/user.png" alt="..." class="img-fluid rounded-circle" style="height: 30px; width: 30px;"></a>
                         <ul aria-labelledby="profile" class="dropdown-menu profile">
                             <li>
                                 <a rel="nofollow" href="#" class="dropdown-item d-flex">
