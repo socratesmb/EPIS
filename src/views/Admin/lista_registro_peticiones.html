@@ -36,7 +36,7 @@
                     <div class="row align-items-end">
                         <div class="col-lg-8">
                             <div class="page-header-title">                                    
-                                <a href="javascript: history.go(-1)"> < Regresar </a>
+                                <a href="/admin/peticiones"> < Regresar </a>
                             </div>
                         </div>
                     </div>                    
@@ -63,8 +63,8 @@
                                         <td> 
                                             <form action="/admin/peticiones/lista_pedidos/restar" method="post">
                                                 <div class="row" style="margin-left: 2px;">
-                                                    <input type="text" name="Id_Inv" id="Id_Inv" value="<%= lista_registro_pedido[i].Id_Registro%>" required hidden>
-                                                    <input type="number" style="border-radius:8px; width:50%;" min="0" max="<%= lista_registro_pedido[i].Cantidad_Pedido%>" pattern="^[0-9]+" name="Inv_bodega" id="Inv_bodega" required class="form-control" value="<%= lista_registro_pedido[i].Cantidad_Pedido%>">
+                                                    <input type="text" name="Id_Pedido" id="Id_Pedido" value="<%= lista_registro_pedido[i].Id_Registro%>" required hidden>
+                                                    <input type="number" style="border-radius:8px; width:50%;" min="0" max="<%= lista_registro_pedido[i].Cantidad_Pedido%>" pattern="^[0-9]+" name="Can_Pedido" id="Can_Pedido" required class="form-control" value="<%= lista_registro_pedido[i].Cantidad_Pedido%>">
                                                     <button type='submit' class='form-control btn btn-outline-success' data-toggle='tooltip' data-placement='top' title='Modificar' style="width: 50px; margin-left: 10px;"> <i class='fa fa-minus-circle'></i> </button> 
                                                 </div>
                                             </form>

@@ -70,6 +70,8 @@ let Restric = {
     Cantidad: '',
     Detalle: ''
 }
+
+let Id_Peticiones = '';
 //#endregion
 
 // ----- Cargar Vista Principal de Inicio de Session -----
@@ -101,13 +103,15 @@ model.peticiones = async (req, res) => {
 model.ver_peticion = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
-    
+
     const { Id_Peticion } = req.params;
+    Id_Peticiones = Id_Peticion;
     console.log("Id del Pedido: " + Id_Peticion);
 
-    const lista_registro_pedido = await pool.query('select * from lista_registro_pedidos');
+    const lista_registro_pedido = await pool.query('select * from lista_registro_pedidos where Id_Pedido = ' + Id_Peticion);
 
-    res.render('Admin/lista_registro_peticiones.html', {datos, menu, alerta, lista_registro_pedido});
+    res.render('Admin/lista_registro_peticiones.html', { datos, menu, alerta, lista_registro_pedido });
+    LimpiarAlerta();
 };
 
 model.cancelar_pedido = async (req, res) => {
@@ -132,6 +136,27 @@ model.cancelar_pedido = async (req, res) => {
         }
     });
 };
+
+model.editar_registro_pedido = async (req, res) => {
+    console.log('------------' + req.body.Can_Pedido + req.body.Id_Pedido + '----------------')
+    await pool.query("update registro_pedidos set registro_pedidos.Cantidad = " + req.body.Can_Pedido + " where registro_pedidos.id_Registro_Pedidos = " + req.body.Id_Pedido + ";", (err, result) => {
+        if (err) {
+            console.log(err);
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/peticiones/ver/' + Id_Peticiones + '');
+        } else {
+            console.log(result);
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'Producto Restado Correctamente'
+            }
+            res.redirect('/admin/peticiones/ver/' + Id_Peticiones + '');
+        }
+    });
+}
 //#endregion
 
 //----- Seccion para ver inventario y reducir el mismo -----
@@ -808,6 +833,13 @@ function LimpiarVariables4() {
         Titulo: 'Crear Restriccion',
         Boton: 'Crear Restriccion'
     }
+}
+
+function LimpiarAlerta() {
+    alerta = {
+        tipo: '',
+        mensaje: ''
+    };
 }
 //#endregion
 

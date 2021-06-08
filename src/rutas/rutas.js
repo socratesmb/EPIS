@@ -101,7 +101,7 @@ rutas.get('/admin/peticiones/atender/:Id_Peticion');
 
 rutas.get('/admin/peticiones/cancelar/:Id_Peticion', controlAdmin.cancelar_pedido);
 
-rutas.post('/admin/peticiones/lista_pedidos/restar');
+rutas.post('/admin/peticiones/lista_pedidos/restar', controlAdmin.editar_registro_pedido);
 
 //#endregion
 
