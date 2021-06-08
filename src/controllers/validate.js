@@ -40,6 +40,8 @@ model.inicio = (req, res, next) => {
                         } if (req.session.datos.Tipo_Usuario == 'PASANTE') {
                             return res.redirect('/admin/inicio');
 
+                        }if (req.session.datos.Tipo_Usuario == 'ENTIDAD') {                            
+                            return res.redirect('/public/peticiones/index');
                         };
                     }
                 });

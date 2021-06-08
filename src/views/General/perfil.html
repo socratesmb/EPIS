@@ -7,22 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <%- include ('../Partials/icono.html'); %>
-    <%- include ('../Partials/style.html'); %>
+    <% include ../Partials/icono.html %>
+    <% include ../Partials/style.html %>
 
 </head>
 
 <body onload="HabilitarCampos()">
     <header class="header">
-    <%- include ('../Partials/navbar.html'); %>
+    <% include ../Partials/navbar.html %>
     </header>
     <div class="page-content d-flex align-items-stretch">
 
         <!--***** SIDE NAVBAR *****-->
-        <%- include ('../Partials/slider.html'); %>
+        <% include ../Partials/slider.html %>
 
             <div class="content-inner">
-                <%- include ('../Partials/alertas.html'); %>
+                <% include ../Partials/alertas.html %>
                     <div class="main-body">
                         <div class="page-body">
                             <div class="row">
@@ -210,7 +210,7 @@
                     </div>
             </div>
     </div>
-    <%- include ('../Partials/js.html'); %>
+    <% include ../Partials/js.html %>
 
         <script>
             function HabilitarCampos() {

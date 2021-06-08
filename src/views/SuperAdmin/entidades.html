@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <%= variables.Titulo%> </title>
-    <%- include ('../Partials/icono.html'); %>
-    <%- include ('../Partials/style.html'); %>
+    <% include ../Partials/icono.html %>
+    <% include ../Partials/style.html %>
 </head>
 
 <body>
     <header class="header">
-        <%- include ('../Partials/navbar.html'); %>
+        <% include ../Partials/navbar.html %>
     </header>
     <div class="page-content d-flex align-items-stretch">
  
         <!--***** SIDE NAVBAR *****-->
-        <%- include ('../Partials/slider.html'); %>
+        <% include ../Partials/slider.html %>
 
         <div class="content-inner">
-        <%- include ('../Partials/alertas.html'); %>
+        <% include ../Partials/alertas.html %>
             <div class="main-body">
                 <div class="page-body">
                         <div class="card">
@@ -244,7 +244,7 @@
             </div>
         </div>
     </div>
-    <%- include ('../Partials/js.html'); %>
+    <% include ../Partials/js.html %>
 </body>
 
 </html>

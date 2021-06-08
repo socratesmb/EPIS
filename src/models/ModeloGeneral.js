@@ -26,12 +26,21 @@ let Perfil = {
 //------------ Seccion para Cargar Vista Principal y Accion de cerrar session -----------
 
 model.salir = (req, res) => {
-    req.session.destroy(() => {
-        req.logOut();
-        res.clearCookie('CookieSession');
-        res.status(200);
-        res.redirect('/');
-    });
+    if (req.session.datos.Tipo_Usuario != 'ENTIDAD') {
+        req.session.destroy(() => {
+            req.logOut();
+            res.clearCookie('CookieSession');
+            res.status(200);
+            res.redirect('/');
+        });        
+    }else{
+        req.session.destroy(() => {
+            req.logOut();
+            res.clearCookie('CookieSession');
+            res.status(200);
+            res.redirect('/public/peticiones/login');
+        });        
+    }
 };
 
 //------------- Seccion de Login, Registro y Recuperacion de Password ---------------

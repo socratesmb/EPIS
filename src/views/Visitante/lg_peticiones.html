@@ -10,11 +10,11 @@
   <meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Epis, Login">
   <meta name="author" content="Sócrates Martínez Berrio">
 
-  <%- include ('../Partials/icono.html'); %>
-  <%- include ('../Partials/style.html'); %>
+  <% include ../Partials/icono.html %>
+  <% include ../Partials/style.html %>
 
   <!-- Estilo Propio -->
-  <link rel="stylesheet" href="../files/css/pages/login.css">
+  <link rel="stylesheet" href="../../files/css/pages/login.css">
 </head>
 
 <body class="fix-menu">
@@ -34,30 +34,35 @@
         <div class="row">
           <div class="col-md-12 ">
             <div class="contact-h-cont">
-              <h3 class="text-center"><img src="../img/EPIS.png" class="img-fluid" alt=""></h3><br>
+              <h3 class="text-center"><img src="../../img/EPIS.png" class="img-fluid" alt=""></h3><br>
 
-              <form action="/iniciar/peticion" method="POST">
-                <div class="form-group" style="text-align: center;">
+              <form action="/public/peticiones/sigin" method="POST">
+                <div class="form-group" >
                   <label for="username">Seleccione Registraduria</label>
-                    <select class="form-control" name="Registraduria" id="Registraduria" style="border-radius:8px;" required>
+                    <select class="form-control" name="Usuario" id="Usuario" style="border-radius:8px;" required>
                         <option value="">Seleccione Opción</option>
                         <%if(ListaEntidades){%>
                             <% for(i=0; i < ListaEntidades.length; i++){%>                                
-                                <option value="<%=ListaEntidades[i].id_Entidad%>"> <%= ListaEntidades[i].Nombre%> </option>  
+                                <option value="<%=ListaEntidades[i].Ident_User%>"> <%= ListaEntidades[i].Nombre_User%> </option>  
                             <%}%>
                         <%}%>  
                     </select>
-                </div>                
+                </div> 
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Contraseña</label>
+                  <input class="form-control" type="Password" name="Password" id="example-password-input"
+                    placeholder="Password">
+                </div>               
                 <p style="text-align: center;"> <button class="btn btn-general btn-blue" role="button" type="submit">INICIAR PETICION</button> </p>
               </form>
 
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </section>
 
-    <% include ('../Partials/js.html'); %>
+    <% include ../Partials/js.html %>
 </body>
 
 </html>

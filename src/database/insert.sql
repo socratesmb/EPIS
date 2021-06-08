@@ -94,6 +94,13 @@ select producto.Nombre as Nombre_Producto, producto.Cod_Producto as Codigo_Produ
 from restricciones
 inner join producto on producto.id_Producto = restricciones.Producto_id_Producto;
 
+create or replace view  `Lista_Productos_Peticiones` as
+select producto.id_Producto as Id_Producto, tipo_producto.Nombre as Tipo_Producto, producto.Cod_Producto as Codigo_Producto, producto.Nombre as Nombre_Producto, producto.Cantidad_Producto as Cantidad_Producto, restricciones.Cantidad as Limite_Pedido, restricciones.Estado as Estado_Restriccion
+from producto
+inner join tipo_producto on tipo_producto.id_Tipo_Producto = producto.Tipo_Producto_id_Tipo_Producto 
+left join restricciones on restricciones.Producto_id_Producto = producto.id_Producto 
+where producto.Estado = 'DISPONIBLE';
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 delimiter //
 create procedure Registro_Usuarios(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identificacion VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT) 

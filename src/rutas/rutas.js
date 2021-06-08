@@ -36,10 +36,6 @@ rutas.get('/salir', controlGeneral.salir);
 
 //#endregion
 
-rutas.get('/hola', (req, res) => {
-    res.render('index.html');
-})
-
 // ------- Seccion de Super Administrador -------
 //#region 
 //----- Cargar Vista Inicio -----
@@ -174,10 +170,13 @@ rutas.get('/admin/adiciones/cancelar', controlAdmin.adiciones_cancelar);
 // ------- Seccion de Peticiones -------
 //#region 
 
-rutas.get('/public/peticiones', controlPedidos.lg_peticion);
+rutas.get('/public/peticiones/login', controlPedidos.lg_peticion);
 
-rutas.post('/iniciar/peticion', controlPedidos.vista_peticion);
+rutas.post('/public/peticiones/sigin', controlValidacion.inicio);
 
+rutas.get('/public/peticiones/index', controlPedidos.vista_peticion);
+
+rutas.post('/public/peticion/solicitud', controlPedidos.envio_peticion);
 //#endregion
 
 module.exports = rutas;
