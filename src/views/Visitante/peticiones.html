@@ -112,7 +112,7 @@
                                             <td> 
                                                 <div class="row" style="margin-left: 2px;">
                                                     <input type="text" name="<%= ListaProducto[i].Id_Producto%>" id="<%= ListaProducto[i].Id_Producto%>" value="<%= ListaProducto[i].Id_Producto%>" required hidden>
-                                                    <input type="number" style="border-radius:8px; width:60%;" pattern="^[0-9]+" name="<%= ListaProducto[i].Id_Producto%>" id="<%= ListaProducto[i].Id_Producto%>" class="form-control" min="0" <%if(ListaProducto[i].Limite_Pedido!=null){%> max="<%=ListaProducto[i].Limite_Pedido%>" <%} else {%> max="<%=ListaProducto[i].Cantidad_Producto%>" <%};%> >
+                                                    <input type="number" style="border-radius:8px; width:60%;" pattern="^[0-9]+" name="<%= ListaProducto[i].Id_Producto%>" id="<%= ListaProducto[i].Id_Producto%>" class="form-control" min="0" <%if(ListaProducto[i].Limite_Pedido!=null){%> <%if(ListaProducto[i].Limite_Pedido > ListaProducto[i].Cantidad_Producto){%> max="<%=ListaProducto[i].Cantidad_Producto%>" <%}else{%> max="<%=ListaProducto[i].Limite_Pedido%>" <%};%> <%} else {%> max="<%=ListaProducto[i].Cantidad_Producto%>" <%};%> >
                                                 </div>
                                             </td>
                                             <td> <input class="form-check-input" type="checkbox" value="true" id="<%= ListaProducto[i].Id_Producto%>" name="<%= ListaProducto[i].Id_Producto%>" style="margin-left: 25px; width: 20px; height: 20px;"> </td>                                        

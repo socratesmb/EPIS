@@ -1,5 +1,5 @@
 const passport = require('passport');
-const Strategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
 const pool = require('../database/database');
 const helpers = require('./helper');
@@ -18,19 +18,14 @@ let Persona = {
 };
 
 // ------------- Iniciar Sesion ------------ 
-passport.use('local.signin', new Strategy({
+passport.use('local.signin', new LocalStrategy({
     usernameField: 'Usuario',
     passwordField: 'Password',
     passReqToCallback: true
 }, async (req, Usuario, Password, done) => {
-    const row = await pool.query('select * from usuario where usuario.Usuario = ?', [Usuario]);
-    console.log("Resultado de Busqueda");
-    console.log(row.length);
+    const row = await pool.query('select * from usuario where usuario.Usuario = ?', [Usuario]);    
     if (row.length > 0) {
-        const user = row[0];
-        console.log("Datos de Consulta");
-        console.log(user)
-        console.log(user.id_Usuario)
+        const user = row[0];        
         const validaUser = await helpers.macthPassword(Password, user.Password);
         if (validaUser) {
             console.log('entro')
@@ -39,8 +34,7 @@ passport.use('local.signin', new Strategy({
                     console.log(err);
                     done(null, false);
                 } else {
-                    if (result.length < 1) {
-                        console.log("no encontro nada");
+                    if (result.length < 1) {                        
                     } else {
                         Persona = {
                             Id_Usuario: result[0].Id_Usuario,
@@ -52,8 +46,7 @@ passport.use('local.signin', new Strategy({
                             Ident_Usuario: result[0].Ident_Usuario,
                             Tipo_Usuario: result[0].Tipo_Usuario
                         };
-                        req.session.datos = Persona;
-                        console.log(Persona)
+                        req.session.datos = Persona;                        
                         done(null, user);
                     }
                 }
@@ -69,7 +62,7 @@ passport.use('local.signin', new Strategy({
 }));
 
 // -------- Registrar un SuperUsuario ------------
-passport.use('local.signup', new Strategy({
+passport.use('local.signup', new LocalStrategy({
     usernameField: 'Usuario',
     passwordField: 'Password',
     passReqToCallback: true
@@ -99,7 +92,7 @@ passport.serializeUser((user, done) => {
 
 // ----- Descodificar el usuario ------
 passport.deserializeUser(async (id, done) => {
-    await pool.query('select * from usuario where id_Usuario = ?', [id.id], (err, result) => {
+    await pool.query('select * from usuario where id_Usuario = ?', [id.id_Usuario], (err, result) => {
         if (err) {
             console.log(err);
         } else {

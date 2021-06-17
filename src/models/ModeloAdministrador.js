@@ -79,6 +79,9 @@ model.inicio = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
+    console.log("ID de la sesion: " + req.sessionID);
+    console.log(req.session);
+
     const Bodega = await pool.query("select count(*) as Numero from bodega where bodega.Estado = 'ACTIVA'");
     const Inventario = await pool.query("select count(*) as Numero from producto where producto.Estado = 'DISPONIBLE'");
     const Agotado = await pool.query("select count(*) as Numero from producto where producto.Estado = 'AGOTADO'");
@@ -114,6 +117,50 @@ model.ver_peticion = async (req, res) => {
     LimpiarAlerta();
 };
 
+model.despachar_peticion = async (req, res) => {
+    const { Id_Peticion } = req.params;
+
+    const ListaPeticion = await pool.query('select * from registro_pedidos where registro_pedidos.pedidos_id_Pedidos = ' + Id_Peticion);
+    console.log(ListaPeticion)
+
+    for (let i = 0; i < ListaPeticion.length; i++) {
+        console.log('Ciclo:' + i + " ---------------------")
+        const inventario = await pool.query("select * from inventario where inventario.Producto_id_Producto = " + ListaPeticion[i].producto_id_Producto);
+        console.log(inventario);
+        if (inventario.length >= 2) {
+            console.log("------- Entro al if > 2 --------")
+            if (inventario[0].Cantidad > inventario[1].Cantidad) {
+                console.log("------- Cantidad 1 > Cantidad 2 --------")
+                await pool.query("call Despacho_Unitario_Producto(" + ListaPeticion[i].producto_id_Producto + ", " + inventario[0].id_Inventario + ", " + inventario[0].Cantidad + ", " + ListaPeticion[i].Cantidad + ")");
+            } else {
+                console.log("------- Cantidad 2 > Cantidad 1 --------")
+                await pool.query("call Despacho_Unitario_Producto(" + ListaPeticion[i].producto_id_Producto + ", " + inventario[1].id_Inventario + ", " + inventario[1].Cantidad + ", " + ListaPeticion[i].Cantidad + ")");
+            }
+        } else {
+            console.log("------- No Entro al If y paso al Else --------")
+            await pool.query("call Despacho_Unitario_Producto(" + ListaPeticion[i].producto_id_Producto + ", " + inventario[0].id_Inventario + ", " + inventario[0].Cantidad + ", " + ListaPeticion[i].Cantidad + ")");
+        }
+    };
+    console.log("xxxxxxxxxxxxx Salio del For xxxxxxxxxxxxxxxxx")
+    await pool.query("update pedidos set pedidos.Estado = 'COMPLETADA', pedidos.Fecha_Atendido = now() where pedidos.id_Pedidos =" + Id_Peticion, (err, result) => {
+        if (err) {
+            console.log(err)
+            alerta = {
+                tipo: 'peligro',
+                mensaje: 'Error En el Proceso' + err.sql
+            }
+            res.redirect('/admin/peticiones');
+        } else {
+            LimpiarAlerta();
+            alerta = {
+                tipo: 'correcto',
+                mensaje: 'El Pedido Se Despacho Correctamente'
+            }
+            res.redirect('/admin/peticiones');
+        }
+    });
+};
+
 model.cancelar_pedido = async (req, res) => {
     const { Id_Peticion } = req.params;
     console.log("Id del Pedido: " + Id_Peticion);
@@ -126,8 +173,7 @@ model.cancelar_pedido = async (req, res) => {
             }
             res.redirect('/admin/peticiones');
         } else {
-            LimpiarVariables();
-            Id_Produc = '';
+            LimpiarAlerta();
             alerta = {
                 tipo: 'correcto',
                 mensaje: 'La Peticion fue Cancelada Correctamente'

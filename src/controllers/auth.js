@@ -2,25 +2,24 @@
 
 module.exports = {
     isLoggedInSA(req, res, next) {
-        if (req.isAuthenticated() && req.session.datos.NombreRol == 'SUPER ADMIN') {
+        if (req.isAuthenticated() && req.session.datos.Tipo_Usuario == 'SUPER ADMINISTRADOR') {
             return next();
         }
         return res.redirect('/');
     },
     isLoggedInEM(req, res, next) {
-        if (req.isAuthenticated() && req.session.datos.NombreRol == 'EMPLEADO') {
+        if (req.isAuthenticated() && req.session.datos.Tipo_Usuario == 'EMPLEADO') {
             return next();
         }
         return res.redirect('/');
-    }, isLoggedInPA(req, res, next) {
-        if (req.isAuthenticated() && req.session.datos.NombreRol == 'PASANTE') {
+    }, isLoggedInEN(req, res, next) {
+        if (req.isAuthenticated() && req.session.datos.Tipo_Usuario == 'ENTIDAD') {
             return next();
         }
         return res.redirect('/');
     },
     isLoggedIn(req, res, next) {
-        if (req.isAuthenticated() && req.session.datos.NombreRol == "SUPER ADMIN" || req.session.datos.NombreRol == "EMPLEADO"
-        || req.session.datos.NombreRol == "PASANTE") {
+        if (req.isAuthenticated() && req.session.datos.Tipo_Usuario == "SUPER ADMINISTRADOR" || req.session.datos.Tipo_Usuario == "EMPLEADO" || req.session.datos.Tipo_Usuario == "PASANTE") {
             return next();
         }
         return res.redirect('/');

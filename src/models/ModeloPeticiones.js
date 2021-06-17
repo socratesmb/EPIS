@@ -12,13 +12,13 @@ let alerta = {
 //#region 
 model.lg_peticion = async (req, res) => {
     const ListaEntidades = await pool.query("select * from lista_usuarios where Id_User > 4 order by Id_User;");
-    console.log(ListaEntidades)
     res.render('Visitante/lg_peticiones.html', { ListaEntidades });
 };
 
 model.vista_peticion = async (req, res) => {
     datos = req.session.datos;
-
+    console.log("ID de la sesion: " + req.sessionID);
+    console.log(req.session);
     const ListaProducto = await pool.query("select * from lista_productos_peticiones");
     res.render('Visitante/peticiones.html', { alerta, datos, ListaProducto });
     LimpiarVariables();
@@ -33,7 +33,7 @@ model.envio_peticion = async (req, res) => {
 
     const Can_Reg = await pool.query("select count(*) as cantidad from pedidos where pedidos.Entidad_id_Entidad = " + datos.Id_Entidad + " and pedidos.Estado = 'PENDIENTE';");
 
-    if (Can_Reg[0].cantidad > 1) {        
+    if (Can_Reg[0].cantidad > 1) {
         alerta = {
             tipo: 'inseguro',
             mensaje: '¡Tiene mas de 1 peticion en proceso no puede realizar mas hasta que no sean atendidas!'

@@ -44,8 +44,8 @@ model.inicio = async (req, res) => {
     datos = req.session.datos;
     menu = req.session.menu;
 
-    console.log(datos);
-    console.log(menu);
+    console.log("ID de la sesion: " + req.sessionID);
+    console.log(req.session);
 
     res.render('SuperAdmin/inicio.html', { datos, menu });
 };

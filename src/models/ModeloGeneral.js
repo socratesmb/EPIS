@@ -29,14 +29,14 @@ model.salir = (req, res) => {
     if (req.session.datos.Tipo_Usuario != 'ENTIDAD') {
         req.session.destroy(() => {
             req.logOut();
-            res.clearCookie('CookieSession');
+            res.clearCookie('express-session');
             res.status(200);
             res.redirect('/');
         });        
     }else{
         req.session.destroy(() => {
             req.logOut();
-            res.clearCookie('CookieSession');
+            res.clearCookie('express-session');
             res.status(200);
             res.redirect('/public/peticiones/login');
         });        

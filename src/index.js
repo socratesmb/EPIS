@@ -6,12 +6,6 @@ const mysqlsession = require('express-mysql-session')(session);
 const passport = require('passport');
 var methodOverride = require('method-override');
 
-//carga de archivos
-const fileUpload = require('express-fileupload')
-
-//modulo para las alertas
-const flash = require('connect-flash');
-
 const { database } = require('./keys');
 // inicilizando
 const app = express();
@@ -26,15 +20,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-var sqlsession = new mysqlsession(database);
+//var sqlsession = new mysqlsession(database);
 
 // middlewares
 app.use(session({
   secret: 'SocratesMB',
-  name: 'CookieSession',
+  name: 'express-session',
   resave: false,
   saveUninitialized: false,
-  store: sqlsession,
+  store: new mysqlsession(database),
   cookie: {
     secure: false,
     maxAge: 36000000,
@@ -42,17 +36,16 @@ app.use(session({
   }
 }));
 
-app.use(flash());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.json());
 app.use(methodOverride());
 
 
 // Variables Globales
 app.use((req, res, next) => {
-  app.locals.success = req.flash('mensaje');
   app.locals.user = req.user;
   next();
 });
@@ -60,8 +53,6 @@ app.use((req, res, next) => {
 // rutas
 app.use(routes);
 
-//cargar archivos
-app.use(fileUpload());
 
 //funcion para mostrar el error 404
 function error404(req, res, next) {
