@@ -23,42 +23,47 @@ passport.use('local.signin', new LocalStrategy({
     passwordField: 'Password',
     passReqToCallback: true
 }, async (req, Usuario, Password, done) => {
-    const row = await pool.query('select * from usuario where usuario.Usuario = ?', [Usuario]);    
-    if (row.length > 0) {
-        const user = row[0];        
-        const validaUser = await helpers.macthPassword(Password, user.Password);
-        if (validaUser) {
-            console.log('entro')
-            await pool.query("select * from variables_usuario where Id_Usuario = ?", [user.id_Usuario], async (err, result) => {
-                if (err) {
-                    console.log(err);
-                    done(null, false);
-                } else {
-                    if (result.length < 1) {                        
-                    } else {
-                        Persona = {
-                            Id_Usuario: result[0].Id_Usuario,
-                            Id_Entidad: result[0].Id_Entidad,
-                            Nombre_Entidad: result[0].Nombre_Entidad,
-                            Nit_Entidad: result[0].Nit_Entidad,
-                            Id_Empleado: result[0].Id_Empleado,
-                            Nombre_Usuario: result[0].Nombre_Usuario,
-                            Ident_Usuario: result[0].Ident_Usuario,
-                            Tipo_Usuario: result[0].Tipo_Usuario
-                        };
-                        req.session.datos = Persona;                        
-                        done(null, user);
-                    }
-                }
-            });
+    await pool.query('select * from usuario where usuario.Usuario = ?', [Usuario], async (err, resul) => {
+        if (err) {
+            done(true, null);
         } else {
-            console.log('no entro')
-            done(null, false);
+            if (resul[0]) {
+                const user = resul[0];
+                const validaUser = await helpers.macthPassword(Password, user.Password);
+                if (validaUser) {
+                    console.log('entro')
+                    await pool.query("select * from variables_usuario where Id_Usuario = ?", [user.id_Usuario], async (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            done(null, null, true);
+                        } else {
+                            if (result.length < 1) {
+                            } else {
+                                Persona = {
+                                    Id_Usuario: result[0].Id_Usuario,
+                                    Id_Entidad: result[0].Id_Entidad,
+                                    Nombre_Entidad: result[0].Nombre_Entidad,
+                                    Nit_Entidad: result[0].Nit_Entidad,
+                                    Id_Empleado: result[0].Id_Empleado,
+                                    Nombre_Usuario: result[0].Nombre_Usuario,
+                                    Ident_Usuario: result[0].Ident_Usuario,
+                                    Tipo_Usuario: result[0].Tipo_Usuario
+                                };
+                                req.session.datos = Persona;
+                                done(false, user);
+                            }
+                        }
+                    });
+                } else {
+                    console.log('no entro')
+                    done(true, null, null);
+                }
+            } else {
+                console.log('no hizo')
+                done(true, null, null);
+            }
         }
-    } else {
-        console.log('no hizo')
-        done(null, false);
-    }
+    });
 }));
 
 // -------- Registrar un SuperUsuario ------------
