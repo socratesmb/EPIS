@@ -11,7 +11,7 @@ let alerta = {
     tipo: '',
     mensaje: ''
 };
- 
+
 let Persona = {
     Nombre: '',
     Apellidos: '',
@@ -47,7 +47,13 @@ model.inicio = async (req, res) => {
     console.log("ID de la sesion: " + req.sessionID);
     console.log(req.session);
 
-    res.render('SuperAdmin/inicio.html', { datos, menu });
+    const user = await pool.query('select count(*) as numeros from usuario');
+    const pedidos = await pool.query('select count(*) as numeros from pedidos');
+    const entidades = await pool.query("select count(*) as numeros from entidad where Estado='ACTIVA'");
+
+    const Lista_Pedidos = await pool.query("select entidad.Nombre as Nombre_Entidad, date_format(`pedidos`.`Fecha_Pedido`, '%Y-%m-%d %r') as Fecha_Solicitud, date_format(`pedidos`.`Fecha_Atendido`, '%Y-%m-%d %r') as Fecha_Atendido, pedidos.Estado as Estado_Pedido from pedidos inner join entidad on entidad.id_Entidad = pedidos.Entidad_id_Entidad");
+
+    res.render('SuperAdmin/inicio.html', { datos, menu, user, pedidos, entidades, Lista_Pedidos });
 };
 
 
@@ -91,7 +97,7 @@ model.registro_usuario = async (req, res) => {
                 alerta = {
                     tipo: 'peligro',
                     mensaje: err
-                }; 
+                };
 
                 res.redirect('/supadmin/registro');
             } else {
