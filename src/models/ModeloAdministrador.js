@@ -24,7 +24,8 @@ let Productos = {
     Nombre_Producto: '',
     Descripcion_Producto: '',
     Bodega1: '0',
-    Bodega2: '0'
+    Bodega2: '0',
+    Estado_Act: ''
 }
 
 let Id_Produc = '';
@@ -77,7 +78,7 @@ let Id_Peticiones = '';
 // ----- Cargar Vista Principal de Inicio de Session -----
 model.inicio = async (req, res) => {
     datos = req.session.datos;
-    menu = req.session.menu;
+    menu = req.session.menu; 
 
     console.log("ID de la sesion: " + req.sessionID);
     console.log(req.session);
@@ -164,7 +165,7 @@ model.despachar_peticion = async (req, res) => {
 model.cancelar_pedido = async (req, res) => {
     const { Id_Peticion } = req.params;
     console.log("Id del Pedido: " + Id_Peticion);
-    await pool.query("update pedidos set pedidos.Estado = 'CANCELADA' where pedidos.id_Pedidos =" + Id_Peticion, (err, result) => {
+    await pool.query("update pedidos set pedidos.Estado = 'CANCELADA', pedidos.Fecha_Atendido = now() where pedidos.id_Pedidos =" + Id_Peticion, (err, result) => {
         if (err) {
             console.log(err)
             alerta = {
@@ -300,7 +301,8 @@ model.buscar_producto = async (req, res) => {
                         Nombre_Producto: result[0].Nombre_Producto,
                         Descripcion_Producto: result[0].Descripcion_Producto,
                         Bodega1: result[0].Inventario_Bodega,
-                        Bodega2: result[1].Inventario_Bodega
+                        Bodega2: result[1].Inventario_Bodega,
+                        Estado_Act: result[0].Inf_Bodega
                     }
                 } if (result[0].Nombre_Bodega == 'BODEGA' && result[1].Nombre_Bodega == 'INSUMOS RAPIDOS') {
                     Productos = {
@@ -309,7 +311,8 @@ model.buscar_producto = async (req, res) => {
                         Nombre_Producto: result[0].Nombre_Producto,
                         Descripcion_Producto: result[0].Descripcion_Producto,
                         Bodega1: result[1].Inventario_Bodega,
-                        Bodega2: result[0].Inventario_Bodega
+                        Bodega2: result[0].Inventario_Bodega,
+                        Estado_Act: result[1].Inf_Bodega
                     }
                 }
 
@@ -322,7 +325,8 @@ model.buscar_producto = async (req, res) => {
                         Nombre_Producto: result[0].Nombre_Producto,
                         Descripcion_Producto: result[0].Descripcion_Producto,
                         Bodega1: result[0].Inventario_Bodega,
-                        Bodega2: '0'
+                        Bodega2: '0',
+                        Estado_Act: result[0].Inf_Bodega
                     }
                 } if (result[0].Nombre_Bodega == 'BODEGA') {
                     Productos = {
@@ -331,7 +335,8 @@ model.buscar_producto = async (req, res) => {
                         Nombre_Producto: result[0].Nombre_Producto,
                         Descripcion_Producto: result[0].Descripcion_Producto,
                         Bodega1: '0',
-                        Bodega2: result[0].Inventario_Bodega
+                        Bodega2: result[0].Inventario_Bodega,
+                        Estado_Act: result[0].Inf_Bodega
                     }
                 }
 
@@ -814,7 +819,8 @@ function LimpiarVariables() {
         Nombre_Producto: '',
         Descripcion_Producto: '',
         Bodega1: '0',
-        Bodega2: '0'
+        Bodega2: '0',
+        Estado_Act: ''
     }
 
     alerta = {

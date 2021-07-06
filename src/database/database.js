@@ -6,6 +6,7 @@ const pool = mysql.createPool(database);
 
 pool.getConnection((err, connection) => {
     if (err) {
+        console.log(err)
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
             console.error('LA CONEXION A LA BASE DATOS SE PERDIO');
         }

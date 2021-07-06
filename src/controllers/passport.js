@@ -50,6 +50,7 @@ passport.use('local.signin', new LocalStrategy({
                                     Tipo_Usuario: result[0].Tipo_Usuario
                                 };
                                 req.session.datos = Persona;
+                                await pool.query("insert into aud_conexion values (null, '" + req.session.datos.Nombre_Usuario + "', user(), now())");
                                 done(false, user);
                             }
                         }

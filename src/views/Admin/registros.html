@@ -98,16 +98,16 @@
 
                                                 <div class="col-md-6">
                                                     <label><%=ListaBodegas[0].Cod_Bodega%> - <%=ListaBodegas[0].Nombre%> </label>
-                                                    <input type="number" style="border-radius:8px;" min="0" pattern="^[0-9]+"
+                                                    <input type="number" style="border-radius:8px;" min="0" pattern="^[0-9]+" 
                                                         name="Id_<%=ListaBodegas[0].id_Bodega%>" id="Id_<%=ListaBodegas[0].id_Bodega%>" required
-                                                        class="form-control" value="<%=Productos.Bodega1%>" title="Cantidad de Productos En Bodega">
+                                                        class="form-control" value="<%=Productos.Bodega1%>" title="Cantidad de Productos En Bodega" <%if(Productos.Estado_Act==3){%>readonly<%};%>>
                                                 </div>                                               
                                                 
                                                 <div class="col-md-6">
                                                     <label><%=ListaBodegas[1].Cod_Bodega%> - <%=ListaBodegas[1].Nombre%> </label>
                                                     <input type="number" style="border-radius:8px;" min="0" pattern="^[0-9]+"
                                                         name="Id_<%=ListaBodegas[1].id_Bodega%>" id="Id_<%=ListaBodegas[1].id_Bodega%>" required
-                                                        class="form-control" value="<%=Productos.Bodega2%>" title="Cantidad de Productos En Bodega">
+                                                        class="form-control" value="<%=Productos.Bodega2%>" title="Cantidad de Productos En Bodega" <%if(Productos.Estado_Act==2){%>readonly<%};%> >
                                                 </div>  
                                                   
                                             </div>
