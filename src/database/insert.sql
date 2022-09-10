@@ -107,3 +107,115 @@ begin
 	insert into aud_pedidos values (default, user(), now(), cambios);
 end;
 //
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Actualizacion_Producto`(IN Tipo_Producto INT, Codigo_Producto VARCHAR(65), Nombre_Producto VARCHAR(65), Descripcion_Producto VARCHAR(250), Bodega1 INT, Bodega2 INT, Id_Producto INT)
+begin 		
+	declare Cantidads int;
+	
+	set Cantidads = bodega1 + bodega2;
+	
+	update producto set producto.Tipo_Producto_id_Tipo_Producto = Tipo_Producto, producto.Cod_Producto = Codigo_Producto, producto.Nombre = Nombre_Producto, producto.Descripcion = Descripcion_Producto, producto.Cantidad_Producto = Cantidads where producto.id_Producto = Id_Producto;
+
+	if Bodega1 != 0 then
+	update inventario set inventario.Cantidad = Bodega1 where inventario.Producto_id_Producto = Id_Producto and inventario.Bodega_id_Bodega = 1;
+	end if;
+
+	if Bodega2 != 0 then
+	update inventario set inventario.Cantidad = Bodega2 where inventario.Producto_id_Producto = Id_Producto and inventario.Bodega_id_Bodega = 2;
+	end if;
+
+end
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Actualizar_Inventario`(IN Id_Inven INT, Valor_Inventario INT)
+begin 			
+	declare Valor1 int;
+	declare Valor2 int;
+	declare Valor3 int;
+	declare Cantidad int;
+	declare Id_Producto int;
+	
+	select inventario.Producto_id_Producto into Id_Producto from inventario where inventario.id_Inventario = Id_Inven;
+
+	select producto.Cantidad_Producto into Valor1 from producto where producto.id_Producto = Id_Producto;
+
+	select inventario.Cantidad into Valor2 from inventario where inventario.id_Inventario = Id_Inven;
+	
+	set Valor3 = Valor2 - Valor_Inventario;
+
+	set Cantidad = Valor1 - Valor3;
+
+	update producto set producto.Cantidad_Producto = Cantidad where producto.id_Producto = Id_Producto;
+
+	update inventario set inventario.Cantidad = Valor_Inventario where inventario.id_Inventario = Id_Inven;
+			
+end
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Despacho_Unitario_Producto`(IN Id_Producto INT, Id_Inventario INT, Cantidad_Inventario INT, Cantidad_Pedido INT)
+begin 			
+	declare Resta int;
+	declare CanProducto int;
+	declare Cantidad int;	
+	
+	set Resta = Cantidad_Inventario - Cantidad_Pedido;
+	
+	select producto.Cantidad_Producto into CanProducto from producto where producto.id_Producto = Id_Producto;
+	
+	set Cantidad = CanProducto - Cantidad_Pedido;
+
+	update inventario set inventario.Cantidad = Resta where inventario.id_Inventario = Id_Inventario;
+
+	update producto set producto.Cantidad_Producto = Cantidad where producto.id_Producto = Id_Producto;
+			
+end
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Registro_Productos`(IN Tipo_Producto INT, Codigo_Producto VARCHAR(65), Nombre_Producto VARCHAR(65), Descripcion_Producto VARCHAR(250), Bodega_1 INT, Bodega_2 INT)
+begin 			
+	declare Cantidad int;
+	declare Id_Product int;
+	
+	set Cantidad = Bodega_1 + Bodega_2;
+	
+	if Bodega_1 >= 1 and Bodega_2 < 1 then 
+	INSERT INTO `producto` (`id_Producto`, `Tipo_Producto_id_Tipo_Producto`, `Cod_Producto`, `Nombre`, `Cantidad_Producto`, `Descripcion`, `Estado`, `inf_registro`, `Proveedor_id_Proveedor`) VALUES
+	(default, Tipo_Producto, Codigo_Producto, Nombre_Producto, Cantidad, Descripcion_Producto, 'DISPONIBLE', 2, 1);
+	elseif Bodega_1 < 1 and Bodega_2 >= 1 then 
+	INSERT INTO `producto` (`id_Producto`, `Tipo_Producto_id_Tipo_Producto`, `Cod_Producto`, `Nombre`, `Cantidad_Producto`, `Descripcion`, `Estado`, `inf_registro`, `Proveedor_id_Proveedor`) VALUES
+	(default, Tipo_Producto, Codigo_Producto, Nombre_Producto, Cantidad, Descripcion_Producto, 'DISPONIBLE', 3, 1);
+	else
+	INSERT INTO `producto` (`id_Producto`, `Tipo_Producto_id_Tipo_Producto`, `Cod_Producto`, `Nombre`, `Cantidad_Producto`, `Descripcion`, `Estado`, `inf_registro`, `Proveedor_id_Proveedor`) VALUES
+	(default, Tipo_Producto, Codigo_Producto, Nombre_Producto, Cantidad, Descripcion_Producto, 'DISPONIBLE', 1, 1);
+	end if;
+	
+	select producto.id_Producto into Id_Product from producto where producto.Cod_Producto = Codigo_Producto;
+		
+	if Bodega_1 > 0 then
+	insert into `inventario` (`id_Inventario`, `Cod_Inventario`, `Cantidad`, `Fecha_Registro`,`Bodega_id_Bodega`, `Producto_id_Producto`) values
+	(default, Codigo_Producto, Bodega_1, now(), 1, Id_Product);
+	end if;	
+	
+	if Bodega_2 > 0 then
+	insert into `inventario` (`id_Inventario`, `Cod_Inventario`, `Cantidad`, `Fecha_Registro`,`Bodega_id_Bodega`, `Producto_id_Producto`) values
+	(default, Codigo_Producto, Bodega_2, now(), 2, Id_Product);
+	end if;
+			
+end
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Registro_Usuarios`(IN NombreUsuario VARCHAR(65), ApellidoUsuario VARCHAR(65), Tidentificacion INT, Identifica VARCHAR(65), TelefonoUsuario VARCHAR(65), CorreoUsuario VARCHAR(65), Contrasena VARCHAR(65), TipoUsuario INT)
+begin 			
+	declare Id_Entidad int;
+	declare Id_Persona int;
+	
+	set Id_Entidad = 1;
+
+	INSERT INTO `persona` (`id_Persona`, `Identificacion_id_Identificacion`, `Identificacion`, `Nombre`, `Apellido`, `Correo_Electronico`, `Telefono`) VALUES
+	(default, Tidentificacion, Identifica, NombreUsuario, ApellidoUsuario, CorreoUsuario, TelefonoUsuario);
+
+	select persona.id_Persona into Id_Persona from persona where persona.Identificacion = Identifica;
+		
+	INSERT INTO `registro_ep` (`id_Registro_EP`, `Fecha`, `Estado`, `Entidad_id_Entidad`, `Persona_id_Persona`, `Rol_Id_Rol`) VALUES
+	(default, now(), 'ACTIVA', Id_Entidad, Id_Persona, TipoUsuario);
+	
+	INSERT INTO `usuario` (`id_Usuario`, `Usuario`, `Password`, `Persona_id_Persona`) VALUES
+	(default, Identifica, Contrasena, Id_Persona);
+			
+end
